@@ -22,16 +22,31 @@
 
 # clean:
 # 	rm -f file2 file1 some_file
+# 
+# thing_wrong := *.o
+# thing_right := $(wildcard *.o)
+# 
+# all: one two three
+#  
+# one: $(thing_wrong)
+# 
+# two: *.o
+# 
+# three: $(thing_right)
+#  
+# four: $(wildcard *.o)
 
-thing_wrong := *.o
-thing_right := $(wildcard *.o)
+hey: one two
+	echo $@
+	# echo $?
+	echo $^
+	touch hey
 
-all: one two three
- 
-one: $(thing_wrong)
+one:
+	touch one
 
-two: *.o
+two:
+	touch two
 
-three: $(thing_right)
- 
-four: $(wildcard *.o)
+clean:
+	rm -f hey one two
