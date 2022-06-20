@@ -36,17 +36,33 @@
 #  
 # four: $(wildcard *.o)
 
-hey: one two
-	echo $@
-	# echo $?
-	echo $^
-	touch hey
+# hey: one two
+# 	echo $@
+# 	# echo $?
+# 	echo $^
+# 	touch hey
+# 
+# one:
+# 	touch one
+# 
+# two:
+# 	touch two
+# 
+# clean:
+# 	rm -f hey one two
 
-one:
-	touch one
+CC = gcc
+CFLAGS = -g	
 
-two:
-	touch two
+blah: blah.o
+
+blah.c:
+	echo "int main() { return 0; }" > blah.c	
 
 clean:
-	rm -f hey one two
+	rm -f blah*
+
+bar := ${subst not,totally, "I am not groot"}
+
+all:
+	@echo $(bar)
