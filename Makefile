@@ -1,68 +1,50 @@
-# blah: blah.o
-#	 cc blah.o -o blah
-# blah.o: blah.c
-#	 cc -c blah.c -o blah.o
-# blah.c:
-#	 echo "int main() { return 0; }" > blah.c
-# some_file:
-#	 echo "This line will only print once"
-#	 touch some_file
-# clean:
-#	 rm -f blah blah.o blah.c
+# Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
+TARGET_EXEC := final_program
 
-# files := file1 file2
-# some_file: $(files)
-#	echo "Look at the variable: " $(files)
-#	touch some_file
+BUILD_DIR := ./build
+SRC_DIRS := ./src
 
-# file1:
-# 	touch file1
-# file2:
-# 	touch file2
+# Find all the C and C++ files we want to compile
+# Note the single quotes around the * expressions. Make will incorrectly expand these otherwise.
+SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 
-# clean:
-# 	rm -f file2 file1 some_file
-# 
-# thing_wrong := *.o
-# thing_right := $(wildcard *.o)
-# 
-# all: one two three
-#  
-# one: $(thing_wrong)
-# 
-# two: *.o
-# 
-# three: $(thing_right)
-#  
-# four: $(wildcard *.o)
+# String substitution for every C/C++ file.
+# As an example, hello.cpp turns into ./build/hello.cpp.o
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-# hey: one two
-# 	echo $@
-# 	# echo $?
-# 	echo $^
-# 	touch hey
-# 
-# one:
-# 	touch one
-# 
-# two:
-# 	touch two
-# 
-# clean:
-# 	rm -f hey one two
+# String substitution (suffix version without %).
+# As an example, ./build/hello.cpp.o turns into ./build/hello.cpp.d
+DEPS := $(OBJS:.o=.d)
 
-CC = gcc
-CFLAGS = -g	
+# Every folder in ./src will need to be passed to GCC so that it can find header files
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+# Add a prefix to INC_DIRS. So moduleA would become -ImoduleA. GCC understands this -I flag
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-blah: blah.o
+# The -MMD and -MP flags together generate Makefiles for us!
+# These files will have .d instead of .o as the output.
+CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
-blah.c:
-	echo "int main() { return 0; }" > blah.c	
+# The final build step.
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
+# Build step for C source
+$(BUILD_DIR)/%.c.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+# Build step for C++ source
+$(BUILD_DIR)/%.cpp.o: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+
+.PHONY: clean
 clean:
-	rm -f blah*
+	rm -r $(BUILD_DIR)
 
-bar := ${subst not,totally, "I am not groot"}
-
-all:
-	@echo $(bar)
+# Include the .d makefiles. The - at the front suppresses the errors of missing
+# Makefiles. Initially, all the .d files will be missing, and we don't want those
+# errors to show up.
+-include $(DEPS)
