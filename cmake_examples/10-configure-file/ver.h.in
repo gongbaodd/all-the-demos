@@ -1,0 +1,7 @@
+
+#ifndef __VER_H__
+#define __VER_H__
+
+const char *ver = "${CF_VERSION}";
+
+#endif
