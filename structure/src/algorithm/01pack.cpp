@@ -59,80 +59,87 @@ class PackState
 {
 private:
     int volume = 0;
-    Pack pack;
-    std::vector<std::vector<Pack>> states;
+    Pack *pack;
+    std::vector<Pack> states;
 
 public:
-    PackState(Pack pack);
+    PackState(Pack &pack);
     Pack expand();
     void putItem(Item item);
-    Pack snapshot();
+    Pack snapshot(Pack *pack);
 };
 
-PackState::PackState(Pack pack)
+PackState::PackState(Pack &pack)
 {
-    this->pack = pack;
-    std::vector<Pack> Item0States;
+    this->pack = &pack;
+
+    states.push_back(Pack(0));
     while (pack.volume > volume)
     {
         Pack newState = expand();
-        Item0States.push_back(newState);
+        states.push_back(newState);
     }
-    states.push_back(Item0States);
     volume = 0;
 }
 
-Pack PackState::snapshot()
+Pack PackState::snapshot(Pack *pack)
 {
-    Pack pack(volume);
-    pack.items.insert(pack.items.end(), this->pack.items.begin(), this->pack.items.end());
-    return pack;
+    Pack clonePack(volume);
+    clonePack.items.insert(clonePack.items.end(), pack->items.begin(), pack->items.end());
+    return clonePack;
 }
 
 Pack PackState::expand()
 {
     volume++;
-    Pack clonePack = snapshot();
-    return clonePack;
+    if (states.size() < pack->volume)
+    {
+
+        return snapshot(pack);
+    }
+
+    return snapshot(&states.at(volume - 1));
 }
 
 void PackState::putItem(Item item)
 {
-    if (item.weight > pack.volume)
+    if (item.weight > pack->volume)
     {
         return;
     }
 
-    std::vector<Pack> thisItemState;
-    std::vector<Pack> lastItemState = states.back();
+    std::vector<Pack> newStates;
 
-    while (pack.volume > volume)
+    newStates.push_back(Pack(0));
+    while (pack->volume > volume)
     {
         Pack newState = expand();
-        if (item.weight < newState.volume)
+        if (item.weight <= newState.volume)
         {
             // 袋子装的下寻找volume为volume-item.weight的状态
             // 并比较放与不放两种情况的价值
             try
             {
-                Pack lastState = lastItemState.at(volume - 1 - item.weight);
+                Pack lastState = states.at(volume - item.weight);
                 if (lastState.value() + item.value > newState.value())
                 {
-                    pack.items.push_back(item);
-                    newState.items.push_back(item);
+                    pack->items.clear();
+                    pack->items.insert(pack->items.end(), lastState.items.begin(), lastState.items.end());
+                    pack->items.push_back(item);
+                    newState = snapshot(pack);
                 }
             }
             catch (std::out_of_range error)
             {
-                pack.items.push_back(item);
+                pack->items.push_back(item);
                 newState.items.push_back(item);
             }
         }
 
-        thisItemState.push_back(newState);
+        newStates.push_back(newState);
     }
 
-    states.push_back(thisItemState);
+    states = newStates;
     volume = 0;
 }
 
@@ -151,11 +158,9 @@ int main()
         Item(4, 6),
     };
 
-    state.putItem(items.front());
-    // for (auto item : items)
-    // {
-    //     state.putItem(item);
-    // }
-
+    for (auto item : items)
+    {
+        state.putItem(item);
+    }
     return 0;
 }
