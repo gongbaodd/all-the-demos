@@ -1,8 +1,26 @@
 cmake_minimum_required(VERSION 3.5)
 project(01_pack VERSION 0.1.0)
 
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+
+include(CPack)
+
+set(SOURCES
+    main.cpp
+    item.cpp
+    pack.cpp
+    packState.cpp
+)
+
+add_executable(01_pack ${SOURCES})
+
+target_include_directories(01_pack PRIVATE include)
+
 include(CTest)
 enable_testing()
+
+add_executable(unit_test test/item.cc)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
@@ -18,22 +36,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+target_link_libraries(unit_test GTest::gtest_main)
 
-include(CPack)
-
-set(SOURCES
-    main.cpp
-    item.cpp
-    pack.cpp
-    packState.cpp
-
-    test/item.cc
-)
-
-add_executable(01_pack ${SOURCES})
-
-target_include_directories(01_pack PRIVATE include)
-
-target_link_libraries(01_pack GTest::gtest_main)
+add_test(test_all unit_test)
