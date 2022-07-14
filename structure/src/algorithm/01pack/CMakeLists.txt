@@ -20,7 +20,12 @@ target_include_directories(01_pack PRIVATE include)
 include(CTest)
 enable_testing()
 
-add_executable(unit_test test/item.cc)
+add_executable(unit_test
+    ${SOURCES}
+    test/item.cc
+)
+
+target_include_directories(unit_test PRIVATE include)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)

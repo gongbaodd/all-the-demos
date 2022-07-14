@@ -1,10 +1,9 @@
 #include <gtest/gtest.h>
+#include "01pack/item.h"
 
-// Demonstrate some basic assertions.
-TEST(HelloTest, BasicAssertions)
+TEST(item, contructor)
 {
-    // Expect two strings not to be equal.
-    EXPECT_STRNE("hello", "world");
-    // Expect equality.
-    EXPECT_EQ(7 * 6, 42);
+    Item *item = new Item(1, 1);
+    EXPECT_EQ(item->value, 1);
+    EXPECT_EQ(item->weight, 1);
 }
