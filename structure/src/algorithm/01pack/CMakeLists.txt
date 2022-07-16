@@ -22,7 +22,7 @@ enable_testing()
 
 add_executable(unit_test
     ${SOURCES}
-    test/item.cc
+    test/pack.cc
 )
 
 target_include_directories(unit_test PRIVATE include)
