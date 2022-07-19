@@ -1,0 +1,7 @@
+[requires]
+qtbase/6.2.2@qt/everywhere
+qtdeclarative/6.2.2@qt/everywhere
+qtcharts/6.2.2@qt/everywhere
+
+[generators]
+cmake
