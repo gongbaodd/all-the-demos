@@ -1,7 +1,9 @@
 [requires]
-qtbase/6.2.2@qt/everywhere
-qtdeclarative/6.2.2@qt/everywhere
-qtcharts/6.2.2@qt/everywhere
+qtbuildprofiles/6.3.1@qt/everywhere
+
+qtbase/6.3.1@qt/everywhere
+qtdeclarative/6.3.1@qt/everywhere
+qtcharts/6.3.1@qt/everywhere
 
 [generators]
 cmake
