@@ -10,7 +10,7 @@ conan_basic_setup()
 include(CTest)
 enable_testing()
 
-add_executable(hello hello.cpp)
+add_executable(hello main.cpp)
 
 target_link_libraries(hello ${CONAN_LIBS})
 
