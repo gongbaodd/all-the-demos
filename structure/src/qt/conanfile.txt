@@ -1,5 +1,6 @@
 [requires]
 qtbuildprofiles/6.3.1@qt/everywhere
+md4c/0.4.8
 
 qtbase/6.3.1@qt/everywhere
 qtdeclarative/6.3.1@qt/everywhere
