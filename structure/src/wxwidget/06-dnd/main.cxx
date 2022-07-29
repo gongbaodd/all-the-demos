@@ -1,6 +1,17 @@
+#include <wx/wx.h>
+#include "textdrop.h"
 
-
-int main()
+class MyApp : public wxApp
 {
-    return 0;
+public:
+    virtual bool OnInit();
+};
+
+IMPLEMENT_APP(MyApp);
+
+bool MyApp::OnInit()
+{
+    TextDrop *frame = new TextDrop(wxT("TextDrop"));
+    frame->Show(true);
+    return true;
 }
