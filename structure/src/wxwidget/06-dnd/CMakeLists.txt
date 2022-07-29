@@ -1,6 +1,6 @@
-set(wxWidgets_ROOT_DIR "C:/wxWidgets-3.2.0")
-set(wxWidgets_LIB_DIR "C:/wxWidgets-3.2.0/lib/vc14x_x64_dll")
-set(wxWidgets_INCLUDE_DIRS "C:/wxWidgets-3.2.0/include")
+# set(wxWidgets_ROOT_DIR "C:/wxWidgets-3.2.0")
+# set(wxWidgets_LIB_DIR "C:/wxWidgets-3.2.0/lib/vc14x_x64_dll")
+# set(wxWidgets_INCLUDE_DIRS "C:/wxWidgets-3.2.0/include")
 
 cmake_minimum_required(VERSION 3.0.0)
 project(dnd VERSION 0.1.0)
