@@ -1,4 +1,5 @@
 #![windows_subsystem = "windows"]
+
 use eframe::egui;
 
 fn main() {
