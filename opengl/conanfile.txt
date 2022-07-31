@@ -1,0 +1,7 @@
+[requires]
+opengl/system
+glfw/3.3.7
+
+[generators]
+CMakeDeps
+CMakeToolchain
