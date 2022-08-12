@@ -7,6 +7,7 @@ fn main() {
 }
 
 fn merge(a: &Vec<i32>, b: &Vec<i32>, data: &mut Vec<i32>) {
+    // a, b 是已经排好序的两个队列，所以最后要再把多余的数据加上去
     let mut ia = 0;
     let mut ib = 0;
     let mut id = 0;
