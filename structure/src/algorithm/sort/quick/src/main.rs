@@ -13,15 +13,13 @@ fn _quick(data: &mut Vec<i32>, start: usize, end: isize) {
         return;
     }
 
-    let pivot_num = partition(data, start, end);
+    let pivot_num = partition(data, start, end as usize);
     _quick(data, start, (pivot_num as isize) - 1);
     _quick(data, pivot_num + 1, end);
 }
 
-fn partition(data: &mut Vec<i32>, start: usize, end: isize) -> usize {
-    let mut low = start;
-    let mut high = end as usize;
-    let pivot = data[high];
+fn partition(data: &mut Vec<i32>, mut low: usize, mut high: usize) -> usize {
+    let pivot = data[high as usize];
 
     loop {
         while low < high && data[low] < pivot {
