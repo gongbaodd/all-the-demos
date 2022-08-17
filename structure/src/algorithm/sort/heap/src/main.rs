@@ -4,51 +4,46 @@ fn main() {
     println!("{:?}", data);
 }
 
-fn heap<T: Ord>(data: &mut [T]) {
-    if data.len() <= 1 {
+fn heap(data: &mut Vec<i32>) {
+    if data.len() < 2 {
         return;
     }
 
-    heapify(data);
+    let last_root = (data.len()+2)/2;
+    for root in (0..=last_root).rev() {
+        to_max_heap(data, root, data.len() - 1);
+    }
 
-    for end in (1..data.len()).rev() {
-        data.swap(0, end);
-        move_down(&mut data[..end], 0);
+    for last in (1..data.len()).rev() {
+        data.swap(last, 0);
+        to_max_heap(data, 0, last-1);
     }
 }
 
-fn heapify<T: Ord>(data: &mut [T]) {
-    /*
-                [0]33
-        [1]32          [2]39
-    [3]30   [4]22  [5]11    [6]44
-    */
-
-    let last_parent = (data.len() - 2) / 2;
-
-    for i in (0..=last_parent).rev() {
-        move_down(data, i);
-    }
-}
-
-fn move_down<T: Ord>(data: &mut [T], mut root: usize) {
-    let last = data.len() - 1;
-
+fn to_max_heap(data: &mut Vec<i32>, mut root: usize, last: usize) {
     loop {
-        let left = 2 * root + 1;
+        let left = root * 2 + 1;
+        let right = left + 1;
+        let max_child;
+
         if left > last {
             break;
         }
-        let right = left + 1;
-        let max = if right < last && data[right] > data[left] {
-            right
-        } else {
-            left
-        };
 
-        if data[max] > data[root] {
-            data.swap(root, max);
+        if right > last {
+            max_child = left;
+        } else {
+            max_child = if data[right] > data[left] {
+                right
+            } else {
+                left
+            }
         }
-        root = max;
+
+        if data[max_child] > data[root] {
+            data.swap(max_child, root);
+        }
+        root = max_child;
+
     }
 }
