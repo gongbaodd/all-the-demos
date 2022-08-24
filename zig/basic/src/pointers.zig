@@ -9,9 +9,3 @@ test "pointers" {
     increment(&x);
     try expect(x == 2);
 }
-
-test "naughty pointers" {
-    var x: u16 = 0;
-    var y: *u8 = @intToPtr(*u8, x);
-    _ = y;
-}
