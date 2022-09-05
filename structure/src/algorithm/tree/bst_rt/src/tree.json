@@ -1,0 +1,38 @@
+{
+  "value": "R",
+  "nodes": [
+    {
+      "value": "A",
+      "nodes": [
+        {
+          "value": "D"
+        },
+        {
+          "value": "E"
+        }
+      ]
+    },
+    {
+      "value": "B"
+    },
+    {
+      "value": "C",
+      "nodes": [
+        {
+          "value": "F",
+          "nodes": [
+            {
+              "value": "G"
+            },
+            {
+              "value": "H"
+            },
+            {
+              "value": "K"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
