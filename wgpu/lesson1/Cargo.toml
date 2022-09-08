@@ -1,0 +1,21 @@
+[package]
+name = "lesson1"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+wgpu = "0.13.1"
+cgmath = "0.18.0"
+env_logger = "0.9"
+futures = "0.3.24"
+gfx-hal = "0.9.0"
+image = "0.24.3"
+log = "0.4.17"
+pollster = "0.2.5"
+winit = "0.27.2"
+bytemuck = { version = "1.12.1", features = ["derive"] }
+anyhow = "1.0.64"
+rand = "0.8.5"
+
