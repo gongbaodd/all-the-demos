@@ -1,0 +1,1 @@
+deno run --allow-env --allow-sys --allow-read --allow-run demo.ts
