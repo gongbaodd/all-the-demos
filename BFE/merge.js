@@ -7,6 +7,7 @@ function merge(arrList) {
   // your code here
   const result = [];
   const cmparr = []; // length == arrList.length
+  const cmpwidth = arrList.length * 2;
 
   while (arrList.length) {
     for (let i = 0; i < arrList.length; i++) {
@@ -25,13 +26,13 @@ function merge(arrList) {
         }
       }
 
-      if (cmparr.length === arrList.length) {
+      if (cmparr.length === cmpwidth) {
         // cmparr is full put the smallest item to result
+
         let min = cmparr[0];
-        let k = 0;
+        const k = 0;
         while (cmparr[k] === min) {
           result.push(cmparr.shift());
-          k++;
         }
       }
     }
@@ -43,12 +44,3 @@ function merge(arrList) {
 
   return result;
 }
-
-console.log(
-  merge([
-    [1, 1, 1, 100, 1000, 10000],
-    [1, 2, 2, 2, 200, 200, 1000],
-    [1000000, 10000001],
-    [2, 3, 3],
-  ])
-);
