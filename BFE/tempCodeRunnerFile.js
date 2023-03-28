@@ -1,54 +1,10 @@
-/**
- * @param {number[][]} arrList
- * non-descending integer array
- * @return {number[]}
- */
-function merge(arrList) {
-  // your code here
-  const result = [];
-  const cmparr = []; // length == arrList.length
-
-  while (arrList.length) {
-    for (let i = 0; i < arrList.length; i++) {
-      const item = arrList[i].shift();
-
-      if (item === undefined) {
-        // remove empty arr
-        arrList.splice(i, 1);
-        continue;
-      }
-
-      cmparr.push(item);
-      for (let j = cmparr.length - 1; j > 0; j--) {
-        if (cmparr[j] < cmparr[j - 1]) {
-          [cmparr[j], cmparr[j - 1]] = [cmparr[j - 1], cmparr[j]];
-        }
-      }
-
-      if (cmparr.length === arrList.length) {
-        // cmparr is full put the smallest item to result
-        let min = cmparr[0];
-        let k = 0;
-        while (cmparr[k] === min) {
-          result.push(cmparr.shift());
-          k++;
-        }
-      }
-    }
+class Node {
+  value;
+  left;
+  right;
+  constructor(val) {
+    this.value = val;
+    this.left = null;
+    this.right = null;
   }
-
-  while (cmparr.length) {
-    result.push(cmparr.shift());
-  }
-
-  return result;
 }
-
-console.log(
-  merge([
-    [1, 1, 1, 100, 1000, 10000],
-    [1, 2, 2, 2, 200, 200, 1000],
-    [1000000, 10000001],
-    [2, 3, 3],
-  ])
-);
