@@ -1,10 +1,5 @@
-class Node {
-  value;
-  left;
-  right;
-  constructor(val) {
-    this.value = val;
-    this.left = null;
-    this.right = null;
-  }
-}
+pFirst(time) {
+    //   const tmp = wait;
+    //   sleep(time);
+    //   return this;
+    // },
