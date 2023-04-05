@@ -1,10 +1,11 @@
-opts.leftTop;
-    // let lb = opts.leftBottom;
-    // while (null !== lt && null !== lb) {
-    //   console.log("lt", lt);
-    //   !results.includes(lt) && results.push(lt);
-    //   console.log("lb", lb);
-    //   !results.includes(lb) && results.push(lb);
-    //   lt = index.get(lt)?.leftTop ?? null;
-    //   lb = index.get(lb)?.leftBottom ?? null;
+
+    // let slice = code;
+
+    // while (slice.includes("<") || slice.includes(">")) {
+    //   const firstGtSym = slice.indexOf(">");
+    //   const lastLtSym = slice.lastIndexOf("<");
+    //   if (firstGtSym > lastLtSym) {
+    //     return false;
+    //   }
+    //   slice = slice.slice(firstGtSym + 1, lastLtSym);
     // }
