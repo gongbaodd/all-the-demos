@@ -1,0 +1,10 @@
+.three-column-text {
+  columns: 3 auto;
+  column-rule: solid 1px #ddd;
+  column-gap: 20px;
+  padding: 10px;
+}
+
+/**
+https://css-tricks.com/almanac/properties/c/columns/
+**/

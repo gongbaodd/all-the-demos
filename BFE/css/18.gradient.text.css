@@ -1,0 +1,7 @@
+.gradient-text {
+  font-size: 30px;
+  font-weight: bold;
+  background-image: linear-gradient(to right, red, yellow);
+  background-clip: text;
+  color: transparent;
+}

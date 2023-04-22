@@ -1,0 +1,33 @@
+/**
+use Flex
+**/
+
+.container {
+  height: 300px;
+  /* your code here */
+  display: flex;
+}
+
+.left {
+  background-color: #f44336;
+  /* your code here */
+  flex: 1;
+  min-width: 100px;
+}
+
+.right {
+  background-color: #2973af;
+  /* your code here */
+  flex: 3;
+}
+
+/**
+use Grid
+**/
+
+.container {
+  height: 300px;
+  /* your code here */
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 3fr;
+}

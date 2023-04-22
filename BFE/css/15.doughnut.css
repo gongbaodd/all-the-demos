@@ -1,0 +1,11 @@
+.piechart {
+  width: 100px;
+  height: 100px;
+  clip-path: circle(50px at center);
+  background-image: conic-gradient(#f44336 var(--percentage), transparent 0);
+  mask-image: radial-gradient(
+    circle closest-side at center,
+    transparent 80%,
+    #fff 80%
+  );
+}

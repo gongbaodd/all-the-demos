@@ -1,0 +1,12 @@
+ol {
+  counter-reset: list-item;
+}
+
+ol > li::marker {
+  content: counters(list-item, ".") " ";
+  counter-increment: list-item;
+  color: #f44336;
+}
+/**
+https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Counter_Styles/Using_CSS_counters
+**/

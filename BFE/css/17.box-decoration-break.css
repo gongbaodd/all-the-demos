@@ -1,0 +1,11 @@
+.border {
+  line-height: 1.5;
+  margin: 5px;
+  border: solid 1px #7aa4f0;
+  box-decoration-break: clone;
+  padding: 0 5px;
+}
+
+/**
+https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break
+**/
