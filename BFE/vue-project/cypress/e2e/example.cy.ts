@@ -1,8 +1,8 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('visits the app root url', () => {
-    cy.visit('/')
-    cy.contains('h1', 'You did it!')
+describe('1-counter', () => {
+  it('visit the counter page', () => {
+    cy.visit('/1-counter')
+    cy.contains('#id', 'Count')
   })
 })
