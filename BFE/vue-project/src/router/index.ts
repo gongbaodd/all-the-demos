@@ -6,6 +6,7 @@ import Functional from '../views/3-Functional.vue'
 import Toggle from '../views/4-Toggle.vue'
 import Counter2 from '../views/5-Counter.vue'
 import LocalStorage from '../views/6-LocalStorage.vue'
+import Mouse from '../views/7-Mouse.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,11 @@ const router = createRouter({
       path: '/6-localstorage',
       name: '6-localstorage',
       component: LocalStorage
+    },
+    {
+      path: '/7-mouse',
+      name: '7-mouse',
+      component: Mouse
     }
   ]
 })
