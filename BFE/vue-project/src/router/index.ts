@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Counter from '../views/1-Counter.vue'
 import DomPortal from '../views/2-DomPortal.vue'
+import Functional from '../views/3-Functional.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/2-domportal',
       name: '2-domportal',
       component: DomPortal
+    },
+    {
+      path: '/3-functional',
+      name: '3-functional',
+      component: Functional
     }
   ]
 })
