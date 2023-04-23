@@ -9,6 +9,7 @@ import LocalStorage from '../views/6-LocalStorage.vue'
 import Mouse from '../views/7-Mouse.vue'
 import LifeCycle from '../views/8-LifeCycle.vue'
 import Ref from '../views/9-Ref.vue'
+import CustomRef from '../views/A-CustomRef.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,6 +71,11 @@ const router = createRouter({
       path: '/9-ref',
       name: '9-ref',
       component: Ref
+    },
+    {
+      path: '/A-customref',
+      name: 'A-customref',
+      component: CustomRef
     }
   ]
 })
