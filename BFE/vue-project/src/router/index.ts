@@ -4,6 +4,7 @@ import Counter from '../views/1-Counter.vue'
 import DomPortal from '../views/2-DomPortal.vue'
 import Functional from '../views/3-Functional.vue'
 import Toggle from '../views/4-Toggle.vue'
+import Counter2 from '../views/5-Counter.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/4-toggle',
       name: '4-toggle',
       component: Toggle
+    },
+    {
+      path: '/5-counter',
+      name: '5-counter',
+      component: Counter2
     }
   ]
 })
