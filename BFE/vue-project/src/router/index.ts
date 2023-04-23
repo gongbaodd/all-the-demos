@@ -8,6 +8,7 @@ import Counter2 from '../views/5-Counter.vue'
 import LocalStorage from '../views/6-LocalStorage.vue'
 import Mouse from '../views/7-Mouse.vue'
 import LifeCycle from '../views/8-LifeCycle.vue'
+import Ref from '../views/9-Ref.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,11 @@ const router = createRouter({
       path: '/8-lifecycle',
       name: '8-lifecycle',
       component: LifeCycle
+    },
+    {
+      path: '/9-ref',
+      name: '9-ref',
+      component: Ref
     }
   ]
 })
