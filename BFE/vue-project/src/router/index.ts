@@ -7,6 +7,7 @@ import Toggle from '../views/4-Toggle.vue'
 import Counter2 from '../views/5-Counter.vue'
 import LocalStorage from '../views/6-LocalStorage.vue'
 import Mouse from '../views/7-Mouse.vue'
+import LifeCycle from '../views/8-LifeCycle.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +59,11 @@ const router = createRouter({
       path: '/7-mouse',
       name: '7-mouse',
       component: Mouse
+    },
+    {
+      path: '/8-lifecycle',
+      name: '8-lifecycle',
+      component: LifeCycle
     }
   ]
 })
