@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Counter from '../views/1-Counter.vue'
 import DomPortal from '../views/2-DomPortal.vue'
 import Functional from '../views/3-Functional.vue'
+import Toggle from '../views/4-Toggle.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/3-functional',
       name: '3-functional',
       component: Functional
+    },
+    {
+      path: '/4-toggle',
+      name: '4-toggle',
+      component: Toggle
     }
   ]
 })
