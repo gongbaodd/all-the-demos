@@ -1,0 +1,13 @@
+lockfileVersion: 5.4
+
+specifiers:
+  xstate: ^4.37.1
+
+dependencies:
+  xstate: 4.37.1
+
+packages:
+
+  /xstate/4.37.1:
+    resolution: {integrity: sha512-MuB7s01nV5vG2CzaBg2msXLGz7JuS+x/NBkQuZAwgEYCnWA8iQMiRz2VGxD3pcFjZAOih3fOgDD3kDaFInEx+g==}
+    dev: false
