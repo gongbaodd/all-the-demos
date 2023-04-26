@@ -1,55 +1,15 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import type { FC } from "react";
 import { Form, Input, Button, message } from "antd";
 import { Space } from "antd";
-
-const getRedisKey = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return "fake Redis key";
-};
+import machine from "../machines/vcode";
+import { useMachine } from "@xstate/react";
 
 const CODE_HINT = "Get code";
 
 const VCode: FC = () => {
-  const [tel, setTel] = useState<string>("");
-  const [submitable, setSubmitable] = useState<boolean>(false);
-  const [canGetCode, setCanGetCode] = useState<boolean>(false);
-  const [code, setCode] = useState<string>("");
-  const [startCount, setStartCount] = useState<boolean>(false);
-  const [codeHint, setCodeHint] = useState<string>(CODE_HINT);
-  const [redisKey, setRedisKey] = useState<string>("");
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    setCanGetCode(!!tel);
-  }, [tel]);
-
-  useEffect(() => {
-    setSubmitable(/\d/.test(code));
-  }, [tel, code]);
-
-  useEffect(() => {
-    let timer: null | number = null;
-    if (startCount) {
-      let count = 60;
-      timer = setInterval(() => {
-        if (count <= 0) {
-          setStartCount(false);
-          setCodeHint(CODE_HINT);
-          setCanGetCode(true);
-          timer && clearInterval(timer);
-        } else {
-          count--;
-          setCodeHint(`${count}s`);
-          setCanGetCode(false);
-        }
-      }, 1000);
-    }
-
-    return () => {
-      timer && clearInterval(timer);
-    };
-  }, [startCount]);
+  const [state, send] = useMachine(machine);
+  const form = Form.useForm()[0];
 
   return (
     <div style={{ width: 400, margin: "100px auto" }}>
@@ -58,40 +18,43 @@ const VCode: FC = () => {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
         onFinish={(values) => message.info(JSON.stringify(values))}
-        initialValues={{ tel, code, redisKey }}
+        initialValues={{ tel: "", code: "", redisKey: "" }}
         form={form}
       >
         <Form.Item label="Tel" name="tel">
-          <Input onChange={({ target }) => setTel(target.value)} />
+          <Input
+            onChange={({ target }) => {
+              send({ type: "TelTyped", tel: target.value });
+            }}
+          />
         </Form.Item>
 
         <Form.Item label="Code" name="code">
           <Space.Compact style={{ width: "100%" }}>
             <Input
-              disabled={!redisKey}
-              onChange={({ target }) => setCode(target.value)}
+              disabled={!state.context.token}
+              onChange={({ target }) =>
+                send({ type: "CodeTyped", code: target.value })
+              }
             />
             <Button
               type="primary"
-              disabled={!canGetCode}
-              onClick={async () => {
-                setStartCount(true);
-                const key = await getRedisKey();
-                setRedisKey(key);
-                form.setFieldsValue({ redisKey: key });
-              }}
+              disabled={state.matches("empty") || state.matches("Tiking")}
+              onClick={() => send("ApplyCode")}
             >
-              {codeHint}
+              {state.matches("Tiking") ? state.context.tik + "s" : "Get code"}
             </Button>
           </Space.Compact>
         </Form.Item>
 
-        <Form.Item label="Redis Key" name="redisKey" hidden>
-          <Input type="hidden" />
-        </Form.Item>
-
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit" disabled={!submitable}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={
+              !(state.context.code && state.context.tel && state.context.token)
+            }
+          >
             Submit
           </Button>
         </Form.Item>
