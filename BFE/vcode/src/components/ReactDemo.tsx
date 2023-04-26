@@ -5,8 +5,6 @@ import { Space } from "antd";
 import machine from "../machines/vcode";
 import { useMachine } from "@xstate/react";
 
-const CODE_HINT = "Get code";
-
 const VCode: FC = () => {
   const [state, send] = useMachine(machine);
   const form = Form.useForm()[0];
