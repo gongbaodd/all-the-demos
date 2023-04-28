@@ -1,0 +1,14 @@
+{
+    "name": "Android",
+    "image": "ghcr.io/cirruslabs/android-sdk:33",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot"
+            ]
+        }
+    },
+    "build": {
+        "dockerfile": "dockerfile"
+    }
+}
