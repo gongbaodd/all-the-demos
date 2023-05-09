@@ -6,7 +6,7 @@ USER root
 #     && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list \
 #     && apt-get update
 
-RUN apt-get update && apt install clang cmake ninja-build pkg-config libgtk-3-dev -y
+RUN apt-get update && apt install clang cmake ninja-build pkg-config libgtk-3-dev fonts-liberation libu2f-udev libvulkan1 xdg-utils -y
 
 
 ENV flutter_version=stable
