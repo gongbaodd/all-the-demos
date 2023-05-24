@@ -1,5 +1,9 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "dev": "deno run --allow-all --watch main.ts"
+  },
+  "imports": {
+    "dotenv": "https://deno.land/std@0.188.0/dotenv/load.ts",
+    "std": "https://deno.land/std@0.188.0"
   }
 }

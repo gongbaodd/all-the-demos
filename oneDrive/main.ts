@@ -1,7 +1,7 @@
-import * as OneDriveApi from "npm:onedrive-api";
-import * as DotEnv from "npm:dotenv";
+import "dotenv";
 
 // Learn more at https://deno.land/manual/examples/module_metadata#concepts
 if (import.meta.main) {
-  OneDriveApi.items.listChildren({});
+  console.log(Deno.env.get("CLIENT_ID"));
+  console.log(Deno.env.get("TENANT_ID"));
 }
