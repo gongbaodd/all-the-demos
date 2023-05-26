@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@trpc/client": "^10.28.0",
+    "@trpc/server": "^10.28.0",
+    "zod": "^3.21.4"
+  }
 }
