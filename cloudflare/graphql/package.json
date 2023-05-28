@@ -12,5 +12,8 @@
     "start": "wrangler dev src/index.ts",
     "deploy": "wrangler deploy src/index.ts",
     "test": "vitest"
+  },
+  "dependencies": {
+    "graphql-yoga": "^3.9.1"
   }
 }
