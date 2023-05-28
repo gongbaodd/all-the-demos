@@ -1,0 +1,5 @@
+packages:
+  - name: graphql
+    actions:
+      - name: graphql
+        runtime: nodejs:18
