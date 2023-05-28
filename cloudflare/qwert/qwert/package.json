@@ -4,12 +4,19 @@
   "private": true,
   "scripts": {
     "deploy": "wrangler publish",
-    "start": "wrangler dev"
+    "start": "wrangler dev",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx vitest run"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230419.0",
     "itty-router": "^3.0.12",
     "typescript": "^5.0.4",
+    "vitest": "^0.31.1",
+    "vitest-environment-miniflare": "^2.14.0",
     "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "graphql": "^16.6.0",
+    "graphql-yoga": "^3.9.1"
   }
 }

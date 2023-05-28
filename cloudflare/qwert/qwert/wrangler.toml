@@ -2,11 +2,6 @@ name = "qwert"
 main = "src/worker.ts"
 compatibility_date = "2023-05-28"
 
-# # KV Namespace binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/kv
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
 # # Durable Object binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/durable-objects
 # [[durable_objects]]
 # binding = "MY_DURABLE_OBJECT"
@@ -30,11 +25,10 @@ compatibility_date = "2023-05-28"
 # name = "my-queue"
 # zone_id = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
 
-# [env.production]
-# MY_VARIABLE = "production_value"
-
-# [env.staging]
-# MY_VARIABLE = "staging_value"
+# # KV Namespace binding - For more information: https://developers.cloudflare.com/workers/runtime-apis/kv
+kv_namespaces=[
+    { binding = "qwertKV", id = "77251eebf5884136a0d61e6ef5348984", preview_id = "1b92191772f0491aac4baeb0a8c52e50" }
+]
 
 # [env.shared]
 # SHARED_VARIABLE = "shared_value"
