@@ -93,6 +93,7 @@ const yoga = createYoga<Env & ExecutionContext>({
     },
   }),
   landingPage: false,
+  graphqlEndpoint: '/graphql',
 });
 
 // Export a default object containing event handlers
