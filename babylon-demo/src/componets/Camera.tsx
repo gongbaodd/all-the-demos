@@ -26,3 +26,5 @@ export const Camera = React.forwardRef<ArcRotateCamera, props>(({ name, alpha, b
 
     return null
 })
+
+Camera.displayName = "Camera"

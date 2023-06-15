@@ -10,7 +10,7 @@ interface IUtils {
     useRef: (setScene: React.Dispatch<React.SetStateAction<BScene | null>>) => (e: BScene) => void
 }
 
-const SceneUtils: IUtils = function() {}
+export const SceneUtils: IUtils = function() {}
 
 SceneUtils.useState = () => React.useState<BScene | null>(null)
 

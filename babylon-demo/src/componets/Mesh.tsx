@@ -22,3 +22,5 @@ export const Mesh = React.forwardRef<BMesh, Props>(function({ init }, ref) {
 
     return null
 })
+
+Mesh.displayName = "Mesh"

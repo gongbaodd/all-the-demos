@@ -24,3 +24,5 @@ export const Light = React.forwardRef<HemisphericLight,Props>(({ name, direction
 
   return null;
 });
+
+Light.displayName = "Light"
