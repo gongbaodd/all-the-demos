@@ -6,6 +6,7 @@ import { Camera } from "./componets/Camera"
 import { Vector3 } from "@babylonjs/core"
 import { Light } from "./componets/Light"
 import { Mesh, MeshInit } from "./componets/Mesh"
+import { useFrame } from "./hooks/useFrame"
 
 export const App: FC = () => {
     const [engine, setEngine] = EngineUtils.useState()
@@ -21,13 +22,7 @@ export const App: FC = () => {
     const camTarget = useMemo(() => new Vector3(0,0,0), [])
     const lightDirection = useMemo(() => new Vector3(1,1,0), [])
 
-    useEffect(() => {
-        if (engine && scene) {
-            engine.runRenderLoop(() => {
-                scene.render()
-            })
-        }
-    }, [engine, scene])
+    useFrame(engine, scene)
 
     return ( 
     <Canvas id="game" style={{width: "100%", height: "100%"}} tabIndex={0}>
