@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { Canvas } from "./componets/Canvas"
 import { Engine, EngineUtils } from "./componets/Engine"
 import { Scene, SceneUtils } from "./componets/Scene"
@@ -18,6 +18,9 @@ export const App: FC = () => {
         return builder.CreateSphere("sphere", { diameter: 1 }, scene)
     }, [])
 
+    const camTarget = useMemo(() => new Vector3(0,0,0), [])
+    const lightDirection = useMemo(() => new Vector3(1,1,0), [])
+
     useEffect(() => {
         if (engine && scene) {
             engine.runRenderLoop(() => {
@@ -30,8 +33,8 @@ export const App: FC = () => {
     <Canvas id="game" style={{width: "100%", height: "100%"}} tabIndex={0}>
         <Engine ref={engineRef}>
             <Scene ref={sceneRef}>
-                <Camera name="camera" alpha={Math.PI/2} beta={Math.PI/2} radius={2} target={new Vector3(0,0,0)}/>
-                <Light name="light1" direction={new Vector3(1,1,0)}/>
+                <Camera name="camera" alpha={Math.PI/2} beta={Math.PI/2} radius={2} target={camTarget}/>
+                <Light name="light1" direction={lightDirection}/>
                 <Mesh init={sphereInit} />
             </Scene>
         </Engine>
