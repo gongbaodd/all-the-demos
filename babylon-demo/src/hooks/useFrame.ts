@@ -1,7 +1,5 @@
 import BABYLON from '@babylonjs/core';
-import { useContext, useEffect } from 'react';
-import { EngineUtils } from '../componets/Engine';
-import { SceneUtils } from '../componets/Scene';
+import { useEffect } from 'react';
 
 type Callback = () => unknown;
 
