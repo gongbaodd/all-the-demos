@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Vector3 } from "@babylonjs/core";
+import { Color4, Vector3 } from "@babylonjs/core";
 import { useFrame } from "./hooks/useFrame";
 import {
   TArcRotateCamera,
@@ -22,6 +22,8 @@ import {
   SceneComponent,
   TEngine,
   EngineComponent,
+  TFreeCamera,
+  FreeCameraComponent,
 } from "./componets/Babylon";
 
 enum State {
@@ -35,25 +37,14 @@ type InsTEngine = InstanceType<TEngine>;
 type InsTScene = InstanceType<TScene>;
 
 export const App: FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [canvas, setCanvas] = useState<HTMLCanvasElement | null>(null);
   const [engine, setEngine] = useState<InsTEngine | null>(null);
   const [scene, setScene] = useState<InsTScene | null>(null);
 
-  useFrame(engine, scene);
-
-  useEffect(() => {
-    if (scene) {
-      scene.debugLayer.show();
-    }
-  }, [scene]);
-
-  const canvasRef = useCallback(
-    (el: HTMLCanvasElement) => {
-      el && setCanvas(el);
-    },
-    [setCanvas]
-  );
+  const canvasRef = useCallback((el: HTMLCanvasElement) => {
+    el && setCanvas(el);
+  }, []);
 
   const initEngine = useCallback(
     (Engine: TEngine, canvas: HTMLCanvasElement) => {
@@ -77,6 +68,12 @@ export const App: FC = () => {
     return el;
   }, []);
 
+  const initFreeCamera = useCallback((El: TFreeCamera, scene: InsTScene) => {
+    const el = new El("camera1", new Vector3(0, 0, 0), scene);
+    el.setTarget(Vector3.Zero());
+    return el;
+  }, []);
+
   const initLight = useCallback((El: THemisphericLight, scene: InsTScene) => {
     const el = new El("light", new Vector3(1, 1, 0), scene);
     return el;
@@ -90,16 +87,32 @@ export const App: FC = () => {
     []
   );
 
-  // useEffect(() => {
-  //     if (engine && scene) {
-  //         engine.displayLoadingUI()
-  //         scene.detachControl()
-  //         let nscene = new BABYLON.Scene(engine)
-  //         nscene.clearColor = new BABYLON.Color4(0,0,0,1)
-  //         let ncamera = new FreeCamera("camera1", new Vector3(0,0,0), nscene)
-  //         ncamera.setTarget(Vector3.Zero())
-  //     }
-  // }, [engine, scene])
+  const initLoadingScene = useCallback((Scene: TScene, engine: InsTEngine) => {
+    const scene = new Scene(engine);
+    scene.clearColor = new Color4(0, 0, 0, 1);
+    setScene(scene);
+    return scene;
+  }, []);
+
+  useEffect(() => {
+    if (scene) {
+      scene.debugLayer.show();
+    }
+  }, [scene]);
+
+  // Loading
+  useEffect(() => {
+    if (engine && scene && isLoading) {
+      const load = async () => {
+        engine.displayLoadingUI();
+        await scene.whenReadyAsync();
+        engine.hideLoadingUI();
+        setIsLoading(false);
+      };
+    }
+  }, [engine, scene, isLoading]);
+
+  useFrame(engine, scene);
 
   return (
     <canvas
@@ -110,6 +123,11 @@ export const App: FC = () => {
     >
       {canvas && (
         <EngineComponent canvas={canvas} initEngine={initEngine}>
+          {isLoading && (
+            <SceneComponent initScene={initLoadingScene} engine={engine!}>
+              <FreeCameraComponent initNode={initFreeCamera} scene={scene!} />
+            </SceneComponent>
+          )}
           {!isLoading && (
             <SceneComponent initScene={initScene} engine={engine!}>
               <ArcRotateCameraComponent initNode={initCamera} scene={scene!} />

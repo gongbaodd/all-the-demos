@@ -1,4 +1,4 @@
-import { ArcRotateCamera, HemisphericLight, Mesh, Scene, Engine, MeshBuilder } from "@babylonjs/core";
+import { ArcRotateCamera, HemisphericLight, Mesh, Scene, Engine, MeshBuilder, FreeCamera } from "@babylonjs/core";
 import React, { forwardRef, useEffect, useState } from "react";
 import { setForwardRef } from "./ref";
 
@@ -16,7 +16,8 @@ type NodeConstructor =
   | typeof BABYLON.HemisphericLight
   | typeof BABYLON.Mesh
   | typeof BABYLON.Scene
-  | typeof BABYLON.Engine;
+  | typeof BABYLON.Engine
+  | typeof FreeCamera
 
 type TMeshBuilder = typeof BABYLON.MeshBuilder;
 
