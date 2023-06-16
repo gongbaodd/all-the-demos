@@ -69,13 +69,13 @@ export const toComponent = function <T extends NodeConstructor>(
     const { children } = props;
 
     const normProps = props as Props<T>;
-    const { scene } = normProps;
+    const { scene, initNode } = normProps;
 
     const sceneProps = props as SceneProps;
-    const { engine } = sceneProps;
+    const { engine, initScene } = sceneProps;
 
     const engineProps = props as EngineProps;
-    const { canvas } = engineProps;
+    const { canvas, initEngine } = engineProps;
 
     const [node, _setNode] = useState<Ref | null>(null);
     const setNode = (node: Ref) => {
@@ -87,8 +87,7 @@ export const toComponent = function <T extends NodeConstructor>(
 
     // Normal node
     useEffect(() => {
-      if (scene && !isScene && !isEngine) {
-        const { initNode } = normProps;
+      if (scene && initNode && !isScene && !isEngine) {
         const node = initNode(
           Constructor,
           scene,
@@ -98,29 +97,27 @@ export const toComponent = function <T extends NodeConstructor>(
         setNode(node);
         return () => node?.dispose();
       }
-    }, [scene]);
+    }, [scene, initNode]);
 
     // Scene
     useEffect(() => {
-      if (engine && isScene) {
-        const { initScene } = sceneProps;
+      if (engine && initScene && isScene) {
         const Con = Constructor as typeof BABYLON.Scene;
         const node = initScene(Con, engine) as Ref;
         setNode(node);
         return () => node?.dispose();
       }
-    }, [engine]);
+    }, [engine, initScene]);
 
     // Engine
     useEffect(() => {
-      if (canvas && isEngine) {
-        const { initEngine } = engineProps;
+      if (canvas && initEngine && isEngine) {
         const Con = Constructor as typeof BABYLON.Engine;
         const node = initEngine(Con, canvas) as Ref;
         setNode(node);
         return () => node?.dispose();
       }
-    }, [canvas]);
+    }, [canvas, initEngine]);
 
     if (children && Component.Context && node) {
       return (
