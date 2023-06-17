@@ -1,18 +1,18 @@
-import BABYLON from '@babylonjs/core';
 import { useEffect } from 'react';
+import { TEngineInstance, TSceneInstance } from '../componets/Babylon';
 
 type Callback = () => unknown;
 
 interface IUseFrame {
-    (engine: BABYLON.Engine | null, scene: BABYLON.Scene | null): void;
+    (engine: TEngineInstance | null, scene: TSceneInstance | null): void;
     (callback: Callback): void;
     callbacks: Callback[];
 }
 
 export const useFrame: IUseFrame = function(arg1, arg2?) {
     if (arg2 !== undefined) {
-        const engine = arg1 as BABYLON.Engine | null;
-        const scene = arg2 as BABYLON.Scene | null;
+        const engine = arg1 as TEngineInstance | null;
+        const scene = arg2 as TSceneInstance | null;
 
         useEffect(() => {
             if (engine && scene) {

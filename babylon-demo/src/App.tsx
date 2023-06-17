@@ -4,6 +4,7 @@ import React, {
   FC,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -25,13 +26,9 @@ import {
   TFreeCamera,
   FreeCameraComponent,
 } from "./componets/Babylon";
-
-enum State {
-  START = 0,
-  GAME = 1,
-  LOSE = 2,
-  CUTSCENE = 3,
-}
+import { LoadingScene } from "./componets/LoadingScene";
+import { GuiMenu } from "./componets/GuiMenu"
+import { useResize } from "./hooks/useResize"
 
 type InsTEngine = InstanceType<TEngine>;
 type InsTScene = InstanceType<TScene>;
@@ -68,12 +65,6 @@ export const App: FC = () => {
     return el;
   }, []);
 
-  const initFreeCamera = useCallback((El: TFreeCamera, scene: InsTScene) => {
-    const el = new El("camera1", new Vector3(0, 0, 0), scene);
-    el.setTarget(Vector3.Zero());
-    return el;
-  }, []);
-
   const initLight = useCallback((El: THemisphericLight, scene: InsTScene) => {
     const el = new El("light", new Vector3(1, 1, 0), scene);
     return el;
@@ -87,12 +78,11 @@ export const App: FC = () => {
     []
   );
 
-  const initLoadingScene = useCallback((Scene: TScene, engine: InsTEngine) => {
-    const scene = new Scene(engine);
-    scene.clearColor = new Color4(0, 0, 0, 1);
-    setScene(scene);
-    return scene;
-  }, []);
+  const useLoadingScene = useCallback((scene: InsTScene) => { setScene(scene) }, [])
+
+  const onPlay = useCallback(() => {
+    setIsLoading(false);
+  }, [])
 
   useEffect(() => {
     if (scene) {
@@ -113,6 +103,7 @@ export const App: FC = () => {
   }, [engine, scene, isLoading]);
 
   useFrame(engine, scene);
+  useResize(engine);
 
   return (
     <canvas
@@ -124,9 +115,7 @@ export const App: FC = () => {
       {canvas && (
         <EngineComponent canvas={canvas} initEngine={initEngine}>
           {isLoading && (
-            <SceneComponent initScene={initLoadingScene} engine={engine!}>
-              <FreeCameraComponent initNode={initFreeCamera} scene={scene!} />
-            </SceneComponent>
+              <LoadingScene ref={useLoadingScene} onPlay={onPlay} />
           )}
           {!isLoading && (
             <SceneComponent initScene={initScene} engine={engine!}>

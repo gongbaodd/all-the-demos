@@ -1,4 +1,5 @@
 import { ArcRotateCamera, HemisphericLight, Mesh, Scene, Engine, MeshBuilder, FreeCamera } from "@babylonjs/core";
+import { AdvancedDynamicTexture, Button } from "@babylonjs/gui";
 import React, { forwardRef, useEffect, useState } from "react";
 import { setForwardRef } from "./ref";
 
@@ -18,14 +19,16 @@ type NodeConstructor =
   | typeof BABYLON.Scene
   | typeof BABYLON.Engine
   | typeof FreeCamera
+  | typeof AdvancedDynamicTexture
+  | typeof Button;
 
-type TMeshBuilder = typeof BABYLON.MeshBuilder;
+type TBuilder = typeof BABYLON.MeshBuilder;
 
-interface Props<T extends NodeConstructor> {
+interface Props<T extends NodeConstructor, R = TBuilder> {
   initNode: (
     Constructor: T,
     scene: Scene,
-    Builder?: TMeshBuilder
+    Builder?: R
   ) => InstanceType<T>;
   scene: Scene;
   children?: React.ReactNode;
@@ -51,11 +54,11 @@ interface EngineProps {
   children?: React.ReactNode;
 }
 
-export const toComponent = function <T extends NodeConstructor>(
-  Constructor: T
+export const toComponent = function <T extends NodeConstructor, R extends TBuilder>(
+  Constructor: T, Builder?: R,
 ) {
   type Ref = InstanceType<T>;
-  type ComProps = Props<T> | SceneProps | EngineProps;
+  type ComProps = Props<T, R> | SceneProps | EngineProps;
   type ForwardComponent = typeof forwardRef<Ref, ComProps>;
   interface IComponent extends ReturnType<ForwardComponent> {
     Context?: React.Context<Ref>;
@@ -91,7 +94,7 @@ export const toComponent = function <T extends NodeConstructor>(
         const node = initNode(
           Constructor,
           scene,
-          isMesh ? BABYLON.MeshBuilder : undefined
+          Builder
         ) as Ref;
 
         setNode(node);
