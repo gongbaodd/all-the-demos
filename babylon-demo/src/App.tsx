@@ -26,8 +26,7 @@ import {
   TFreeCamera,
   FreeCameraComponent,
 } from "./componets/Babylon";
-import { LoadingScene } from "./componets/LoadingScene";
-import { GuiMenu } from "./componets/GuiMenu"
+import { LoadingScene } from "./scenes/LoadingScene";
 import { useResize } from "./hooks/useResize"
 
 type InsTEngine = InstanceType<TEngine>;
@@ -115,7 +114,7 @@ export const App: FC = () => {
       {canvas && (
         <EngineComponent canvas={canvas} initEngine={initEngine}>
           {isLoading && (
-              <LoadingScene ref={useLoadingScene} onPlay={onPlay} />
+            <LoadingScene ref={useLoadingScene} onPlay={onPlay} />
           )}
           {!isLoading && (
             <SceneComponent initScene={initScene} engine={engine!}>

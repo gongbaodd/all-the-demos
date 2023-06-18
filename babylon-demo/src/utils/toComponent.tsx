@@ -66,7 +66,6 @@ export const toComponent = function <T extends NodeConstructor, R extends TBuild
 
   const isScene = Constructor.name === "Scene";
   const isEngine = Constructor.name === "Engine";
-  const isMesh = Constructor.name === "Mesh";
 
   const Component: IComponent = forwardRef<Ref, ComProps>((props, ref) => {
     const { children } = props;

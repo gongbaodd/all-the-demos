@@ -1,12 +1,12 @@
 import { forwardRef, useCallback, useContext, useState } from "react";
-import { AdvancedDynamicTextureComponent, ButtonComponent, EngineComponent, FreeCameraComponent, SceneComponent, TAdvancedDynamicTexture, TButton, TEngineInstance, TScene, TSceneInstance } from "./Babylon";
+import { AdvancedDynamicTextureComponent, ButtonComponent, EngineComponent, FreeCameraComponent, SceneComponent, TAdvancedDynamicTexture, TButton, TEngineInstance, TScene, TSceneInstance } from "../componets/Babylon";
 import { Color4, Vector3 } from "@babylonjs/core";
 
 interface Props {
-    goStart: () => void
+    toGame: () => void
 }
 
-export const LoseScene = forwardRef<TSceneInstance, Props>(({ goStart }) => {
+export const LoseScene = forwardRef<TSceneInstance, Props>(({ toGame }) => {
     const engine = useContext(EngineComponent.Context!)
     const [scene, setScene] = useState<TSceneInstance | null>(null)
     const [menu, setMenu] = useState<InstanceType<TAdvancedDynamicTexture> | null>(null)
@@ -37,12 +37,12 @@ export const LoseScene = forwardRef<TSceneInstance, Props>(({ goStart }) => {
         button.color = "white"
 
         button.onPointerUpObservable.add(() => {
-            goStart()
+            toGame()
         });
 
         menu?.addControl(button)
         return button
-    }, [menu, goStart])
+    }, [menu, toGame])
 
     return (
     <SceneComponent initScene={init} engine={engine} >

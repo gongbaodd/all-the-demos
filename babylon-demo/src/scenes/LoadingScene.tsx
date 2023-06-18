@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useContext, useState, forwardRef, ReactNode } from "react"
-import { SceneComponent, FreeCameraComponent, EngineComponent, TScene, TFreeCamera, TEngine, TAdvancedDynamicTexture, AdvancedDynamicTextureComponent, ButtonComponent, TButton, Control } from './Babylon';
+import { SceneComponent, FreeCameraComponent, EngineComponent, TScene, TFreeCamera, TEngine, TAdvancedDynamicTexture, AdvancedDynamicTextureComponent, ButtonComponent, TButton, Control } from '../componets/Babylon';
 import { Color4, Vector3 } from "@babylonjs/core";
 import { setForwardRef } from "../utils/ref"
 

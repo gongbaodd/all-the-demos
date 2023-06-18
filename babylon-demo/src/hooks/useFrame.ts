@@ -10,30 +10,28 @@ interface IUseFrame {
 }
 
 export const useFrame: IUseFrame = function(arg1, arg2?) {
-    if (arg2 !== undefined) {
-        const engine = arg1 as TEngineInstance | null;
-        const scene = arg2 as TSceneInstance | null;
+    const engine = arg1 as TEngineInstance | null;
+    const scene = arg2 as TSceneInstance | null;
 
-        useEffect(() => {
-            if (engine && scene) {
-                engine.runRenderLoop(() => {
-                    useFrame.callbacks.forEach(cb => cb());
-                    scene.render();
-                })
-            }
-        }, [engine, scene]);
-
-        return;
-    }
+    useEffect(() => {
+        if (engine && scene) {
+            engine.runRenderLoop(() => {
+                useFrame.callbacks.forEach(cb => cb());
+                scene.render();
+            })
+        }
+    }, [engine, scene]);
 
     const callback = arg1 as Callback;
 
     useEffect(() => {
+        if (scene) return;
+
         useFrame.callbacks.push(callback);
         return () => {
             useFrame.callbacks = useFrame.callbacks.filter(cb => cb !== callback);
         }
-    }, [callback]);
+    }, [callback, scene]);
 }
 
 useFrame.callbacks = [];

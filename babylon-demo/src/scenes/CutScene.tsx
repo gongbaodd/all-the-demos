@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useContext, useState } from "react";
-import { AdvancedDynamicTextureComponent, ButtonComponent, Control, EngineComponent, FreeCameraComponent, SceneComponent, TAdvancedDynamicTexture, TButton, TEngineInstance, TScene, TSceneInstance } from "./Babylon";
+import { AdvancedDynamicTextureComponent, ButtonComponent, Control, EngineComponent, FreeCameraComponent, SceneComponent, TAdvancedDynamicTexture, TButton, TEngineInstance, TScene, TSceneInstance } from "../componets/Babylon";
 import { Color4, Vector3 } from "@babylonjs/core";
 
 interface Props {
@@ -17,7 +17,7 @@ export const CutScene = forwardRef<TSceneInstance, Props>(({ toGame }) => {
         setScene(_scene)
         return _scene
     }, [])
-    
+
     const initCamera = useCallback((FreeCamera: any, scene: TSceneInstance) => {
         const camera = new FreeCamera("cutSceneCamera", [0, 0, 0], scene)
         camera.setTarget(Vector3.Zero())
@@ -48,13 +48,13 @@ export const CutScene = forwardRef<TSceneInstance, Props>(({ toGame }) => {
     }, [menu, toGame])
 
     return (
-    <SceneComponent initScene={init} engine={engine} >
-        {scene && <>
-            <FreeCameraComponent initNode={initCamera} scene={scene!} />
-            <AdvancedDynamicTextureComponent initNode={initMenu} scene={scene!} >
-                {menu && <ButtonComponent initNode={initNext} scene={scene!} />}
-            </AdvancedDynamicTextureComponent>
-        </>}
-    </SceneComponent>
+        <SceneComponent initScene={init} engine={engine} >
+            {scene && <>
+                <FreeCameraComponent initNode={initCamera} scene={scene!} />
+                <AdvancedDynamicTextureComponent initNode={initMenu} scene={scene!} >
+                    {menu && <ButtonComponent initNode={initNext} scene={scene!} />}
+                </AdvancedDynamicTextureComponent>
+            </>}
+        </SceneComponent>
     );
 })
