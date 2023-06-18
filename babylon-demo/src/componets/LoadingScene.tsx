@@ -45,7 +45,7 @@ export const GuiMenu: FC<{ onPlay: Props["onPlay"] }> = ({ onPlay }) => {
     const [menu, setMenu] = useState<InstanceType<TAdvancedDynamicTexture> | null>(null)
     const scene = useContext(SceneComponent.Context!)
     const init = useCallback((Builder: TAdvancedDynamicTexture, scene: InsTScene) => {
-        const guiMenu = Builder.CreateFullscreenUI("UI", false, scene)
+        const guiMenu = Builder.CreateFullscreenUI("LoadingUI", false, scene)
         guiMenu.idealHeight = 720
         setMenu(guiMenu)
         return guiMenu
