@@ -2,13 +2,9 @@ import React, { useCallback, useContext } from "react"
 import { ArcRotateCameraComponent, MeshComponent, SceneComponent, TArcRotateCamera, TMesh, TMeshBuilder, TSceneInstance } from "./Babylon"
 import { Color3, Matrix, Quaternion, StandardMaterial, Vector3 } from "@babylonjs/core"
 
+
 export const Player = () => {
     const scene = useContext(SceneComponent.Context!)
-
-    const initCamera = useCallback((Camera: TArcRotateCamera, scene: TSceneInstance) => {
-        const camera = new Camera("camera", Math.PI / 2, Math.PI / 2, 40, new Vector3(0, 3, 0), scene)
-        return camera
-    }, [])
 
     const initCollider = useCallback((_: TMesh, scene: TSceneInstance, Builder?: TMeshBuilder) => {
         const outer = Builder!.CreateBox("outer", { width: 2, depth: 1, height: 3 }, scene)
@@ -35,7 +31,7 @@ export const Player = () => {
         }, scene)
         const material = new StandardMaterial("ref", scene)
         material.diffuseColor = new Color3(0.8, 0.5, 0.5)
-        
+
         body.material = material
         body.isPickable = false
         body.bakeTransformIntoVertices(Matrix.Translation(0, 1.5, 0))
@@ -48,13 +44,10 @@ export const Player = () => {
     }, [])
 
     return (
-        <>
-            <ArcRotateCameraComponent scene={scene} initNode={initCamera} />
-            <MeshComponent scene={scene} initNode={initCollider}>
-                <MeshComponent scene={scene} initNode={initBody} >
-                    <MeshComponent scene={scene} initNode={initInner} />
-                </MeshComponent>
+        <MeshComponent scene={scene} initNode={initCollider}>
+            <MeshComponent scene={scene} initNode={initBody} >
+                <MeshComponent scene={scene} initNode={initInner} />
             </MeshComponent>
-        </>
+        </MeshComponent>
     )
 }

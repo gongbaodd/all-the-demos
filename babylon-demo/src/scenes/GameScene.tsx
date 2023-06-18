@@ -3,6 +3,7 @@ import { EngineComponent, SceneComponent, TEngineInstance, TScene, TSceneInstanc
 import { Environment } from "../componets/Environment"
 import { Player } from "../componets/Player"
 import { setForwardRef } from "../utils/ref"
+import { Camera } from "../componets/Camera"
 
 export const GameScene = forwardRef<TSceneInstance, {}>(({}, ref) => {
     const engine = useContext(EngineComponent.Context!)
@@ -16,6 +17,7 @@ export const GameScene = forwardRef<TSceneInstance, {}>(({}, ref) => {
     <SceneComponent engine={engine} initScene={init} >
         <Environment />
         <Player />
+        <Camera />
     </SceneComponent>
     )
 })
