@@ -1,4 +1,4 @@
-import { ArcRotateCamera, HemisphericLight, Mesh, Scene, Engine, MeshBuilder, FreeCamera } from "@babylonjs/core"
+import { ArcRotateCamera, HemisphericLight, Mesh, Scene, Engine, MeshBuilder, FreeCamera, PointLight } from "@babylonjs/core"
 import { AdvancedDynamicTexture, Button, Control } from "@babylonjs/gui"
 import { toComponent } from "../utils/toComponent"
 
@@ -12,6 +12,9 @@ export type TFreeCamera = typeof FreeCamera
 
 export const HemisphericLightComponent = toComponent(HemisphericLight)
 export type THemisphericLight = typeof HemisphericLight
+
+export const PointLightComponent = toComponent(PointLight)
+export type TPointLight = typeof PointLight
 
 export const MeshComponent = toComponent(Mesh, MeshBuilder)
 export type TMesh = typeof Mesh

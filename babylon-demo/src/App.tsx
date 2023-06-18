@@ -28,6 +28,7 @@ import {
 } from "./componets/Babylon";
 import { LoadingScene } from "./scenes/LoadingScene";
 import { useResize } from "./hooks/useResize"
+import { GameScene } from "./scenes/GameScene";
 
 type InsTEngine = InstanceType<TEngine>;
 type InsTScene = InstanceType<TScene>;
@@ -51,33 +52,9 @@ export const App: FC = () => {
     []
   );
 
-  const initScene = useCallback((Scene: TScene, engine: InsTEngine) => {
-    const scene = new Scene(engine);
-    setScene(scene);
-    return scene;
-  }, []);
-
-  const initCamera = useCallback((El: TArcRotateCamera, scene: InsTScene) => {
-    const halfPI = Math.PI / 2;
-    const el = new El("camera", halfPI, halfPI, 2, Vector3.Zero(), scene);
-    el.attachControl(scene, true);
-    return el;
-  }, []);
-
-  const initLight = useCallback((El: THemisphericLight, scene: InsTScene) => {
-    const el = new El("light", new Vector3(1, 1, 0), scene);
-    return el;
-  }, []);
-
-  const initSphere = useCallback(
-    (_: TMesh, scene: InsTScene, builder?: TMeshBuilder) => {
-      const el = builder!.CreateSphere("sphere", { diameter: 1 }, scene);
-      return el;
-    },
-    []
-  );
-
-  const useLoadingScene = useCallback((scene: InsTScene) => { setScene(scene) }, [])
+  const useScene = useCallback((scene: InsTScene) => {
+    setScene(scene)
+  }, [])
 
   const onPlay = useCallback(() => {
     setIsLoading(false);
@@ -96,8 +73,8 @@ export const App: FC = () => {
         engine.displayLoadingUI();
         await scene.whenReadyAsync();
         engine.hideLoadingUI();
-        setIsLoading(false);
       };
+      load();
     }
   }, [engine, scene, isLoading]);
 
@@ -114,14 +91,10 @@ export const App: FC = () => {
       {canvas && (
         <EngineComponent canvas={canvas} initEngine={initEngine}>
           {isLoading && (
-            <LoadingScene ref={useLoadingScene} onPlay={onPlay} />
+            <LoadingScene ref={useScene} onPlay={onPlay} />
           )}
           {!isLoading && (
-            <SceneComponent initScene={initScene} engine={engine!}>
-              <ArcRotateCameraComponent initNode={initCamera} scene={scene!} />
-              <HemisphericLightComponent initNode={initLight} scene={scene!} />
-              <MeshComponent initNode={initSphere} scene={scene!} />
-            </SceneComponent>
+            <GameScene ref={useScene} />
           )}
         </EngineComponent>
       )}
