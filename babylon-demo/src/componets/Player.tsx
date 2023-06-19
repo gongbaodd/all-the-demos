@@ -1,13 +1,13 @@
-import React, { useCallback, useContext } from "react"
-import { ArcRotateCameraComponent, MeshComponent, SceneComponent, TArcRotateCamera, TMesh, TMeshBuilder, TSceneInstance } from "./Babylon"
-import { Color3, Matrix, Quaternion, StandardMaterial, Vector3 } from "@babylonjs/core"
-
+import { Color3, Matrix, MeshBuilder, Quaternion, Vector3, StandardMaterial } from "@babylonjs/core"
+import { useMemo } from "react"
+import { useScene } from "react-babylonjs"
 
 export const Player = () => {
-    const scene = useContext(SceneComponent.Context!)
+    const scene = useScene()
+    const collider = useMemo(() => {
+        if (!scene) return
 
-    const initCollider = useCallback((_: TMesh, scene: TSceneInstance, Builder?: TMeshBuilder) => {
-        const outer = Builder!.CreateBox("outer", { width: 2, depth: 1, height: 3 }, scene)
+        const outer = MeshBuilder.CreateBox("collider", { width: 2, depth: 1, height: 3 }, scene)
         outer.isVisible = false
         outer.isPickable = false
         outer.checkCollisions = true
@@ -19,10 +19,11 @@ export const Player = () => {
 
         outer.rotationQuaternion = new Quaternion(0, 1, 0, 0);
         return outer
-    }, [])
+    }, [scene])
+    const body = useMemo(() => {
+        if (!scene) return
 
-    const initBody = useCallback((_: TMesh, scene: TSceneInstance, Builder?: TMeshBuilder) => {
-        const body = Builder!.CreateCylinder("body", {
+        const body = MeshBuilder.CreateCylinder("body", {
             height: 3,
             diameterTop: 2,
             diameterBottom: 2,
@@ -35,19 +36,14 @@ export const Player = () => {
         body.material = material
         body.isPickable = false
         body.bakeTransformIntoVertices(Matrix.Translation(0, 1.5, 0))
+
         return body
-    }, [])
-
-    const initInner = useCallback((_: TMesh, scene: TSceneInstance, Builder?: TMeshBuilder) => {
-        const box = Builder!.CreateBox("inner", { width: 0.5, depth: 0.5, height: 0.25 }, scene)
+    }, [scene])
+    const inner = useMemo(() => {
+        if (!scene) return
+        const box = MeshBuilder.CreateBox("inner", { width: 0.5, depth: 0.5, height: 0.25 }, scene)
         return box
-    }, [])
+    }, [scene])
 
-    return (
-        <MeshComponent scene={scene} initNode={initCollider}>
-            <MeshComponent scene={scene} initNode={initBody} >
-                <MeshComponent scene={scene} initNode={initInner} />
-            </MeshComponent>
-        </MeshComponent>
-    )
+    return null
 }

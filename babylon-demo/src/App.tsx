@@ -1,8 +1,9 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
-import { useCallback, useEffect, useRef, useState } from "react"
-import { EngineComponent, SceneComponent } from "./componets/Babylon"
+import { useCallback, useState } from "react"
+import { EngineComponent } from "./componets/Babylon"
 import { Loading } from "./scenes/Loading"
+import { Game } from "./scenes/Game"
 
 export const App = () => {
     const [isLoading, setIsLoading] = useState(true)
@@ -11,8 +12,13 @@ export const App = () => {
     }, [setIsLoading])
 
     return (
-        <EngineComponent antialias adaptToDeviceRatio canvasId="game">
-            {isLoading ? <Loading /> : null}
-        </EngineComponent>
+        <>
+            <EngineComponent antialias canvasId="game">
+                {isLoading ? <Loading /> : <Game />}
+            </EngineComponent>
+            <div style={{position: "absolute", top: 0}}>
+                <button onClick={onPlay}>Play</button>
+            </div>
+        </>
     )
 }
