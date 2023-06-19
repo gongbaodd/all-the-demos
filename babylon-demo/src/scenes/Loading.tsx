@@ -37,9 +37,5 @@ const Stage = () => {
         load();
     }, [scene, engine])
 
-    return (
-        <>
-            <freeCamera name="Loading" position={cameraPos}></freeCamera>
-        </>
-    )
+    return <freeCamera name="Loading" position={cameraPos}></freeCamera>
 }

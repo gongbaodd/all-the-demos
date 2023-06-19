@@ -45,5 +45,11 @@ export const Player = () => {
         return box
     }, [scene])
 
-    return null
+    return (
+        <abstractMesh name="player" fromInstance={collider}>
+            <abstractMesh name="body" fromInstance={body}>
+                <abstractMesh name="inner" fromInstance={inner} />
+            </abstractMesh>
+        </abstractMesh>
+    )
 }
