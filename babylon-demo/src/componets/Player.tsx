@@ -1,8 +1,9 @@
-import { Color3, Matrix, MeshBuilder, Quaternion, Vector3, StandardMaterial } from "@babylonjs/core"
-import { useMemo } from "react"
+import { Color3, Matrix, MeshBuilder, Quaternion, Vector3, StandardMaterial, TransformNode, UniversalCamera, Mesh } from "@babylonjs/core"
+import { forwardRef, useCallback, useEffect, useMemo, useRef } from "react"
 import { useScene } from "react-babylonjs"
+import { setForwardRef } from "../utils/ref"
 
-export const Player = () => {
+export const Player = forwardRef<Mesh, {}>(({}, ref) => {
     const scene = useScene()
     const collider = useMemo(() => {
         if (!scene) return
@@ -18,6 +19,8 @@ export const Player = () => {
         outer.ellipsoidOffset = new Vector3(0, 1.5, 0)
 
         outer.rotationQuaternion = new Quaternion(0, 1, 0, 0);
+
+        setForwardRef(ref, outer)
         return outer
     }, [scene])
     const body = useMemo(() => {
@@ -52,4 +55,6 @@ export const Player = () => {
             </abstractMesh>
         </abstractMesh>
     )
-}
+})
+
+Player.displayName = "Player"
