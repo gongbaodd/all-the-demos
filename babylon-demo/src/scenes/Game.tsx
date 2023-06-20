@@ -50,7 +50,11 @@ const Environment = () => {
             <abstractMesh name="ground" fromInstance={ground} />
             <hemisphericLight name="envLight" direction={envLightDirection} />
             <pointLight name="sparkLight" position={sparkLightPos} diffuse={sparkLightDiffuse} intensity={35} radius={1} ref={sparkLightRef} />
-            <universalCamera name="playerCam" position={camPos} fov={.5} lockedTarget={root.position} />
+            <transformNode name="root" fromInstance={root} >
+                <universalCamera name="playerCam" position={camPos} fov={.5} lockedTarget={root.position} >
+                    <transformNode name="yTilt" fromInstance={yTilt} />
+                </universalCamera>
+            </transformNode>
             <Player />
         </>
     )
