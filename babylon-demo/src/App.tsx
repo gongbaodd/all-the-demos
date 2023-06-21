@@ -1,6 +1,5 @@
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
-import { useCallback, useState } from "react"
 import { EngineComponent } from "./componets/Babylon"
 import { Loading } from "./scenes/Loading"
 import { Game } from "./scenes/Game"
