@@ -1,9 +1,11 @@
 import { Color3, Vector3 } from "@babylonjs/core"
 import { Engine, Scene } from "react-babylonjs"
 import { RotatingBox } from "./RotatingBox"
-import { ChangeEventHandler, useCallback, useMemo, useState } from "react"
+import { ChangeEventHandler, useCallback, useState } from "react"
+import { useMem } from "../hooks/useMem"
 
 function App() {
+  const mem = useMem();
   const [rpm, setRPM] = useState(10)
   const onChange: ChangeEventHandler<HTMLSelectElement> = useCallback(
     ({ target }) => {
@@ -33,12 +35,12 @@ function App() {
           <freeCamera
             name="camera1"
             position={new Vector3(0, 5, -10)}
-            setTarget={[Vector3.Zero()]}
+            setTarget={mem([Vector3.Zero()])}
           />
           <hemisphericLight
             name="light1"
             intensity={0.7}
-            direction={new Vector3(0, 1, 0)}
+            direction={mem(new Vector3(0, 1, 0))}
           />
           <ground
             name="ground"
@@ -49,8 +51,8 @@ function App() {
           <directionalLight
             name="dl"
             intensity={.6}
-            direction={useMemo(() => new Vector3(-5 * Math.PI / 4, -5 * Math.PI / 4, -Math.PI), [])}
-            position={useMemo(() => new Vector3(0, 4, 16), [])}
+            direction={mem(new Vector3(-5 * Math.PI / 4, -5 * Math.PI / 4, -Math.PI))}
+            position={mem(new Vector3(0, 4, 16))}
           >
             <shadowGenerator
               mapSize={1024}
@@ -61,18 +63,18 @@ function App() {
               <RotatingBox
                 name="box1"
                 rpm={rpm}
-                position={useMemo(() => new Vector3(-2, 1, 0), [])}
-                color={useMemo(() => Color3.Red(), [])}
-                hoveredColor={useMemo(() => Color3.Blue(), [])}
+                position={mem(new Vector3(-2.001, 1.0, 0))}
+                color={mem(Color3.Red())}
+                hoveredColor={mem(Color3.Blue())}
                 rotationAxis="y"
               />
               <RotatingBox
                 name="box2"
                 rpm={rpm}
-                position={useMemo(() => new Vector3(2, 1, 0), [])}
+                position={mem(new Vector3(2, 1, 0))}
                 rotationAxis="x"
-                color={useMemo(() => Color3.Green(), [])}
-                hoveredColor={useMemo(() => Color3.Yellow(), [])}
+                color={mem(Color3.Green())}
+                hoveredColor={mem(Color3.Yellow())}
               />
             </shadowGenerator>
           </directionalLight>
