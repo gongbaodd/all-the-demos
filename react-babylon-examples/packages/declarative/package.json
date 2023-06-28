@@ -1,0 +1,6 @@
+{
+  "name": "declarative",
+  "scripts": {
+    "serve": "vite"
+  }
+}
