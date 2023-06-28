@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": "go build -o ../../dist/packages/cli/ ./src/ascii.go",
+    "serve": "go run ./src/ascii.˙go"
+  },
+  "dependencies": {
+    "ascii": "*"
+  }
+}

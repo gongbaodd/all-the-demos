@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "cowsay": "1.5.0"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@nx/js": "16.4.0",
