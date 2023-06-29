@@ -2,5 +2,6 @@
   "name": "animations",
   "scripts": {
     "serve": "vite"
-  }
+  },
+  "version": "0.0.0"
 }

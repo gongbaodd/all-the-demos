@@ -1,7 +1,8 @@
 import { TransformNode, Vector3, Animation, Scene } from "@babylonjs/core"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useMem } from "../../hooks/src/useMem"
 import { useScene } from "react-babylonjs"
+import anime from "animejs"
 
 export function WithAnimation() {
   const scene = useScene()
@@ -9,15 +10,32 @@ export function WithAnimation() {
   const mem = useMem()
   const spheres = getSpheres(10, mem)
 
+  // useEffect(() => {
+  //   playAnimation(groundRef.current, scene)
+  // }, [scene, groundRef])
+
+  const [pos, setPos] = useState(Vector3.Zero())
+
   useEffect(() => {
-    playAnimation(groundRef.current, scene)
-  }, [scene, groundRef])
+    if (!groundRef.current) return
+    const targets = {
+      position: 0
+    };
+    anime({
+      targets,
+      position: 2,
+      easing: "linear",
+      update: () => {
+        setPos(new Vector3(0, targets.position, 0))
+      }
+    })
+  }, [groundRef])
 
   return (
     <transformNode
       name="ground"
       ref={groundRef}
-      position={mem(Vector3.Zero())}
+      position={pos}
     >
       {spheres}
     </transformNode>
