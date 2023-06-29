@@ -1,4 +1,4 @@
-import { TransformNode, Vector3, Animation, Scene } from "@babylonjs/core"
+import { TransformNode, Vector3, Animation, Scene, CircleEase, EasingFunction } from "@babylonjs/core"
 import { useEffect, useRef, useState } from "react"
 import { useMem } from "../../hooks/src/useMem"
 import { useScene } from "react-babylonjs"
@@ -10,26 +10,28 @@ export function WithAnimation() {
   const mem = useMem()
   const spheres = getSpheres(10, mem)
 
-  // useEffect(() => {
-  //   playAnimation(groundRef.current, scene)
-  // }, [scene, groundRef])
+  useEffect(() => {
+    playAnimation(groundRef.current, scene)
+  }, [scene, groundRef])
 
   const [pos, setPos] = useState(Vector3.Zero())
 
-  useEffect(() => {
-    if (!groundRef.current) return
-    const targets = {
-      position: 0
-    };
-    anime({
-      targets,
-      position: 2,
-      easing: "linear",
-      update: () => {
-        setPos(new Vector3(0, targets.position, 0))
-      }
-    })
-  }, [groundRef])
+  // useEffect(() => {
+  //   if (!groundRef.current) return
+  //   const targets = {
+  //     position: -5
+  //   };
+  //   anime({
+  //     targets,
+  //     position: 5,
+  //     easing: "easeInOutSine",
+  //     direction: "alternate",
+  //     loop: true,
+  //     update: () => {
+  //       setPos(new Vector3(0, targets.position, 0))
+  //     }
+  //   })
+  // }, [groundRef])
 
   return (
     <transformNode
@@ -44,7 +46,7 @@ export function WithAnimation() {
 
 function playAnimation(ground: TransformNode | null, scene: Scene | null) {
   if (!ground || !scene) return
-  const animations = getSlideUpAnimation(ground.position, -2)
+  const animations = getSlideUpAnimation(ground.position, -8)
   scene.beginDirectAnimation(ground, animations, 0, 120, true)
 }
 
@@ -57,6 +59,12 @@ function getSlideUpAnimation(position: Vector3, offsetY: number) {
   ]
   const animation = new Animation("slide-up", "position.y", 60, 0, 1)
   animation.setKeys(keys)
+
+  const easingFunction = new CircleEase()
+  easingFunction.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT)
+
+  animation.setEasingFunction(easingFunction)
+
   return [animation]
 }
 
