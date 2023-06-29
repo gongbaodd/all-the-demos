@@ -11,18 +11,23 @@ export function useMem() {
   const memCallback = useCallback((datas: IHashable | IHashable[]) => {
     const isArray = Array.isArray(datas);
     datas = [datas].flat();
-    const isCached = datas.every((data) => {
+    const isItemCached = datas.every((data) => {
       const hash = data.getHashCode();
       const cached = dataMem.has(hash);
       return cached;
     });
-    const key = datas.map((data) => data.getHashCode()).join('-');
 
-    if (!isCached) {
+    const key = datas.map((data) => data.getHashCode()).join('-');
+    const isArrCached = arrayMem.has(key);
+
+    if (!isItemCached) {
       datas.forEach((data) => {
         const hash = data.getHashCode();
         dataMem.set(hash, data);
       });
+    }
+
+    if (isArray && !isArrCached) {
       arrayMem.set(key, datas);
     }
 
