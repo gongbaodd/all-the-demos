@@ -1,0 +1,6 @@
+{
+  "name": "spring-colors",
+  "scripts": {
+    "serve": "vite"
+  }
+}
