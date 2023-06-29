@@ -2,7 +2,7 @@ import { Color3, Vector3 } from "@babylonjs/core"
 import { Engine, Scene } from "react-babylonjs"
 import { RotatingBox } from "./RotatingBox"
 import { ChangeEventHandler, useCallback, useState } from "react"
-import { useMem } from "../hooks/useMem"
+import { useMem } from "../../hooks/src/useMem"
 
 function App() {
   const mem = useMem();
@@ -11,7 +11,8 @@ function App() {
     ({ target }) => {
       setRPM(Number(target.value))
     },
-    [])
+    [],
+  )
 
   return <>
     <label>
