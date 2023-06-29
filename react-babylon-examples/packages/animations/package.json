@@ -1,3 +1,6 @@
 {
-  "name": "animations"
+  "name": "animations",
+  "scripts": {
+    "serve": "vite"
+  }
 }

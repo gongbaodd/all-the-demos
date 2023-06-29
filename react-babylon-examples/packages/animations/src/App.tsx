@@ -1,11 +1,12 @@
 import { Engine, Scene } from "react-babylonjs";
 import { useMem } from "../../hooks/src/useMem";
 import { Vector3 } from "@babylonjs/core";
+import { WithAnimation } from "./WithAnimation";
 
 export function App() {
   const mem = useMem()
 
-  return <div style={{flex: 1, display: "flex"}}>
+  return <div style={{flex: 1, display: "flex", flexDirection: "column"}}>
     <h1>Animations</h1>
     <Engine antialias adaptToDeviceRatio canvasId="babylon-canvas">
       <Scene>
@@ -19,6 +20,7 @@ export function App() {
           intensity={0.7}
           direction={mem(Vector3.Up())}
         />
+        <WithAnimation />
       </Scene>
     </Engine>
   </div>
