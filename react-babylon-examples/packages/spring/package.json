@@ -1,0 +1,10 @@
+{
+  "name": "spring",
+  "version": "0.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@react-spring/animated": "^9.7.3",
+    "@react-spring/core": "^9.7.3",
+    "@react-spring/shared": "^9.7.3"
+  }
+}
