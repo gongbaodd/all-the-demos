@@ -1,0 +1,7 @@
+{
+  "name": "custom-mesh",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "vite"
+  }
+}
