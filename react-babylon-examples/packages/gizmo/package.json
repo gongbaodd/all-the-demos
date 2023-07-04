@@ -1,0 +1,7 @@
+{
+  "name": "gizmo",
+  "version": "0.0.1",
+  "scripts": {
+    "serve": "vite"
+  }
+}
