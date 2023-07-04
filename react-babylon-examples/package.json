@@ -16,6 +16,11 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@babylonjs/gui-editor": "^6.10.0",
+    "@babylonjs/inspector": "^6.10.0",
+    "@babylonjs/loaders": "^6.10.0",
+    "@babylonjs/materials": "^6.10.0",
+    "@babylonjs/serializers": "^6.10.0",
     "@nx/js": "16.4.0",
     "@nx/workspace": "16.4.0",
     "nx": "16.4.0",
