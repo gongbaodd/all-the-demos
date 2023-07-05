@@ -23,6 +23,7 @@
     "@babylonjs/serializers": "^6.10.0",
     "@nx/js": "16.4.0",
     "@nx/workspace": "16.4.0",
+    "babylonjs-gltf2interface": "^6.0.0",
     "nx": "16.4.0",
     "nx-cloud": "latest",
     "prettier": "^2.6.2",

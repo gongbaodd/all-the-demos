@@ -1642,6 +1642,11 @@ babel-plugin-transform-typescript-metadata@^0.3.1:
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+babylonjs-gltf2interface@^6.0.0:
+  version "6.10.0"
+  resolved "https://registry.npmmirror.com/babylonjs-gltf2interface/-/babylonjs-gltf2interface-6.10.0.tgz#a0c4706a908eafe4363c83b82c769584e7d7cd33"
+  integrity sha512-jvpujIGV3DyiRa6p94N/IPuD/l3hZ9QCZj39ocu8TcT61OS/X9y5Pfl9btO7laH5ulGX4XxhTx0JFEcojUuRMQ==
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmmirror.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
@@ -2146,6 +2151,11 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
+
+honeycomb-grid@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npmmirror.com/honeycomb-grid/-/honeycomb-grid-4.1.1.tgz#c3b2dde53d7b09e4cbdf95e4fafb21c98bd7a248"
+  integrity sha512-K7iG5OAd4+T/SILs8kaCO8On+MYGFbEWmPLroXtysfH3i3xMMtN22r2oTlwBaJJiBDs/z3nURC2nFq9ldRsHKw==
 
 ieee754@^1.1.13:
   version "1.2.1"

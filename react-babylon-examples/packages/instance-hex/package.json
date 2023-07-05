@@ -1,0 +1,10 @@
+{
+  "name": "instance-hex",
+  "version": "0.0.1",
+  "scripts": {
+    "serve": "vite"
+  },
+  "dependencies": {
+    "honeycomb-grid": "^4.1.1"
+  }
+}
