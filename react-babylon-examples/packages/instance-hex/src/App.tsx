@@ -9,7 +9,6 @@ const GRID_HEIGHT = 40
 const HOVER_COLOR = new Color4(0.8, 0.8, 0.8, 1)
 
 export function App() {
-  const createUpdate = useCallback(() => {}, [])
   const mem = useMem()
   const grid = useMemo(() => getGrid(), [])
   const [hexMesh, setHexMesh] = useState<Mesh | null>(null)
@@ -21,7 +20,6 @@ export function App() {
 
   return (
     <div className="App">
-      <button className="btn" onClick={createUpdate}>Change HEX colors</button>
       <Engine
         antialias
         adaptToDeviceRatio
@@ -63,7 +61,7 @@ export function App() {
                 ))
               }
               instancedBuffers={{
-                color: HOVER_COLOR
+                color: mem(new Color4(Math.random(), Math.random(), Math.random(), 1))
               }}
             />
           })}
