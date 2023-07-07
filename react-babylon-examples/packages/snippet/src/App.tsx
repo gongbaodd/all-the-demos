@@ -1,7 +1,8 @@
-import { ChangeEvent, useCallback, useState } from "react";
+// https://doc.babylonjs.com/toolsAndResources/thePlayground/yourOwnSnippetServer#what-is-the-snippet-server
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Engine, Scene } from "react-babylonjs";
 import { useMem } from "../../hooks/src/useMem";
-import { Vector3 } from "@babylonjs/core";
+import { NodeMaterial, Vector3 } from "@babylonjs/core";
 
 const RED = 'Red';
 const GREEN = 'Green';
@@ -66,7 +67,10 @@ export function App() {
                             segments={16}
                             position={mem(new Vector3(0, 1, 0))}
                         >
-
+                            <SnippetMaterial
+                                name="sphere-mat"
+                                snippetId="#81NNDY#20"
+                            />
                         </sphere>
                         <ground
                             name="ground1"
@@ -78,5 +82,30 @@ export function App() {
                 </Engine>
             </div>
         </div>
+    )
+}
+
+export function SnippetMaterial(props: {
+    name: string,
+    snippetId: string,
+}) {
+    const [material, setMaterial] = useState<NodeMaterial | null>(null)
+    const parseMaterial = useCallback(async () => {
+        const nodeMaterial = await NodeMaterial.ParseFromSnippetAsync(props.snippetId)
+        setMaterial(nodeMaterial)
+    }, [props.snippetId])
+
+    useEffect(() => {
+        parseMaterial()
+    }, [parseMaterial])
+
+
+    if (!material) return null
+
+    return (
+        <nodeMaterial
+            name={props.name}
+            fromInstance={material}
+        />
     )
 }
