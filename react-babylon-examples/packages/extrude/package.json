@@ -1,0 +1,14 @@
+{
+  "name": "extrude",
+  "version": "0.0.1",
+  "scripts": {
+    "serve": "vite"
+  },
+  "dependencies": {
+    "@types/earcut": "^2.1.1",
+    "earcut": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/earcut": "^2.1.1"
+  }
+}
