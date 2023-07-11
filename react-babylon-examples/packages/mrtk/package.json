@@ -1,0 +1,7 @@
+{
+    "name": "mrtk",
+    "version": "1.0.0",
+    "scripts": {
+        "serve": "vite"
+    }
+}

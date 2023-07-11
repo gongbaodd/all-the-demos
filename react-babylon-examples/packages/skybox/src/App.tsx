@@ -2,6 +2,7 @@ import { Vector3 } from "@babylonjs/core";
 import { Engine, Scene, Skybox } from "react-babylonjs";
 import { useMem } from "../../hooks/src/useMem";
 import { useCallback, useState } from "react";
+import { Inspector } from "../../inspector/src";
 
 const SKYBOX_SCENES = [
   "../assets/TropicalSunnyDay",
@@ -19,6 +20,7 @@ export function App() {
       canvasId="sample-canvas"
     >
       <Scene>
+        <Inspector />
         <hemisphericLight
           name="light1"
           intensity={0.7}
