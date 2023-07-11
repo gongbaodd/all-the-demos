@@ -1,9 +1,10 @@
 import { Engine, Scene } from "react-babylonjs";
 import { useMem } from "../../hooks/src/useMem";
-import { Vector3 } from "@babylonjs/core";
+import { SixDofDragBehavior, Vector2, Vector3 } from "@babylonjs/core";
 import { TouchHolographicButton } from "@babylonjs/gui/3D/controls/MRTK3/touchHolographicButton";
 import { Suspense, useEffect, useState } from "react";
-import { GUI3DManager } from "@babylonjs/gui";
+import { CylinderPanel, GUI3DManager, HolographicSlate, Image } from "@babylonjs/gui";
+import { Inspector } from "../../inspector/src";
 
 TouchHolographicButton.MRTK_ASSET_BASE_URL = "../assets/";
 
@@ -29,16 +30,20 @@ export function App() {
                     intensity={0.7}
                     direction={mem(Vector3.Up())}
                 />
-                <sphere
-                    name="sphere1"
-                    diameter={.3}
-                    segments={32}
-                    position={mem(new Vector3(0, 1.7, 0.5))}
-                >
-                    <standardMaterial
-                        name="sphere-material"
-                    />
-                </sphere>
+                <utilityLayerRenderer>
+                    <sphere
+                        name="sphere1"
+                        diameter={.3}
+                        segments={32}
+                        position={mem(new Vector3(0, 1.7, 0.5))}
+                    >
+                        <positionGizmo />
+                        <standardMaterial
+                            name="sphere-material"
+                        />
+                    </sphere>
+                </utilityLayerRenderer>
+
                 <Suspense>
                     <UI />
                 </Suspense>
@@ -53,29 +58,52 @@ export function App() {
 
 function UI() {
     const mem = useMem()
-    const [manager, setManager] = useState<GUI3DManager|null>(null)
+    const [manager, setManager] = useState<GUI3DManager | null>(null)
+    const [panel, setPanel] = useState<CylinderPanel | null>(null)
 
     useEffect(() => {
-        if (!manager) return
+        if (!manager || !panel) return
 
         var touchHoloTextButton = new TouchHolographicButton("TouchHoloTextButton");
         manager.addControl(touchHoloTextButton);
-        touchHoloTextButton.position = new Vector3(0.05, 1.8, 0);
+        panel.addControl(touchHoloTextButton);
         touchHoloTextButton.text = "Text Me";
-        touchHoloTextButton.onPointerDownObservable.add(()=>{
-            alert("I display texts")
+        touchHoloTextButton.onPointerDownObservable.add(() => {
+            // alert("I display texts")
         });
-    }, [manager])
+
+
+        var holoSlate = new HolographicSlate("holoSlate");
+        manager.addControl(holoSlate);
     
+        holoSlate.dimensions = new Vector2(10, 10);
+        holoSlate.position = new Vector3(-36, 0, 30);
+        holoSlate.title = "A scrollable cat";
+        holoSlate.content = new Image("cat", "https://placekitten.com/300/300");
+    
+    }, [manager, panel])
+
 
     return (
         <gui3DManager ref={setManager}>
-            <touchHolographicButton
-                name="button"
-                position={mem(new Vector3(0.1, 1.7, 0))}
-                text="Click me!"
-                onPointerDownObservable={() => { alert('clicked!') }}
-            />
+            <cylinderPanel margin={.2} ref={setPanel}>
+                <touchHolographicButton
+                    name="button"
+                    text="Click me!"
+                    onPointerDownObservable={() => { }}
+                >
+                </touchHolographicButton>
+
+                <button3D
+                    name="button3D"
+                    position={mem(new Vector3(-1, 0, 0))}
+                />
+
+           
+            </cylinderPanel>
+
+
+
         </gui3DManager>
     )
 }
