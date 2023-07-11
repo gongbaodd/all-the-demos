@@ -1054,10 +1054,10 @@
   resolved "https://registry.npmmirror.com/@babylonjs/loaders/-/loaders-6.10.0.tgz"
   integrity sha512-o74WWyDohWLU/yhPjcm1ndDa7hTdtgMgWSew7T1mZNgNJvAOgEPz1XWv79+77XfiKc8MKaZXj14RUm2/7Rf1Qg==
 
-"@babylonjs/materials@^6.10.0":
-  version "6.10.0"
-  resolved "https://registry.npmmirror.com/@babylonjs/materials/-/materials-6.10.0.tgz"
-  integrity sha512-QCC7F0OlM5b594dx4A1GUBlew0FeKjA8t2TH8bCK9GIYxzJQqoJcdiywhic1Q7GXNlvNEOrXGYSy3caPaCXMdw==
+"@babylonjs/materials@^6.11.2":
+  version "6.11.2"
+  resolved "https://registry.npmmirror.com/@babylonjs/materials/-/materials-6.11.2.tgz#ece839ccf589c047034ac0b3f25cc25d13e649fe"
+  integrity sha512-wQ4JaDDY5YyfCPDzK8pUDZcmHdoVNs9r8q4HRX0rnuujW5PciU/7QaTW9UGuGwFetYzDXBXVe6eZNdpiBez1lA==
 
 "@babylonjs/serializers@^6.10.0":
   version "6.10.0"
