@@ -18,7 +18,7 @@ import { Node } from "@babylonjs/core/node";
  * The function "onInitialize" is called immediately after the constructor is called.
  * The functions "onStart" and "onUpdate" are called automatically.
  */
-export default class Sphere extends Node {
+export default class SphereManage extends Node {
     /**
      * Override constructor.
      * @warn do not fill.

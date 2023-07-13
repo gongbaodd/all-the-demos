@@ -1,0 +1,47 @@
+{
+	"tags": null,
+	"groundColor": [
+		0,
+		0,
+		0
+	],
+	"direction": [
+		0,
+		1,
+		0
+	],
+	"diffuse": [
+		1,
+		1,
+		1
+	],
+	"specular": [
+		1,
+		1,
+		1
+	],
+	"falloffType": 0,
+	"intensity": 1,
+	"range": 1.7976931348623157e+308,
+	"intensityMode": 0,
+	"radius": 0.00001,
+	"_renderPriority": 0,
+	"shadowEnabled": true,
+	"excludeWithLayerMask": 0,
+	"includeOnlyWithLayerMask": 0,
+	"lightmapMode": 0,
+	"name": "Light",
+	"id": "25216e2c-2785-4f2f-aaf5-52e0a73876a6",
+	"state": "",
+	"metadata": {
+		"script": {
+			"name": "None"
+		}
+	},
+	"uniqueId": 38,
+	"type": 3,
+	"animations": [],
+	"ranges": [],
+	"isEnabled": true,
+	"parentId": null
+}

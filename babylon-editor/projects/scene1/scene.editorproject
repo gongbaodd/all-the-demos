@@ -1,12 +1,21 @@
 {
 	"animationGroups": [],
-	"cameras": [],
+	"cameras": [
+		"FreeCamera-64d9bdce-1c11-42ff-b8aa-e9f64844fbc0.json"
+	],
 	"materials": [],
 	"textures": [],
-	"meshes": [],
+	"meshes": [
+		"Plane-3fa3103f-a831-4be5-bc21-8b5ddf0623b3.json",
+		"Sphere-caaa0eda-f399-479a-914b-fc9e06dfc742.json"
+	],
 	"transformNodes": [],
 	"particleSystems": [],
-	"lights": [],
+	"lights": [
+		{
+			"json": "Light-25216e2c-2785-4f2f-aaf5-52e0a73876a6.json"
+		}
+	],
 	"sounds": [],
 	"morphTargetManagers": [],
 	"reflectionProbes": [],
@@ -63,8 +72,8 @@
 			"_toneMappingType": 0,
 			"_contrast": 1,
 			"vignetteStretch": 0,
-			"vignetteCentreX": 0,
-			"vignetteCentreY": 0,
+			"vignetteCenterX": 0,
+			"vignetteCenterY": 0,
 			"vignetteWeight": 1.5,
 			"vignetteColor": [
 				0,
@@ -75,8 +84,10 @@
 			"vignetteCameraFov": 0.5,
 			"_vignetteBlendMode": 0,
 			"_vignetteEnabled": false,
+			"_ditheringEnabled": false,
+			"_ditheringIntensity": 0.00392156862745098,
 			"_skipFinalColorClamp": false,
-			"_applyByPostProcess": false,
+			"_applyByPostProcess": true,
 			"_isEnabled": true
 		},
 		"animations": [],
@@ -93,17 +104,61 @@
 						"totalStrength": 2,
 						"maxZ": 1000,
 						"minZAspect": 0.2,
+						"epsilon": 0.02,
 						"samples": 32,
 						"textureSamples": 1,
+						"_forceGeometryBuffer": false,
 						"_ratio": {
 							"ssaoRatio": 0.5,
 							"blurRatio": 0.5
 						},
-						"expensiveBlur": false,
+						"_textureType": 0,
 						"radius": 1,
 						"base": 0,
+						"bypassBlur": false,
+						"expensiveBlur": false,
+						"bilateralSamples": 16,
+						"bilateralSoften": 0,
+						"bilateralTolerance": 0,
 						"_name": "ssao",
 						"customType": "SSAO2RenderingPipeline"
+					}
+				},
+				"ssr": {
+					"enabled": false,
+					"json": {
+						"tags": null,
+						"samples": 1,
+						"maxDistance": 1000,
+						"step": 1,
+						"thickness": 0.5,
+						"strength": 1,
+						"reflectionSpecularFalloffExponent": 1,
+						"maxSteps": 1000,
+						"roughnessFactor": 0.2,
+						"selfCollisionNumSkip": 1,
+						"reflectivityThreshold": 0.04,
+						"_ssrDownsample": 0,
+						"ssrDownsample": 0,
+						"blurDispersionStrength": 0.03,
+						"blurDownsample": 0,
+						"enableSmoothReflections": false,
+						"environmentTextureIsProbe": false,
+						"attenuateScreenBorders": true,
+						"attenuateIntersectionDistance": true,
+						"attenuateIntersectionIterations": true,
+						"attenuateFacingCamera": false,
+						"attenuateBackfaceReflection": false,
+						"clipToFrustum": true,
+						"enableAutomaticThicknessComputation": false,
+						"backfaceDepthTextureDownsample": 0,
+						"backfaceForceDepthWriteTransparentMeshes": true,
+						"isEnabled": true,
+						"inputTextureColorIsInGammaSpace": true,
+						"generateOutputInGammaSpace": true,
+						"debug": false,
+						"_name": "ssr",
+						"customType": "SSRRenderingPipeline"
 					}
 				},
 				"screenSpaceReflections": {
@@ -224,15 +279,15 @@
 			"checkCollisions": false,
 			"applyGravity": false,
 			"rotation": [
-				0.18363850519334113,
-				-2.0620266091179804,
+				0.2270994426933411,
+				-2.0213146950554823,
 				0
 			],
 			"speed": 2,
 			"position": [
-				5.429951716952356,
-				1.8533794587280363,
-				2.7211688160025194
+				25.664647863877256,
+				3.199327415967774,
+				13.75874577068185
 			],
 			"upVector": [
 				0,
@@ -242,7 +297,7 @@
 			"fov": 0.8,
 			"projectionPlaneTilt": 0,
 			"minZ": 1,
-			"maxZ": 10000,
+			"maxZ": 22500,
 			"inertia": 0.5,
 			"mode": 0,
 			"layerMask": 268435455,
@@ -257,7 +312,7 @@
 				},
 				"detached": false
 			},
-			"uniqueId": 193,
+			"uniqueId": 7,
 			"type": "EditorCamera",
 			"inputsmgr": {
 				"FreeCameraKeyboardMoveInput": {
@@ -282,7 +337,9 @@
 					],
 					"rotationSpeed": 0.5,
 					"keysRotateLeft": [],
-					"keysRotateRight": []
+					"keysRotateRight": [],
+					"keysRotateUp": [],
+					"keysRotateDown": []
 				},
 				"FreeCameraMouseInput": {
 					"tags": null,
@@ -316,17 +373,61 @@
 				"totalStrength": 2,
 				"maxZ": 1000,
 				"minZAspect": 0.2,
+				"epsilon": 0.02,
 				"samples": 32,
 				"textureSamples": 1,
+				"_forceGeometryBuffer": false,
 				"_ratio": {
 					"ssaoRatio": 0.5,
 					"blurRatio": 0.5
 				},
-				"expensiveBlur": false,
+				"_textureType": 0,
 				"radius": 1,
 				"base": 0,
+				"bypassBlur": false,
+				"expensiveBlur": false,
+				"bilateralSamples": 16,
+				"bilateralSoften": 0,
+				"bilateralTolerance": 0,
 				"_name": "ssao",
 				"customType": "SSAO2RenderingPipeline"
+			}
+		},
+		"ssr": {
+			"enabled": false,
+			"json": {
+				"tags": null,
+				"samples": 1,
+				"maxDistance": 1000,
+				"step": 1,
+				"thickness": 0.5,
+				"strength": 1,
+				"reflectionSpecularFalloffExponent": 1,
+				"maxSteps": 1000,
+				"roughnessFactor": 0.2,
+				"selfCollisionNumSkip": 1,
+				"reflectivityThreshold": 0.04,
+				"_ssrDownsample": 0,
+				"ssrDownsample": 0,
+				"blurDispersionStrength": 0.03,
+				"blurDownsample": 0,
+				"enableSmoothReflections": false,
+				"environmentTextureIsProbe": false,
+				"attenuateScreenBorders": true,
+				"attenuateIntersectionDistance": true,
+				"attenuateIntersectionIterations": true,
+				"attenuateFacingCamera": false,
+				"attenuateBackfaceReflection": false,
+				"clipToFrustum": true,
+				"enableAutomaticThicknessComputation": false,
+				"backfaceDepthTextureDownsample": 0,
+				"backfaceForceDepthWriteTransparentMeshes": true,
+				"isEnabled": true,
+				"inputTextureColorIsInGammaSpace": true,
+				"generateOutputInGammaSpace": true,
+				"debug": false,
+				"_name": "ssr",
+				"customType": "SSRRenderingPipeline"
 			}
 		},
 		"screenSpaceReflections": {
