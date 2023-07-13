@@ -70,7 +70,9 @@
 			],
 			"rotationSpeed": 0.5,
 			"keysRotateLeft": [],
-			"keysRotateRight": []
+			"keysRotateRight": [],
+			"keysRotateUp": [],
+			"keysRotateDown": []
 		},
 		"FreeCameraMouseInput": {
 			"tags": null,

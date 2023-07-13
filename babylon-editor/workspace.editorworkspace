@@ -1,25 +1,20 @@
 {
 	"editorVersion": "4.5.0",
-	"lastOpenedScene": "projects/scene/scene.editorproject",
+	"lastOpenedScene": "projects/scene1/scene.editorproject",
 	"serverPort": 1338,
 	"generateSceneOnSave": true,
 	"firstLoad": false,
 	"watchProject": true,
 	"physicsEngine": "cannon",
-	"pluginsPreferences": {
-		"dior": {
-			"grass": {
-				"grassOffset": 1,
-				"width": 10,
-				"height": 10,
-				"randomScaling": 0
-			}
-		}
-	},
+	"pluginsPreferences": {},
 	"packageManager": "yarn",
 	"outputSceneDirectory": "",
 	"https": {
 		"enabled": false
+	},
+	"autoLod": {
+		"enabled": false,
+		"autoApply": true
 	},
 	"basisCompressedTextures": {
 		"enabled": false
