@@ -1,4 +1,4 @@
-import { Engine, Scene } from "react-babylonjs";
+import { Engine, Scene, useScene } from "react-babylonjs";
 import { useMem } from "../../hooks/src/useMem";
 import { SixDofDragBehavior, Vector2, Vector3 } from "@babylonjs/core";
 import { TouchHolographicButton } from "@babylonjs/gui/3D/controls/MRTK3/touchHolographicButton";
@@ -13,6 +13,7 @@ console.log({ ...TouchHolographicButton })
 
 export function App() {
     const mem = useMem()
+
     return (
         <Engine
             antialias
@@ -47,10 +48,6 @@ export function App() {
                 <Suspense>
                     <UI />
                 </Suspense>
-                <vrExperienceHelper
-                    webVROptions={{ createDeviceOrientationCamera: false }}
-                    enableInteractions
-                />
             </Scene>
         </Engine>
     )
@@ -60,6 +57,17 @@ function UI() {
     const mem = useMem()
     const [manager, setManager] = useState<GUI3DManager | null>(null)
     const [panel, setPanel] = useState<CylinderPanel | null>(null)
+
+    const scene = useScene()
+
+    useEffect(() => {
+      if (!scene) return
+      const env = scene.createDefaultEnvironment()
+      if (!env || !env.ground) return
+      scene.createDefaultXRExperienceAsync({
+        floorMeshes: [env.ground]
+      })
+    }, [scene])
 
     useEffect(() => {
         if (!manager || !panel) return
@@ -75,12 +83,12 @@ function UI() {
 
         var holoSlate = new HolographicSlate("holoSlate");
         manager.addControl(holoSlate);
-    
+
         holoSlate.dimensions = new Vector2(10, 10);
         holoSlate.position = new Vector3(-36, 0, 30);
         holoSlate.title = "A scrollable cat";
         holoSlate.content = new Image("cat", "https://placekitten.com/300/300");
-    
+
     }, [manager, panel])
 
 
@@ -99,7 +107,7 @@ function UI() {
                     position={mem(new Vector3(-1, 0, 0))}
                 />
 
-           
+
             </cylinderPanel>
 
 
