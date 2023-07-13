@@ -42,3 +42,4 @@ Debug
 .vs
 build-*
 target
+node_modules
