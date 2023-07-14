@@ -33,7 +33,7 @@ const rootUrl = "./scenes/_assets/";
 export function ImportedScene() {
     const scene = useScene()
     let loaded = false;
-    const p = SceneLoader.AppendAsync(rootUrl, "../scene/scene.babylon")
+    const p = SceneLoader.AppendAsync("./", "../scenes/scene/scene.babylon")
 
     if (!loaded) {
         p.then(() => {

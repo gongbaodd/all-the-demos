@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "editor-gen": "*"
+    "babylonjs-editor-generated-template": "*"
   }
 }
