@@ -142,7 +142,7 @@ export async function appendScene(toScene: Scene, rootUrl: string, sceneFilename
                 clearInterval(intervalId);
             }
 
-            runScene(toScene, rootUrl);
+            // runScene(toScene, rootUrl);
             resolve();
         });
     });

@@ -1,9 +1,11 @@
 import { BabylonFileLoaderConfiguration, Engine, Scene } from "@babylonjs/core";
 import "@babylonjs/materials";
+import { createRoot } from "react-dom/client"
 
 import * as CANNON from "cannon";
 
 import { appendScene } from "./scenes/tools";
+import { App } from "./components/App";
 
 export class Game {
     /**
@@ -54,3 +56,5 @@ export class Game {
         window.addEventListener("resize", () => this.engine.resize());
     }
 }
+
+createRoot(document.getElementById("renderCanvas") as HTMLElement).render(<App />);
