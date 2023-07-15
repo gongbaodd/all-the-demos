@@ -2,6 +2,7 @@ import { Mesh, Vector3 } from "@babylonjs/core";
 import { Control, Rectangle, TextWrapping } from "@babylonjs/gui";
 import { MutableRefObject, useState } from "react";
 import { ADTFullscreenUI, Engine, Scene, useHover } from "react-babylonjs";
+import * as Game from "editor-gen"
 
 export function App() {
   return (

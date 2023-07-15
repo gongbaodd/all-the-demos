@@ -56,7 +56,8 @@
 			"materialId": "cdc8b068-1ebd-4c87-8cb0-f48a85181271",
 			"metadata": {
 				"isPickable": true,
-				"script": {}
+				"script": {},
+				"_waitingParentId": null
 			},
 			"instances": [],
 			"animations": [],

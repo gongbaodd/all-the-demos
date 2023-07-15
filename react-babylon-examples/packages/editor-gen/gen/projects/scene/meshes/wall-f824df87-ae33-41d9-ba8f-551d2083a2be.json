@@ -61,7 +61,8 @@
 			"physicsImpostor": 2,
 			"metadata": {
 				"isPickable": true,
-				"script": {}
+				"script": {},
+				"_waitingParentId": null
 			},
 			"instances": [
 				{
@@ -93,7 +94,8 @@
 					"physicsImpostor": 2,
 					"metadata": {
 						"isPickable": true,
-						"script": {}
+						"script": {},
+						"_waitingParentId": null
 					},
 					"animations": [],
 					"ranges": [],
@@ -128,7 +130,8 @@
 					"physicsImpostor": 2,
 					"metadata": {
 						"isPickable": true,
-						"script": {}
+						"script": {},
+						"_waitingParentId": null
 					},
 					"animations": [],
 					"ranges": [],

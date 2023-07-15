@@ -1,6 +1,9 @@
-import { SceneLoader, Vector3 } from "@babylonjs/core";
+///<reference types="vite/client" />
+import { Vector3 } from "@babylonjs/core";
 import { Suspense, useEffect } from "react";
 import { Engine, Scene, useScene } from "react-babylonjs";
+import sceneUrl from "../../editor-gen/scenes/scene/scene.babylon?url"
+import { SceneLoader } from "@babylonjs/core/Loading/sceneLoader";
 
 export function App() {
     return (
@@ -33,7 +36,8 @@ const rootUrl = "./scenes/_assets/";
 export function ImportedScene() {
     const scene = useScene()
     let loaded = false;
-    const p = SceneLoader.AppendAsync("./", "../scenes/scene/scene.babylon")
+    console.log(sceneUrl)
+    const p = SceneLoader.AppendAsync("/@fs/home/gongbaodd/github/all-the-demos/react-babylon-examples/packages/editor-gen/scenes/scene/", "scene.babylon")
 
     if (!loaded) {
         p.then(() => {
