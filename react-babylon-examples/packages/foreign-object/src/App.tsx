@@ -1,15 +1,11 @@
-import { AbstractMesh, Color3, Mesh, Vector3 } from "@babylonjs/core";
+import { AbstractMesh, Color3, Mesh, Vector3, Texture } from "@babylonjs/core";
 import { Engine, Scene, useClick, useHover } from "react-babylonjs";
 import Template from "./Template";
-import { useState, MutableRefObject, useRef } from "react";
+import { useState, MutableRefObject, useRef, useEffect } from "react";
 import { Inspector } from "../../inspector/src";
 
 export function App() {
   const [url, setUrl] = useState("")
-  const plane = useRef<Mesh>(null)
-  useClick((e) => {
-    console.log("hello")
-  }, plane)
 
   return (
     <div>
@@ -20,6 +16,7 @@ export function App() {
         canvasId="sample-canvas"
       >
         <Scene>
+          {/* <Inspector /> */}
           <arcRotateCamera
             name="camera1"
             alpha={Math.PI / 2}
@@ -32,7 +29,24 @@ export function App() {
             intensity={0.7}
             direction={Vector3.Up()}
           />
-          <transformNode name="group"
+          <Stage url={url} />
+        </Scene>
+      </Engine>
+      <Template setUrl={url => {
+        setUrl(url)
+      }} />
+    </div>
+  )
+}
+
+export function Stage(props: { url: string }) {
+  const plane = useRef<Mesh>(null)
+  useClick((e) => {
+    console.log(e)
+  }, plane)
+
+  return (
+    <transformNode name="group"
               rotation={new Vector3(Math.PI * 3 / 4, 0, Math.PI)}
           >
             <plane
@@ -41,24 +55,37 @@ export function App() {
               width={3}
               ref={plane}
             >
-              <standardMaterial
+              <advancedDynamicTexture
+                name="plane1-texture"
+                createForParentMesh
+                generateMipMaps
+                samplingMode={Texture.TRILINEAR_SAMPLINGMODE}
+                width={1024}
+                height={1024}
+              >
+                  {props.url && <babylon-image
+                    name="plane1-image"
+                    url={props.url}
+                  />}
+              </advancedDynamicTexture>
+              {/* <standardMaterial
                 name="plane1-material"
                 specularColor={Color3.White()}
                 backFaceCulling={false}
               >
-                {url && <texture
+                {props.url && <texture
                   name="plane1-texture"
-                  url={url}
+                  url={props.url}
                   assignTo="diffuseTexture"
                   hasAlpha={true}
                 />}
-              </standardMaterial>
+              </standardMaterial> */}
             </plane>
             <plane
               name="back"
               height={3}
               width={3}
-              position={new Vector3(0, 0, .1)}
+              position={new Vector3(0, 0, .2)}
             >
               <standardMaterial
                 name="back-material"
@@ -68,10 +95,5 @@ export function App() {
               />
             </plane>
           </transformNode>
-
-        </Scene>
-      </Engine>
-      <Template setUrl={setUrl} />
-    </div>
   )
 }
