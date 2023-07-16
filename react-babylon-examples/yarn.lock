@@ -2313,7 +2313,7 @@ asynckit@^0.4.0:
 
 autoprefixer@^10.4.14:
   version "10.4.14"
-  resolved "https://registry.npmmirror.com/autoprefixer/-/autoprefixer-10.4.14.tgz"
+  resolved "https://registry.npmjs.org/autoprefixer/-/autoprefixer-10.4.14.tgz#e28d49902f8e759dd25b153264e862df2705f79d"
   integrity sha512-FQzyfOsTlwVzjHxKEqRIAdJx9niO6VCBCoEwax/VLSoQF29ggECcPuBqUMZ+u8jCZOPSy8b8/8KnuFbp0SaFZQ==
   dependencies:
     browserslist "^4.21.5"
@@ -3120,7 +3120,7 @@ html-encoding-sniffer@^3.0.0:
 
 html-to-image@^1.11.11:
   version "1.11.11"
-  resolved "https://registry.npmmirror.com/html-to-image/-/html-to-image-1.11.11.tgz"
+  resolved "https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.11.tgz#c0f8a34dc9e4b97b93ff7ea286eb8562642ebbea"
   integrity sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==
 
 http-proxy-agent@^5.0.0:

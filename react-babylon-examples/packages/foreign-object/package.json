@@ -8,5 +8,8 @@
     "serve": "vite"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "html-to-image": "^1.11.11"
+  }
 }

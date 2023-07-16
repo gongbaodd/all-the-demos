@@ -1,8 +1,16 @@
-import { Vector3 } from "@babylonjs/core";
-import { Engine, Scene } from "react-babylonjs";
+import { AbstractMesh, Color3, Mesh, Vector3 } from "@babylonjs/core";
+import { Engine, Scene, useClick, useHover } from "react-babylonjs";
 import Template from "./Template";
+import { useState, MutableRefObject, useRef } from "react";
+import { Inspector } from "../../inspector/src";
 
 export function App() {
+  const [url, setUrl] = useState("")
+  const plane = useRef<Mesh>(null)
+  useClick((e) => {
+    console.log("hello")
+  }, plane)
+
   return (
     <div>
 
@@ -24,19 +32,46 @@ export function App() {
             intensity={0.7}
             direction={Vector3.Up()}
           />
-          <plane
-            name="plane1"
-            height={3}
-            width={3}
-            rotation={new Vector3(Math.PI / 2, 0, 0)}
+          <transformNode name="group"
+              rotation={new Vector3(Math.PI * 3 / 4, 0, Math.PI)}
           >
-            <standardMaterial
-              name="plane1-material"
-            />
-          </plane>
+            <plane
+              name="plane1"
+              height={3}
+              width={3}
+              ref={plane}
+            >
+              <standardMaterial
+                name="plane1-material"
+                specularColor={Color3.White()}
+                backFaceCulling={false}
+              >
+                {url && <texture
+                  name="plane1-texture"
+                  url={url}
+                  assignTo="diffuseTexture"
+                  hasAlpha={true}
+                />}
+              </standardMaterial>
+            </plane>
+            <plane
+              name="back"
+              height={3}
+              width={3}
+              position={new Vector3(0, 0, .1)}
+            >
+              <standardMaterial
+                name="back-material"
+                specularColor={Color3.Black()}
+                diffuseColor={Color3.White()}
+                backFaceCulling={false}
+              />
+            </plane>
+          </transformNode>
+
         </Scene>
       </Engine>
-      <Template />
+      <Template setUrl={setUrl} />
     </div>
   )
 }
