@@ -1,7 +1,8 @@
 import { AbstractMesh, Color3, Mesh, Vector3, Texture } from "@babylonjs/core";
+import { AdvancedDynamicTexture, Image } from "@babylonjs/gui";
 import { Engine, Scene, useBeforeRender, useClick, useHover } from "react-babylonjs";
 import Template from "./Template";
-import { useState, MutableRefObject, useRef, useEffect } from "react";
+import { useState, MutableRefObject, useRef, useEffect, useCallback } from "react";
 import { Inspector } from "../../inspector/src";
 import { toSvg } from "../../html-to-image/src";
 import { htmlevent } from "./html"
@@ -40,20 +41,36 @@ export function App() {
 
 export function Stage(props: { dom: MutableRefObject<HTMLDivElement | null> }) {
   const plane = useRef<Mesh>(null)
-  const [url, setUrl] = useState<string>("")
+  const [img, setImg] = useState<Image|null>(null)
+  const [signal, toggleSignal] = useState<boolean>(false)
+  const [adt, setAdt] = useState<AdvancedDynamicTexture | null>(null)
+  const [url, setUrl] = useState<string | null>(null)
   useClick((e) => {
   }, plane)
 
-  useBeforeRender(() => {
+  useEffect(() => {
     if (!props.dom.current) return
+    if (!adt) return
+    console.log("render")
 
-    if (!url) {
-      toSvg(props.dom.current).then(_url => {
-        if (url !== _url) setUrl(_url)
-      })
-    }
+    toSvg(props.dom.current).then(_url => {
+      if (_url!==url) {
+        setUrl(_url)
+      }
+    })
+  }, [props.dom, img, signal, adt, url])
 
-  }, undefined, undefined, undefined, [props.dom, url])
+  const onClick = useCallback((e: {x: number, y: number}) => {
+    const { current: element } = props.dom;
+    if (!element) return
+    // htmlevent(props.dom.current, "click", e.x, e.y)
+    const clientX = (e.x / 1024 * element.offsetWidth) + element.offsetLeft;
+    const clientY = (e.y / 1024 * element.offsetHeight) + element.offsetTop;
+
+    const button = element.ownerDocument?.elementFromPoint(clientX, clientY) as HTMLButtonElement|null;
+    button?.click()
+    toggleSignal(!signal)
+  }, [props.dom, signal])
 
   return (
     <transformNode name="group"
@@ -72,38 +89,14 @@ export function Stage(props: { dom: MutableRefObject<HTMLDivElement | null> }) {
           samplingMode={Texture.TRILINEAR_SAMPLINGMODE}
           width={1024}
           height={1024}
+          ref={setAdt}
         >
           {url && <babylon-image
-            name="plane1-image"
-            url={url}
-            onPointerMoveObservable={e => {
-            }}
-            onPointerClickObservable={e => {
-              const { current: element } = props.dom;
-              if (!element) return
-              // htmlevent(props.dom.current, "click", e.x, e.y)
-              const clientX = ( e.x/1024 * element.offsetWidth ) + element.offsetLeft;
-              const clientY = ( e.y/1024 * element.offsetHeight ) + element.offsetTop;
-              console.log(clientX, clientY)
-
-              element.ownerDocument?.elementFromPoint(clientX, clientY)?.click()
-
-
-            }}
+            source={url}
+            onPointerClickObservable={onClick}
+            onCreated={() => {console.log("created")}}
           />}
         </advancedDynamicTexture>
-        {/* <standardMaterial
-                name="plane1-material"
-                specularColor={Color3.White()}
-                backFaceCulling={false}
-              >
-                {props.url && <texture
-                  name="plane1-texture"
-                  url={props.url}
-                  assignTo="diffuseTexture"
-                  hasAlpha={true}
-                />}
-              </standardMaterial> */}
       </plane>
       <plane
         name="back"
