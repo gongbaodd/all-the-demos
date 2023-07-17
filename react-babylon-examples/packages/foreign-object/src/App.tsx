@@ -4,7 +4,7 @@ import { Engine, Scene, useBeforeRender, useClick, useHover } from "react-babylo
 import Template from "./Template";
 import { useState, MutableRefObject, useRef, useEffect, useCallback } from "react";
 import { Inspector } from "../../inspector/src";
-import { toSvg } from "../../html-to-image/src";
+import { toPng, toSvg } from "../../html-to-image/src";
 import { htmlevent } from "./html"
 
 export function App() {
@@ -51,11 +51,10 @@ export function Stage(props: { dom: MutableRefObject<HTMLDivElement | null> }) {
   useEffect(() => {
     if (!props.dom.current) return
     if (!adt) return
-    console.log("render")
-
-    toSvg(props.dom.current).then(_url => {
+    toPng(props.dom.current).then(_url => {
       if (_url!==url) {
         setUrl(_url)
+        console.log("setUrl")
       }
     })
   }, [props.dom, img, signal, adt, url])
@@ -64,8 +63,8 @@ export function Stage(props: { dom: MutableRefObject<HTMLDivElement | null> }) {
     const { current: element } = props.dom;
     if (!element) return
     // htmlevent(props.dom.current, "click", e.x, e.y)
-    const clientX = (e.x / 1024 * element.offsetWidth) + element.offsetLeft;
-    const clientY = (e.y / 1024 * element.offsetHeight) + element.offsetTop;
+    const clientX = e.x + element.offsetLeft;
+    const clientY = e.y + element.offsetTop;
 
     const button = element.ownerDocument?.elementFromPoint(clientX, clientY) as HTMLButtonElement|null;
     button?.click()
@@ -87,8 +86,8 @@ export function Stage(props: { dom: MutableRefObject<HTMLDivElement | null> }) {
           createForParentMesh
           generateMipMaps
           samplingMode={Texture.TRILINEAR_SAMPLINGMODE}
-          width={1024}
-          height={1024}
+          width={props.dom.current?.offsetWidth ?? 1024}
+          height={props.dom.current?.offsetHeight ??1024}
           ref={setAdt}
         >
           {url && <babylon-image
