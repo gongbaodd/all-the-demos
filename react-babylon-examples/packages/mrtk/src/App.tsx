@@ -104,6 +104,9 @@ function UI() {
           name="button"
           text="Click me!"
           onPointerDownObservable={() => { }}
+          onPointerMoveObservable={(e) => {
+            console.log(e)
+          }}
         >
         </touchHolographicButton>
 

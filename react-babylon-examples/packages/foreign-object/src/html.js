@@ -387,7 +387,7 @@ export function html2canvas( element ) {
 
 }
 
-function htmlevent( element, event, x, y ) {
+export function htmlevent( element, event, x, y ) {
 
 	const mouseEventInit = {
 		clientX: ( x * element.offsetWidth ) + element.offsetLeft,
