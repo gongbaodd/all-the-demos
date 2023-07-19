@@ -34,16 +34,17 @@ export function App() {
                 />
                 <glowLayer
                     name="glow"
-                    options={{mainTextureSamples: 2}}
+                    options={{ mainTextureSamples: 2 }}
                     isEnabled
-                />
-                <ScaledModelWithProgress
-                    center={new Vector3(0, 0, 0)}
-                    sceneFilename="NeonPipe.gltf"
-                    rootUrl="/"
-                    progressBarColor={Color3.FromInts(255, 165, 0)}
-                    scaleTo={1}
-                />
+                >
+                    <ScaledModelWithProgress
+                        center={new Vector3(0, 0, 0)}
+                        sceneFilename="NeonPipe.gltf"
+                        rootUrl="/"
+                        progressBarColor={Color3.FromInts(255, 165, 0)}
+                        scaleTo={1}
+                    />
+                </glowLayer>
                 <environmentHelper
                     options={{
                         groundSize: 160,
