@@ -40,7 +40,7 @@ export function App() {
                 <ScaledModelWithProgress
                     center={new Vector3(0, 0, 0)}
                     sceneFilename="NeonPipe.gltf"
-                    rootUrl="./"
+                    rootUrl="/"
                     progressBarColor={Color3.FromInts(255, 165, 0)}
                     scaleTo={1}
                 />
