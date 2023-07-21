@@ -3,7 +3,7 @@ import { Suspense, useContext, useEffect, useRef } from "react";
 import { ILoadedModel, Model, SceneContext, SceneLoaderContextProvider } from "react-babylonjs";
 
 export function ProgressFallback(props: {
-    rotation: Vector3,
+    rotation: Vector3 | undefined,
     center: Vector3,
     scaleTo: number,
     progressBarColor: Color3
@@ -67,7 +67,7 @@ export function ProgressFallback(props: {
 export function ScaledModelWithProgress(props: {
     progressBarColor: Color3,
     progressRotation?: Vector3,
-    modalRotation?: Vector3,
+    modelRotation?: Vector3,
     center: Vector3,
     scaleTo: number,
     rootUrl: string,
@@ -76,27 +76,27 @@ export function ScaledModelWithProgress(props: {
 }) {
     return (
         <SceneLoaderContextProvider>
-            <Suspense
-                fallback={
-                    <ProgressFallback
-                        progressBarColor={props.progressBarColor}
-                        rotation={props.progressRotation ?? Vector3.Zero()}
-                        center={props.center}
-                        scaleTo={props.scaleTo}
-                    />
-                }
-            >
-                <Model
-                    name="model"
-                    reportProgress
-                    position={props.center}
-                    rootUrl={props.rootUrl}
-                    sceneFilename={props.sceneFilename}
-                    scaleToDimension={props.scaleTo}
-                    onModelLoaded={props.onModelLoaded}
-                    rotation={props.modalRotation}
-                />
-            </Suspense>
-        </SceneLoaderContextProvider>
+        <Suspense
+          fallback={
+            <ProgressFallback
+              progressBarColor={props.progressBarColor}
+              rotation={props.progressRotation ?? props.modelRotation}
+              center={props.center}
+              scaleTo={props.scaleTo}
+            />
+          }
+        >
+          <Model
+            name="model"
+            reportProgress
+            position={props.center}
+            rootUrl={props.rootUrl}
+            sceneFilename={props.sceneFilename}
+            scaleToDimension={props.scaleTo}
+            rotation={props.modelRotation}
+            onModelLoaded={props.onModelLoaded}
+          />
+        </Suspense>
+      </SceneLoaderContextProvider>
     )
 }
