@@ -1,6 +1,7 @@
 import { Color3, Color4, Vector3 } from "@babylonjs/core";
 import { Engine, Scene } from "react-babylonjs";
 import { ScaledModelWithProgress } from "./ScaledModelWithProgress";
+import { Modal } from "./Model";
 
 export function App() {
     return (
@@ -37,13 +38,14 @@ export function App() {
                     options={{ mainTextureSamples: 2 }}
                     isEnabled
                 >
-                    <ScaledModelWithProgress
+                    {/* <ScaledModelWithProgress
                         center={new Vector3(0, 0, 0)}
                         sceneFilename="NeonPipe.gltf?v=1"
                         rootUrl="https://www.babylonjs.com/Assets/NeonPipe/glTF/"
                         progressBarColor={Color3.FromInts(255, 165, 0)}
                         scaleTo={1}
-                    />
+                    /> */}
+                    <Modal />
                 </glowLayer>
                 <environmentHelper
                     options={{
