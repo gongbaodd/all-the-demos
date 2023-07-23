@@ -1,13 +1,5 @@
-type Post = {
-  slug: string;
-  title: string;
-};
+import { db } from "../db.server";
 
 export async function getPosts() {
-  const posts: Post[] = [
-    { slug: "my-first-post", title: "My First Post" },
-    { slug: "my-second-post", title: "My Second Post" },
-  ];
-
-  return posts;
+  return db.post.findMany();
 }
