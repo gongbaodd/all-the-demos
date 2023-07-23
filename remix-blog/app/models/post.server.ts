@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Post } from "@prisma/client";
 import { db } from "../db.server";
 
 
@@ -12,8 +12,6 @@ export async function getPost(slug: string) {
   });
 }
 
-type Post = Prisma.PostCreateInput;
-
-export async function createPost(post: Post) {
+export async function createPost(post: Prisma.PostCreateInput) {
   return db.post.create({ data: post });
 }
