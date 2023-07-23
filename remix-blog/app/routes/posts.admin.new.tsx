@@ -1,8 +1,10 @@
 import { ActionArgs, redirect } from "@remix-run/node";
-import { Form } from "@remix-run/react";
+import { Form, useNavigate, useNavigation } from "@remix-run/react";
 import { createPost } from "~/models/post.server";
 
 export async function action({ request }: ActionArgs) {
+    await new Promise(res => setTimeout(res, 1000))
+
     const formData = await request.formData();
     const title = formData.get("title") as string;
     const slug = formData.get("slug") as string;
@@ -15,6 +17,9 @@ const inputClassName =
   "w-full rounded border border-gray-500 px-2 py-1 text-lg";
 
 export default function NewPost() {
+  const navigation = useNavigation()
+  const isCreating = navigation.state === "submitting"
+  
   return (
     <Form method="post">
       <p>
