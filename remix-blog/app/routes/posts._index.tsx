@@ -19,6 +19,9 @@ export default function Posts() {
             <Link to={post.slug}>{post.title}</Link>
           </li>
         ))}
+        <li key="admin">
+          <Link to="admin" >Admin</Link>
+        </li>
       </ul>
     </main>
   );

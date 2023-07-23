@@ -16,9 +16,6 @@ export default function Index() {
         <li>
           <Link to="posts">Blog posts</Link>
         </li>
-        <li>
-          <Link to="admin" >Admin</Link>
-        </li>
       </ul>
     </div>
   );
