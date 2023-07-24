@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Hello WebXR!</title>
+
+    <!-- three.js -->
+    <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
+</head>
+
+<body>
+
+    <!-- Starting an immersive WebXR session requires user interaction.
+    We start this one with a simple button. -->
+    <button onclick="getSession()">Start Hello WebXR</button>
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+    <script>
+        const scene = new THREE.Scene();
+
+        const { camera } = {
+            get camera() {
+                const c = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                c.matrixAutoUpdate = false;
+                return c;
+            }
+        }
+
+        const { renderer } = {
+            get renderer() {
+                const r = new THREE.WebGLRenderer({
+                    antialias: true,
+                    alpha: true
+                });
+                r.setSize(window.innerWidth, window.innerHeight);
+                r.autoClear = false;
+                document.body.appendChild(r.domElement);
+                return r;
+            }
+        }
+
+        const gl = renderer.getContext("webgl", { xrCompatible: true });
+
+
+        const { cube } = {
+            get cube() {
+                const geometry = new THREE.BoxGeometry(1, 1, 1);
+                const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+                const cube = new THREE.Mesh(geometry, material);
+                return cube;
+            }
+        }
+
+        scene.add(cube);
+
+        let session = null;
+        let refSpec = null;
+
+        animate();
+
+        function animate(time, frame) {
+            if (!session || !refSpec) {
+                return
+            }
+
+            session.requestAnimationFrame(animate);
+            gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+
+            const pose = frame.getViewerPose(refSpec);
+            if (pose) {
+                const [view] = pose.views;
+                const viewport = session.renderState.baseLayer.getViewport(view);
+                renderer.setSize(viewport.width, viewport.height);
+                camera.matrix.fromArray(view.transform.matrix);
+                camera.projectionMatrix.fromArray(view.projectionMatrix);
+                camera.updateMatrixWorld(true);
+
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+
+                renderer.render(scene, camera);
+
+            }
+        }
+
+        async function getSession() {
+            session = await navigator.xr.requestSession("immersive-ar");
+            session.updateRenderState({
+                baseLayer: new XRWebGLLayer(session, gl)
+            });
+            refSpec = await session.requestReferenceSpace("local");
+        }
+    </script>
+</body>
+
+</html>
