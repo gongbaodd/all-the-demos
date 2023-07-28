@@ -1,0 +1,25 @@
+{
+  "name": "svg-mesh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vite"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babylonjs/core": "^6.14.0",
+    "@babylonjs/gui": "^6.14.0",
+    "react": "^18.2.0",
+    "react-babylonjs": "^3.1.17",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.17",
+    "@types/react-dom": "^18.2.7",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.7"
+  }
+}
