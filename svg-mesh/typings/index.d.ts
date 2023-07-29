@@ -6,3 +6,7 @@ declare module 'svg-mesh-3d' {
         positions: number[][],
     };
 }
+
+declare module "triangle-centroid" {
+    export default function (tri: number[][]): number[];
+}
