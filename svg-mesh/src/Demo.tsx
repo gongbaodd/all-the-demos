@@ -52,8 +52,8 @@ export function Demo() {
                     vertexSource, fragmentSource
                 }}
                 options={{
-                    attributes: ["position", "uv"],
-                    uniforms: ["worldViewProjection"]
+                    attributes: ["position", "uv", "normal"],
+                    uniforms: ["worldViewProjection", "world", "time"]
                 }}
                 backFaceCulling={false}
                 ref={setMat}
