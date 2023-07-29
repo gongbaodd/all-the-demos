@@ -14,6 +14,7 @@
     "@babylonjs/gui": "^6.14.0",
     "buffer": "^6.0.3",
     "buffer2": "^0.0.0",
+    "glslify": "^7.1.1",
     "react": "^18.2.0",
     "react-babylonjs": "^3.1.17",
     "react-dom": "^18.2.0",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@types/react": "^18.2.17",
     "@types/react-dom": "^18.2.7",
+    "spectorjs": "^0.9.29",
     "typescript": "^5.1.6",
     "vite": "^4.4.7",
     "vite-plugin-node-polyfills": "^0.9.0"
