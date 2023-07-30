@@ -17,7 +17,7 @@ export function Fireworks() {
     useBeforeRender(() => {
         if (!mat) return
         mat.setFloat("time", time.current)
-        time.current += 0.01
+        time.current += 0.001
     }, undefined, undefined, undefined, [mat])
 
     return (
