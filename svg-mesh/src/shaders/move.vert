@@ -2,7 +2,6 @@ precision highp float;
 
 attribute vec3 direction;
 
-
 uniform float animation;
 
 void main() {

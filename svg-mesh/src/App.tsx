@@ -31,10 +31,7 @@ export function App() {
                     radius={5} 
                 />
                 <hemisphericLight name="light1" intensity={0.7} direction={Vector3.Up()} />
-                {/* <SimplicialComplex
-                    vertexData={vertexData}
-                    shaderAttrs={shaderAttrs}
-                /> */}
+                {/* <SimplicialComplex vertexData={vertexData}/> */}
                 <Demo />
             </Scene>
         </Engine>

@@ -50,7 +50,6 @@ export function getShaderAttr(pos: number[][], cells: number[][]) {
 
 export function SimplicialComplex(props: {
     vertexData: VertexData,
-    shaderAttrs: ReturnType<typeof getShaderAttr>
 }) {
     const mesh = useMemo(() => {
         const mesh = new Mesh("simplicial-complex")
@@ -66,7 +65,7 @@ export function SimplicialComplex(props: {
                 }}
                 backFaceCulling={false}
                 options={{
-                    attributes: ["position", ""]
+                    attributes: ["position", "direction"]
                 }}
             />
         </abstractMesh>
