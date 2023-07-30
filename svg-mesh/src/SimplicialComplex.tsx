@@ -1,10 +1,11 @@
-import {  Mesh, Vector3, VertexData } from "@babylonjs/core"
+import {  Color3, Mesh, Vector3, VertexData } from "@babylonjs/core"
 import { useMemo } from "react"
 import { useScene } from "react-babylonjs"
 import vertexSource from "./shaders/move.vert?raw"
 import fragmentSource from "./shaders/blue.frag?raw"
 import triagnleCentroid from "triangle-centroid"
 import randomVec from "gl-vec3/random"
+import svgMesh3d from "svg-mesh-3d"
 
 
 export function makeVertex(pos: number[][], cell: number[][]) { 
@@ -49,13 +50,25 @@ export function getShaderAttr(pos: number[][], cells: number[][]) {
 }
 
 export function SimplicialComplex(props: {
-    vertexData: VertexData,
+    svgPath: string
 }) {
     const mesh = useMemo(() => {
+        const meshData = svgMesh3d(props.svgPath)
+        const vertexData = makeVertex(meshData.positions, meshData.cells)
+        const { centroid, directions } = getShaderAttr(meshData.positions, meshData.cells)
+
         const mesh = new Mesh("simplicial-complex")
-        props.vertexData.applyToMesh(mesh)
+
+        vertexData.applyToMesh(mesh)
+
+        mesh.registerInstancedBuffer("centroid", 3)
+        mesh.instancedBuffers.centroid = centroid.value
+
+        mesh.registerInstancedBuffer("direction", 3)
+        mesh.instancedBuffers.direction = directions.value
+        
         return mesh
-    }, [props])
+    }, [props.svgPath])
 
     return (
         <abstractMesh name="sc" fromInstance={mesh} disposeInstanceOnUnmount >
