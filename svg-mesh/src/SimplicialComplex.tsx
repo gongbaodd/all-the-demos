@@ -89,7 +89,6 @@ export function SimplicialComplex(props: {
                     attributes: ["position", "direction", "projection", "view", "center"]
                 }}
                 ref={setMat}
-                wireframe={true}
             />
         </abstractMesh>
     )

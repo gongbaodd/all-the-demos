@@ -11,6 +11,6 @@ uniform mat4 worldViewProjection;
 
 void main() {
     vec3 offset = direction.xyz;
-    vec3 tPos = mix(center, position.xyz, .9) + offset * .1;
+    vec3 tPos = mix(center, position.xyz, 4.) + offset * .5;
     gl_Position = worldViewProjection * vec4(tPos, 1.0);
 }
