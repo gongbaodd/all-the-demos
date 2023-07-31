@@ -2,15 +2,15 @@ precision highp float;
 
 attribute vec3 position;
 attribute vec3 direction;
+attribute vec3 center;
 
 uniform float animation;
-uniform mat4 modelViewMatrix; 
-uniform mat4 projectionMatrix;
+uniform mat4 projection;
+uniform mat4 view;
 uniform mat4 worldViewProjection;
 
 void main() {
-    // vec3 tPos = position.xyz + direction.xyz * animation;
-    // gl_Position = projectionMatrix * modelViewMatrix * vec4(tPos, 1.0);
-    vec4 p = vec4(position, 1.0);
-    gl_Position = worldViewProjection * p;
+    vec3 offset = direction.xyz;
+    vec3 tPos = mix(center, position.xyz, .9) + offset * .1;
+    gl_Position = worldViewProjection * vec4(tPos, 1.0);
 }
