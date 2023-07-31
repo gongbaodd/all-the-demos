@@ -31,8 +31,8 @@ export function App() {
                     radius={25} 
                 />
                 <hemisphericLight name="light1" intensity={0.7} direction={Vector3.Up()} />
-                {/* <SimplicialComplex svgPath={svgPath}/> */}
-                <Fireworks />
+                <SimplicialComplex svgPath={svgPath}/>
+                {/* <Fireworks /> */}
             </Scene>
         </Engine>
     )

@@ -1,5 +1,5 @@
-import {  Color3, Mesh, Vector3, VertexData } from "@babylonjs/core"
-import { useMemo } from "react"
+import {  Color3, Mesh, ShaderMaterial, Vector3, VertexData } from "@babylonjs/core"
+import { useEffect, useMemo, useState } from "react"
 import { useScene } from "react-babylonjs"
 import vertexSource from "./shaders/move.vert?raw"
 import fragmentSource from "./shaders/blue.frag?raw"
@@ -70,6 +70,13 @@ export function SimplicialComplex(props: {
         return mesh
     }, [props.svgPath])
 
+    const [mat, setMat] = useState<ShaderMaterial|null>(null)
+
+    useEffect(() => {
+        if (!mat) return
+
+    }, [mat])
+
     return (
         <abstractMesh name="sc" fromInstance={mesh} disposeInstanceOnUnmount >
             <shaderMaterial name="sc-material"
@@ -80,6 +87,7 @@ export function SimplicialComplex(props: {
                 options={{
                     attributes: ["position", "direction"]
                 }}
+                ref={setMat}
             />
         </abstractMesh>
     )
