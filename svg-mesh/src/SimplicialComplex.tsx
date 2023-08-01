@@ -6,6 +6,8 @@ import fragmentSource from "./shaders/blue.frag?raw"
 import triagnleCentroid from "triangle-centroid"
 import randomVec from "gl-vec3/random"
 import svgMesh3d from "svg-mesh-3d"
+import reindex from "mesh-reindex"
+import unindex from "unindex-mesh"
 
 
 export function makeVertex(pos: number[][], cell: number[][]) {
@@ -46,7 +48,8 @@ export function SimplicialComplex(props: {
     const mesh = useMemo(() => {
         if (!engine) return null
 
-        const meshData = svgMesh3d(props.svgPath)
+        const rawData = svgMesh3d(props.svgPath)
+        const meshData = reindex(unindex(rawData))
         const vertexData = makeVertex(meshData.positions, meshData.cells)
         const { centroid, directions } = getShaderAttr(meshData.positions, meshData.cells)
 
