@@ -1,6 +1,7 @@
 ---
 import ViewTransitions from "astro/components/ViewTransitions.astro";
 import Counter from "../Components/Counter";
+import ReactCounter from "@/Components/ReactCounter";
 ---
 
 <html lang="en">
@@ -15,6 +16,7 @@ import Counter from "../Components/Counter";
 	<body>
 		<h1>Astro</h1>
 		<Counter client:load transition:persist transition:name="counter" />
+		<ReactCounter client:load transition:persist transition:name="react-counter" />
 		<a href="./about" transition:name="about">about</a>
 	</body>
 </html>

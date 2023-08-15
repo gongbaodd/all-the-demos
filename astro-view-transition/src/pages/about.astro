@@ -1,23 +1,30 @@
 ---
 import Counter from "@/Components/Counter";
+import ReactCounter from "@/Components/ReactCounter";
 import { ViewTransitions } from "astro:transitions";
 ---
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About</title>
     <ViewTransitions />
     <style>
-        h1 {
-            display: block;
-            width: 100px;
-        }
+      h1 {
+        display: block;
+        width: 100px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1 transition:name="about">About</h1>
-    <Counter client:load transition:persist  transition:name="counter" />
-</body>
+    <Counter client:load transition:persist transition:name="counter" />
+    <ReactCounter
+      client:load
+      transition:persist
+      transition:name="react-counter"
+    />
+  </body>
 </html>
