@@ -1,5 +1,6 @@
 ---
 import ViewTransitions from "astro/components/ViewTransitions.astro";
+import Counter from "../Components/Counter";
 ---
 
 <html lang="en">
@@ -13,6 +14,7 @@ import ViewTransitions from "astro/components/ViewTransitions.astro";
 	</head>
 	<body>
 		<h1>Astro</h1>
+		<Counter client:load transition:persist transition:name="counter" />
 		<a href="./about" transition:name="about">about</a>
 	</body>
 </html>
