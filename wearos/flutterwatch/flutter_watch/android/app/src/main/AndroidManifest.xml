@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-feature android:name="android.hardware.type.watch"></uses-feature>
     <application
         android:label="flutter_watch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.wearable.standalone" android:value="true"></meta-data>
         <activity
             android:name=".MainActivity"
             android:exported="true"
