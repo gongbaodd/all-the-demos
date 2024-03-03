@@ -1,0 +1,6 @@
+[workspace]
+members = ["shared"]
+resolver = "1"
+
+[workspace.dependencies]
+crux_core = "0.7"
