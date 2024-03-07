@@ -16,6 +16,7 @@ pub struct ViewModel {
     data: String,
 }
 
+#[cfg_attr(feature="typegen", derive(crux_core::macros::Export))]
 #[derive(crux_core::macros::Effect)]
 #[effect(app = "Hello")]
 pub struct Capabilities {

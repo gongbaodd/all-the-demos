@@ -1,3 +1,6 @@
+
 tasks:
   build: 
     command: "cargo build"
+  wasm:
+    command: "wasm-pack build --target web"

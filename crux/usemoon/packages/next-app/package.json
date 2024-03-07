@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "pnpm run wasm:build && next build",
+    "start": "pnpm run wasm:build && next start",
+    "lint": "next lint",
+    "wasm:build": "cd ../../shared && wasm-pack build --target web"
   },
   "dependencies": {
     "react": "^18",
