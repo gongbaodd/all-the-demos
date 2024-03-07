@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Crux App"
 include(":app")
- 
+include(":shared")
