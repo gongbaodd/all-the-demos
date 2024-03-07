@@ -1,4 +1,8 @@
 pub mod app;
+mod event;
+mod model;
+mod vmodel;
+mod capabilities;
 
 use lazy_static::lazy_static;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -6,6 +10,8 @@ use wasm_bindgen::prelude::wasm_bindgen;
 pub use app::*;
 pub use crux_core::bridge::{Bridge, Request};
 pub use crux_core::Core;
+
+use crate::capabilities::{Capabilities, Effect};
 
 uniffi::include_scaffolding!("shared");
 

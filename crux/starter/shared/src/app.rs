@@ -1,29 +1,6 @@
-use crux_core::{render::Render, App};
-use serde::{Serialize, Deserialize};
+use crux_core::App;
+use crate::{capabilities::Capabilities, event::Event, model::Model, vmodel::ViewModel};
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub enum Event {
-    Increment,
-    Decrement,
-    Reset,
-}
-
-#[derive(Default)]
-pub struct Model {
-    count: isize,
-}
-
-#[derive(Serialize, Deserialize, Clone)]
-pub struct ViewModel {
-    pub count: String,
-}
-
-#[cfg_attr(feature="typegen", derive(crux_core::macros::Export))]
-#[derive(crux_core::macros::Effect)]
-#[effect(app = "Counter")]
-pub struct Capabilities {
-    render: Render<Event>
-}
 
 #[derive(Default)]
 pub struct Counter;
