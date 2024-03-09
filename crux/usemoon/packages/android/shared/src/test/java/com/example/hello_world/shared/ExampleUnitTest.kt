@@ -1,4 +1,4 @@
-package com.example.mycruxapp
+package com.example.hello_world.shared
 
 import org.junit.Test
 
