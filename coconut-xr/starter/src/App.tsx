@@ -1,33 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Controllers, Grabbable, Hands, XRCanvas } from '@coconut-xr/natuerlich/defaults'
 import './App.css'
+import { ImmersiveSessionOrigin, NonImmersiveCamera, useEnterXR } from '@coconut-xr/natuerlich/react';
+import { Container, DefaultStyleProvider, RootContainer, Text } from "@coconut-xr/koestlich"
+import { Glass, IconButton } from '@coconut-xr/apfel-kruemel';
+import { Play, Rewind, FastForward } from "@coconut-xr/lucide-koestlich"
+
+
+const cssStyle = {
+  touchAction: "none",
+  overscrollBehavior: "none",
+  userSelect: "none",
+  position: "absolute",
+  inset: 0
+} as const;
+
+const sessionOptions: XRSessionInit = {
+  requiredFeatures: ["local-floor", "hand-tracking"]
+} as const;
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const enterAR = useEnterXR("immersive-ar", sessionOptions);
+  const enterVR = useEnterXR("immersive-vr", sessionOptions);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <XRCanvas style={cssStyle}>
+        <color attach="background" args={[0]} />
+        <directionalLight position={[1, 1, 2]} />
+        <NonImmersiveCamera position={[0, 1.5, -0.1]} />
+        <ImmersiveSessionOrigin>
+          <Hands />
+          <Controllers />
+        </ImmersiveSessionOrigin>
+
+        <Grabbable position={[0, 1.5, -0.5]}>
+          <RootContainer
+            flexDirection='column'
+            padding={8}
+            borderRadius={8}
+            pixelSize={.001}
+            precision={1}
+          >
+            <Glass padding={10} borderRadius={20}>
+              <DefaultStyleProvider color="white">
+                <Text index={1} marginTop={8}>
+                  Ink of Infinity
+                </Text>
+                <Text index={2} opacity={0.5}>
+                  Quasar Quill
+                </Text>
+                <Container
+                  index={3}
+                  marginTop={16}
+                  width="100%"
+                  flexDirection="row"
+                  justifyContent="space-evenly"
+                >
+                  <IconButton>
+                    <Rewind height={16} width={16} />
+                  </IconButton>
+                  <IconButton>
+                    <Play height={16} width={16} />
+                  </IconButton>
+                  <IconButton>
+                    <FastForward height={16} width={16} />
+                  </IconButton>
+                </Container>
+              </DefaultStyleProvider>
+
+            </Glass>
+          </RootContainer>
+        </Grabbable>
+      </XRCanvas>
+
+      <button
+        style={{
+          padding: "1rem",
+          position: "absolute",
+          top: "1rem",
+          left: "1rem"
+        }}
+        onClick={enterAR}
+      >
+        AR
+      </button>
+      <button
+        style={{
+          padding: "1rem",
+          position: "absolute",
+          top: "5rem",
+          left: "1rem"
+        }}
+        onClick={enterVR}
+      >
+        VR
+      </button>
     </>
   )
 }

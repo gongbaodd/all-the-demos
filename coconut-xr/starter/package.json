@@ -4,14 +4,22 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coconut-xr/apfel-kruemel": "^0.0.6",
+    "@coconut-xr/koestlich": "^0.3.12",
+    "@coconut-xr/lucide-koestlich": "^0.0.3",
+    "@coconut-xr/natuerlich": "^0.0.49",
+    "@react-three/fiber": "^8.15.19",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.162.0",
+    "three-stdlib": "^2.29.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
