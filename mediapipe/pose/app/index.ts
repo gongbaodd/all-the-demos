@@ -9,6 +9,42 @@ let webCamRunning = false
 let lastVideoTime = -1
 let poseLandmarker: PoseLandmarker | null = null
 
+const colors =  [
+"#FF5733",/* Pomegranate */
+"#33FF57",/* UFO Green */
+"#3357FF",/* Azure Radiance */
+"#57FF33",/* Harlequin */
+"#FF33F6",/* Hollywood Cerise */
+"#33FFF6",/* Cyan/Aqua */
+"#F633FF",/* Electric Violet */
+"#33F6FF",/* Vivid Sky Blue */
+"#FF8333",/* Neon Carrot */
+"#33FF83",/* Mountain Meadow */
+"#8333FF",/* Amethyst */
+"#FF3333",/* Red Orange */
+"#33FF3A",/* Malachite */
+"#3A33FF",/* Han Purple */
+"#FF3A33",/* Outrageous Orange */
+"#3AFF33",/* Screamin' Green */
+"#33FF8B",/* Malachite */
+"#8B33FF",/* Electric Indigo */
+"#FF8B33",/* Neon Carrot */
+"#33FFD5",/* Medium Turquoise */
+"#D533FF",/* Electric Purple */
+"#33D5FF",/* Picton Blue */
+"#FFD533",/* Supernova */
+"#33FFDA",/* Medium Aquamarine */
+"#DA33FF",/* Heliotrope */
+"#33DAFF",/* Summer Sky */
+"#FFDA33",/* Selective Yellow */
+"#33FFDE",/* Turquoise */
+"#DE33FF",/* Electric Purple */
+"#33DEFF",/* Dodger Blue */
+"#FFDE33",/* Dandelion */
+"#33FFE2",/* Medium Turquoise */
+"#E233FF",/* Heliotrope */
+]
+
 
 if (hasGetUserMedia()) {
     console.log("button is ready")
@@ -36,7 +72,7 @@ function hasGetUserMedia() {
     return !!navigator.mediaDevices?.getUserMedia
 }
 
-function enableCam(event: MouseEvent) {
+function enableCam(_event: MouseEvent) {
     if (!poseLandmarker){
         console.warn("Wating poselandmarker to load")
         return;
@@ -70,13 +106,13 @@ function predictWebCam() {
             canvasCtx.save()
             canvasCtx.clearRect(0, 0, output.width, output.height)
 
-            for(const landmark of result.landmarks) {
+            result.landmarks.forEach((landmark, i) => {
                 drawingUtils.drawLandmarks(landmark, {
-                    radius: data => DrawingUtils.lerp(data.from!.z, -.15, .1, 5, 1)
+                    radius: data => DrawingUtils.lerp(data.from!.z, -.15, .1, 5, 1),
+                    color: colors[i]
                 })
-
                 drawingUtils.drawConnectors(landmark, PoseLandmarker.POSE_CONNECTIONS)
-            }
+            })
 
             canvasCtx.restore()
         })
