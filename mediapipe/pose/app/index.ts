@@ -1,5 +1,5 @@
-import { DrawingUtils, FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision"
-import { Vector3, MathUtilsUtils, MathUtils } from "three"
+import { DrawingUtils, FilesetResolver, NormalizedLandmark, PoseLandmarker } from "@mediapipe/tasks-vision"
+import { Vector3, MathUtils } from "three"
 
 const button = document.getElementById("button")! as HTMLButtonElement
 const video = document.getElementById("webcam")! as HTMLVideoElement
@@ -47,6 +47,12 @@ const colors =  [
 "#E233FF",/* Heliotrope */
 ]
 
+const RShoulderIndex = 11
+const LShoulderIndex = 12
+const RElbowIndex = 13
+const LElbowIndex = 14
+const RWristIndex = 15
+const LWristIndex = 16
 
 if (hasGetUserMedia()) {
     console.log("button is ready")
@@ -65,11 +71,11 @@ async function init() {
             baseOptions: {
                 modelAssetPath: "./model/pose_landmarker_lite.task"
             },
-            runningMode: "IMAGE"
+            runningMode: "VIDEO"
         }
     )
 
-    predictTestImg()
+    // predictTestImg()
 }
 
 function predictTestImg() {
@@ -83,22 +89,8 @@ function predictTestImg() {
     canvasCtx.clearRect(0, 0, output.width, output.height)
 
     landmarks.forEach(landmark => {
-        const RShoulderIndex = 11
-        const LShoulderIndex = 12
-        const RElbowIndex = 13
-        const LElbowIndex = 14
-        const RWristIndex = 15
-        const LWristIndex = 16
 
-        const RShoulder = new Vector3(landmark[RShoulderIndex].x, landmark[RShoulderIndex].y, landmark[RShoulderIndex].z)
-        const LShoulder = new Vector3(landmark[LShoulderIndex].x, landmark[LShoulderIndex].y, landmark[LShoulderIndex].z)
-        const RElbow = new Vector3(landmark[RElbowIndex].x, landmark[RElbowIndex].y, landmark[RElbowIndex].z)
-        const LElbow = new Vector3(landmark[LElbowIndex].x, landmark[LElbowIndex].y, landmark[LElbowIndex].z)
-        const RWrist = new Vector3(landmark[RWristIndex].x, landmark[RWristIndex].y, landmark[RWristIndex].z)
-        const LWrist = new Vector3(landmark[LWristIndex].x, landmark[LWristIndex].y, landmark[LWristIndex].z)
-
-        const angleR = getAngle(RElbow, RShoulder , RWrist)
-        const angleL = getAngle(LElbow, LShoulder , LWrist)
+        const [angleR, angleL] = getArmAngle(landmark)
 
         console.log(angleR, angleL)
 
@@ -112,6 +104,19 @@ function predictTestImg() {
 
     canvasCtx.restore()
 
+}
+
+function getArmAngle(landmark: NormalizedLandmark[]) {
+    const RShoulder = new Vector3(landmark[RShoulderIndex].x, landmark[RShoulderIndex].y, landmark[RShoulderIndex].z)
+    const LShoulder = new Vector3(landmark[LShoulderIndex].x, landmark[LShoulderIndex].y, landmark[LShoulderIndex].z)
+    const RElbow = new Vector3(landmark[RElbowIndex].x, landmark[RElbowIndex].y, landmark[RElbowIndex].z)
+    const LElbow = new Vector3(landmark[LElbowIndex].x, landmark[LElbowIndex].y, landmark[LElbowIndex].z)
+    const RWrist = new Vector3(landmark[RWristIndex].x, landmark[RWristIndex].y, landmark[RWristIndex].z)
+    const LWrist = new Vector3(landmark[LWristIndex].x, landmark[LWristIndex].y, landmark[LWristIndex].z)
+
+    const angleR = getAngle(RElbow, RShoulder , RWrist)
+    const angleL = getAngle(LElbow, LShoulder , LWrist)
+    return [angleR, angleL]
 }
 
 function getAngle(p0: Vector3, p1: Vector3, p2: Vector3) {
@@ -162,9 +167,21 @@ function predictWebCam() {
             canvasCtx.clearRect(0, 0, output.width, output.height)
 
             result.landmarks.forEach((landmark, i) => {
+                const [angleR, angleL] = getArmAngle(landmark)
+
+                console.log(angleR, angleL)
+
+
                 drawingUtils.drawLandmarks(landmark, {
                     radius: data => DrawingUtils.lerp(data.from!.z, -.15, .1, 5, 1),
-                    color: colors[i]
+                    fillColor: data => {
+                        if (data.index) {
+                            if (data.index > 10 && data.index < 17) {
+                                return colors[1]
+                            }
+                        }
+                        return colors[0]
+                    }
                 })
                 drawingUtils.drawConnectors(landmark, PoseLandmarker.POSE_CONNECTIONS)
             })
