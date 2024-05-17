@@ -1,8 +1,10 @@
 import { DrawingUtils, FilesetResolver, PoseLandmarker } from "@mediapipe/tasks-vision"
+import { Vector3, MathUtilsUtils, MathUtils } from "three"
 
 const button = document.getElementById("button")! as HTMLButtonElement
 const video = document.getElementById("webcam")! as HTMLVideoElement
 const output = document.getElementById("output")! as HTMLCanvasElement
+const testImg = document.getElementById("test")! as HTMLImageElement
 const canvasCtx = output.getContext("2d")!
 const drawingUtils = new DrawingUtils(canvasCtx)
 let webCamRunning = false
@@ -63,9 +65,62 @@ async function init() {
             baseOptions: {
                 modelAssetPath: "./model/pose_landmarker_lite.task"
             },
-            runningMode: "VIDEO"
+            runningMode: "IMAGE"
         }
     )
+
+    predictTestImg()
+}
+
+function predictTestImg() {
+    if (null === poseLandmarker) {
+        return;
+    }
+
+    const { landmarks } = poseLandmarker.detect(testImg)
+
+    canvasCtx.save()
+    canvasCtx.clearRect(0, 0, output.width, output.height)
+
+    landmarks.forEach(landmark => {
+        const RShoulderIndex = 11
+        const LShoulderIndex = 12
+        const RElbowIndex = 13
+        const LElbowIndex = 14
+        const RWristIndex = 15
+        const LWristIndex = 16
+
+        const RShoulder = new Vector3(landmark[RShoulderIndex].x, landmark[RShoulderIndex].y, landmark[RShoulderIndex].z)
+        const LShoulder = new Vector3(landmark[LShoulderIndex].x, landmark[LShoulderIndex].y, landmark[LShoulderIndex].z)
+        const RElbow = new Vector3(landmark[RElbowIndex].x, landmark[RElbowIndex].y, landmark[RElbowIndex].z)
+        const LElbow = new Vector3(landmark[LElbowIndex].x, landmark[LElbowIndex].y, landmark[LElbowIndex].z)
+        const RWrist = new Vector3(landmark[RWristIndex].x, landmark[RWristIndex].y, landmark[RWristIndex].z)
+        const LWrist = new Vector3(landmark[LWristIndex].x, landmark[LWristIndex].y, landmark[LWristIndex].z)
+
+        const angleR = getAngle(RElbow, RShoulder , RWrist)
+        const angleL = getAngle(LElbow, LShoulder , LWrist)
+
+        console.log(angleR, angleL)
+
+        drawingUtils.drawLandmarks(landmark, {
+            fillColor: data => {
+                return colors[data.index ?? 0]
+            }
+        })
+        drawingUtils.drawConnectors(landmark, PoseLandmarker.POSE_CONNECTIONS)
+    })
+
+    canvasCtx.restore()
+
+}
+
+function getAngle(p0: Vector3, p1: Vector3, p2: Vector3) {
+    const a = p2.clone().sub(p0)
+    const b = p1.clone().sub(p0)
+    const cos =  a.normalize().dot(b.normalize())
+    const angle = Math.acos(cos)
+    const rad = MathUtils.radToDeg(angle)
+    return rad
 }
 
 function hasGetUserMedia() {
