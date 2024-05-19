@@ -90,9 +90,9 @@ function predictTestImg() {
 
     landmarks.forEach(landmark => {
 
-        const [angleR, angleL] = getArmAngle(landmark)
+        const angles = getArmAngle(landmark)
 
-        console.log(angleR, angleL)
+        angles && console.log(angles[0], angles[1])
 
         drawingUtils.drawLandmarks(landmark, {
             fillColor: data => {
@@ -107,6 +107,10 @@ function predictTestImg() {
 }
 
 function getArmAngle(landmark: NormalizedLandmark[]) {
+    if([landmark[RShoulderIndex], landmark[LShoulderIndex], landmark[RElbowIndex], landmark[LElbowIndex], landmark[RWristIndex], landmark[LWristIndex]].map(({ visibility }) => visibility > 0.99).includes(false)) {
+        return null
+    }
+
     const RShoulder = new Vector3(landmark[RShoulderIndex].x, landmark[RShoulderIndex].y, landmark[RShoulderIndex].z)
     const LShoulder = new Vector3(landmark[LShoulderIndex].x, landmark[LShoulderIndex].y, landmark[LShoulderIndex].z)
     const RElbow = new Vector3(landmark[RElbowIndex].x, landmark[RElbowIndex].y, landmark[RElbowIndex].z)
@@ -167,9 +171,9 @@ function predictWebCam() {
             canvasCtx.clearRect(0, 0, output.width, output.height)
 
             result.landmarks.forEach((landmark, i) => {
-                const [angleR, angleL] = getArmAngle(landmark)
+                const angles = getArmAngle(landmark)
 
-                console.log(angleR, angleL)
+                angles && console.log(angles[0], angles[1])
 
 
                 drawingUtils.drawLandmarks(landmark, {
