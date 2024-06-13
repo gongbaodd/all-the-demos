@@ -157,6 +157,12 @@ function enableCam(_event: MouseEvent) {
     
 }
 
+let lastMarkTime = Date.now()
+let firstMarkTime = lastMarkTime
+const anglesRecord: Record<number, number[]> = {}
+
+console.log(lastMarkTime)
+
 function predictWebCam() {
     if (null === poseLandmarker) {
         return;
@@ -170,10 +176,16 @@ function predictWebCam() {
             canvasCtx.save()
             canvasCtx.clearRect(0, 0, output.width, output.height)
 
-            result.landmarks.forEach((landmark, i) => {
+            result.landmarks.forEach((landmark, _i) => {
                 const angles = getArmAngle(landmark)
 
-                angles && console.log(angles[0], angles[1])
+                if (angles) {
+                    anglesRecord[startTimeMs] = angles
+
+                    if (Date.now() > firstMarkTime + 60) {
+                        console.log(anglesRecord)
+                    }
+                }
 
 
                 drawingUtils.drawLandmarks(landmark, {
