@@ -107,10 +107,6 @@ function predictTestImg() {
 }
 
 function getArmAngle(landmark: NormalizedLandmark[]) {
-    if([landmark[RShoulderIndex], landmark[LShoulderIndex], landmark[RElbowIndex], landmark[LElbowIndex], landmark[RWristIndex], landmark[LWristIndex]].map(({ visibility }) => visibility > 0.99).includes(false)) {
-        return null
-    }
-
     const RShoulder = new Vector3(landmark[RShoulderIndex].x, landmark[RShoulderIndex].y, landmark[RShoulderIndex].z)
     const LShoulder = new Vector3(landmark[LShoulderIndex].x, landmark[LShoulderIndex].y, landmark[LShoulderIndex].z)
     const RElbow = new Vector3(landmark[RElbowIndex].x, landmark[RElbowIndex].y, landmark[RElbowIndex].z)
@@ -160,6 +156,9 @@ function enableCam(_event: MouseEvent) {
 let lastMarkTime = Date.now()
 let firstMarkTime = lastMarkTime
 const anglesRecord: Record<number, number[]> = {}
+
+// smallest 110
+// largest 120
 
 console.log(lastMarkTime)
 
