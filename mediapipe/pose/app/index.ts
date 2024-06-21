@@ -5,6 +5,7 @@ const button = document.getElementById("button")! as HTMLButtonElement
 const video = document.getElementById("webcam")! as HTMLVideoElement
 const output = document.getElementById("output")! as HTMLCanvasElement
 const testImg = document.getElementById("test")! as HTMLImageElement
+const indicator = document.getElementById("indicator")! as HTMLDivElement
 const canvasCtx = output.getContext("2d")!
 const drawingUtils = new DrawingUtils(canvasCtx)
 let webCamRunning = false
@@ -106,7 +107,7 @@ function predictTestImg() {
 
 }
 
-function getArmAngle(landmark: NormalizedLandmark[]) {
+function getArmAngle(landmark: NormalizedLandmark[]): [number, number] {
     const RShoulder = new Vector3(landmark[RShoulderIndex].x, landmark[RShoulderIndex].y, landmark[RShoulderIndex].z)
     const LShoulder = new Vector3(landmark[LShoulderIndex].x, landmark[LShoulderIndex].y, landmark[LShoulderIndex].z)
     const RElbow = new Vector3(landmark[RElbowIndex].x, landmark[RElbowIndex].y, landmark[RElbowIndex].z)
@@ -148,7 +149,10 @@ function enableCam(_event: MouseEvent) {
 
     navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
         video.srcObject = stream
-        video.addEventListener('loadeddata', predictWebCam)
+        video.addEventListener('loadeddata', () => {
+            indicating()
+            predictWebCam()
+        })
     })
     
 }
@@ -157,10 +161,62 @@ let lastMarkTime = Date.now()
 let firstMarkTime = lastMarkTime
 const anglesRecord: Record<number, number[]> = {}
 
-// smallest 110
-// largest 120
+let startCounting = false
+function indicating() {
+    if (null === poseLandmarker) {
+        return
+    }
 
-console.log(lastMarkTime)
+    setTimeout(() => {
+        indicator.innerText = "3..."
+    }, 1000)
+
+    setTimeout(() => {
+        indicator.innerText = "2..."
+    }, 2000)
+
+    setTimeout(() => {
+        indicator.innerText = "Counting..."
+        startCounting = true
+    }, 3000)
+}
+
+let l_count = 0
+let l_pending = false
+let r_count = 0
+let r_pending = false
+const SMALL_ANGLE = 110
+const LARGE_ANGLE = 120
+const CONTENT = "left:$l right:$r"
+function counting(l: number, r: number) {
+    if (false === startCounting) {
+        return
+    }
+
+    if (l <= SMALL_ANGLE) {
+        if(!l_pending) {
+            l_count++
+            l_pending = true
+        }
+    }
+
+    if (l >= LARGE_ANGLE) {
+        l_pending = false
+    }
+
+    if (r <= SMALL_ANGLE) {
+        if(!r_pending) {
+            r_count++
+            r_pending = true
+        }
+    }
+
+    if (r >= LARGE_ANGLE) {
+        r_pending = false
+    }
+
+    indicator.innerText = CONTENT.replace("$l", l_count.toString()).replace("$r", r_count.toString())
+}
 
 function predictWebCam() {
     if (null === poseLandmarker) {
@@ -178,14 +234,7 @@ function predictWebCam() {
             result.landmarks.forEach((landmark, _i) => {
                 const angles = getArmAngle(landmark)
 
-                if (angles) {
-                    anglesRecord[startTimeMs] = angles
-
-                    if (Date.now() > firstMarkTime + 60) {
-                        console.log(anglesRecord)
-                    }
-                }
-
+                counting(...angles)
 
                 drawingUtils.drawLandmarks(landmark, {
                     radius: data => DrawingUtils.lerp(data.from!.z, -.15, .1, 5, 1),
