@@ -5,51 +5,70 @@
 //  Created by gongbaodd on 2024/7/30.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var movies: [Movie]
+
+    @State private var newMovie: Movie?
 
     var body: some View {
         NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+            Group {
+                if !movies.isEmpty {
+                    List {
+                        ForEach(movies) { movie in
+                            NavigationLink {
+                                MovieDetail(movie: movie)
+                            } label: {
+                                Text(movie.title)
+                            }
+                        }
+                        .onDelete(perform: deleteMovies)
+                    }
+                } else {
+                    ContentUnavailableView {
+                        Label("No Movies", systemImage: "film.stack")
                     }
                 }
-                .onDelete(perform: deleteItems)
             }
+            .navigationTitle("Movies")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
                 ToolbarItem {
-                    Button(action: addItem) {
+                    Button(action: addMovie) {
                         Label("Add Item", systemImage: "plus")
                     }
                 }
             }
+            .sheet(item: $newMovie) { movie in
+                NavigationStack {
+                    MovieDetail(movie: movie, isNew: true)
+                }
+                .interactiveDismissDisabled()
+            }
         } detail: {
-            Text("Select an item")
+            Text("Select a movie")
+                .navigationTitle("Movie")
         }
     }
 
-    private func addItem() {
+    private func addMovie() {
         withAnimation {
-            let newItem = Item(timestamp: Date())
+            let newItem = Movie(title: "", releaseDate: .now)
             modelContext.insert(newItem)
+            newMovie = newItem
         }
     }
 
-    private func deleteItems(offsets: IndexSet) {
+    private func deleteMovies(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(items[index])
+                modelContext.delete(movies[index])
             }
         }
     }
@@ -57,5 +76,10 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(SampleData.shared.modelContainer)
+}
+
+#Preview("Empty List") {
+    ContentView()
+        .modelContainer(for: Movie.self, inMemory: true)
 }
