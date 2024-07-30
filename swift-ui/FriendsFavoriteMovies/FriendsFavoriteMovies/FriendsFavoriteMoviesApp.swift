@@ -5,14 +5,15 @@
 //  Created by gongbaodd on 2024/7/30.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct FriendsFavoriteMoviesApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Movie.self,
+            Friend.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

@@ -17,6 +17,9 @@
 		780B74922C588EA100B55929 /* FriendsFavoriteMoviesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B74912C588EA100B55929 /* FriendsFavoriteMoviesUITestsLaunchTests.swift */; };
 		780B749F2C58935C00B55929 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B749E2C58935C00B55929 /* SampleData.swift */; };
 		780B74A12C58B4E200B55929 /* MovieDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B74A02C58B4E200B55929 /* MovieDetail.swift */; };
+		78F4F3A42C59117600FBDEC7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4F3A32C59117600FBDEC7 /* Friend.swift */; };
+		78F4F3A62C5913C700FBDEC7 /* FriendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4F3A52C5913C700FBDEC7 /* FriendList.swift */; };
+		78F4F3A82C59194D00FBDEC7 /* FriendDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F4F3A72C59194D00FBDEC7 /* FriendDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,9 @@
 		780B74912C588EA100B55929 /* FriendsFavoriteMoviesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsFavoriteMoviesUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		780B749E2C58935C00B55929 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		780B74A02C58B4E200B55929 /* MovieDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetail.swift; sourceTree = "<group>"; };
+		78F4F3A32C59117600FBDEC7 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		78F4F3A52C5913C700FBDEC7 /* FriendList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendList.swift; sourceTree = "<group>"; };
+		78F4F3A72C59194D00FBDEC7 /* FriendDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +108,9 @@
 			children = (
 				780B74722C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift */,
 				780B74742C588E9F00B55929 /* ContentView.swift */,
+				78F4F3A32C59117600FBDEC7 /* Friend.swift */,
+				78F4F3A52C5913C700FBDEC7 /* FriendList.swift */,
+				78F4F3A72C59194D00FBDEC7 /* FriendDetail.swift */,
 				780B749E2C58935C00B55929 /* SampleData.swift */,
 				780B74A02C58B4E200B55929 /* MovieDetail.swift */,
 				780B74762C588E9F00B55929 /* Movie.swift */,
@@ -266,9 +275,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78F4F3A82C59194D00FBDEC7 /* FriendDetail.swift in Sources */,
 				780B74752C588E9F00B55929 /* ContentView.swift in Sources */,
 				780B74772C588E9F00B55929 /* Movie.swift in Sources */,
 				780B74A12C58B4E200B55929 /* MovieDetail.swift in Sources */,
+				78F4F3A62C5913C700FBDEC7 /* FriendList.swift in Sources */,
+				78F4F3A42C59117600FBDEC7 /* Friend.swift in Sources */,
 				780B74732C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift in Sources */,
 				780B749F2C58935C00B55929 /* SampleData.swift in Sources */,
 			);
