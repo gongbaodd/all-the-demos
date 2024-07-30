@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  Movie.swift
 //  FriendsFavoriteMovies
 //
 //  Created by gongbaodd on 2024/7/30.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Item {
+final class Movie {
     var timestamp: Date
     
     init(timestamp: Date) {
