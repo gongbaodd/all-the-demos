@@ -14,46 +14,49 @@ struct MovieList: View {
 
     @State private var newMovie: Movie?
 
+    init(titleFilter: String = "") {
+        let predicate = #Predicate<Movie> { movie in
+            titleFilter.isEmpty || movie.title.localizedStandardContains(titleFilter)
+        }
+
+        _movies = Query(filter: predicate, sort: \Movie.title)
+    }
+
     var body: some View {
-        NavigationSplitView {
-            Group {
-                if !movies.isEmpty {
-                    List {
-                        ForEach(movies) { movie in
-                            NavigationLink {
-                                MovieDetail(movie: movie)
-                            } label: {
-                                Text(movie.title)
-                            }
+        Group {
+            if !movies.isEmpty {
+                List {
+                    ForEach(movies) { movie in
+                        NavigationLink {
+                            MovieDetail(movie: movie)
+                        } label: {
+                            Text(movie.title)
                         }
-                        .onDelete(perform: deleteMovies)
                     }
-                } else {
-                    ContentUnavailableView {
-                        Label("No Movies", systemImage: "film.stack")
-                    }
+                    .onDelete(perform: deleteMovies)
+                }
+            } else {
+                ContentUnavailableView {
+                    Label("No Movies", systemImage: "film.stack")
                 }
             }
-            .navigationTitle("Movies")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addMovie) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+        }
+        .navigationTitle("Movies")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton()
+            }
+            ToolbarItem {
+                Button(action: addMovie) {
+                    Label("Add Item", systemImage: "plus")
                 }
             }
-            .sheet(item: $newMovie) { movie in
-                NavigationStack {
-                    MovieDetail(movie: movie, isNew: true)
-                }
-                .interactiveDismissDisabled()
+        }
+        .sheet(item: $newMovie) { movie in
+            NavigationStack {
+                MovieDetail(movie: movie, isNew: true)
             }
-        } detail: {
-            Text("Select a movie")
-                .navigationTitle("Movie")
+            .interactiveDismissDisabled()
         }
     }
 
@@ -75,11 +78,22 @@ struct MovieList: View {
 }
 
 #Preview {
-    MovieList()
-        .modelContainer(SampleData.shared.modelContainer)
+    NavigationStack {
+        MovieList()
+            .modelContainer(SampleData.shared.modelContainer)
+    }
 }
 
 #Preview("Empty List") {
-    MovieList()
-        .modelContainer(for: Movie.self, inMemory: true)
+    NavigationStack {
+        MovieList()
+            .modelContainer(for: Movie.self, inMemory: true)
+    }
+}
+
+#Preview("Filtered") {
+    NavigationStack {
+        MovieList(titleFilter: "tr")
+            .modelContainer(SampleData.shared.modelContainer)
+    }
 }

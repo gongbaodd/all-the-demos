@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		780369D22C59E02B00E871E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780369D12C59E02B00E871E9 /* ContentView.swift */; };
+		780369D42C5A01BE00E871E9 /* FilteredMovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780369D32C5A01BE00E871E9 /* FilteredMovieList.swift */; };
 		780B74732C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B74722C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift */; };
 		780B74752C588E9F00B55929 /* MovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B74742C588E9F00B55929 /* MovieList.swift */; };
 		780B74772C588E9F00B55929 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B74762C588E9F00B55929 /* Movie.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		780369D12C59E02B00E871E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		780369D32C5A01BE00E871E9 /* FilteredMovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredMovieList.swift; sourceTree = "<group>"; };
 		780B746F2C588E9F00B55929 /* FriendsFavoriteMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendsFavoriteMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		780B74722C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsFavoriteMoviesApp.swift; sourceTree = "<group>"; };
 		780B74742C588E9F00B55929 /* MovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieList.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				780B74722C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift */,
 				780B74742C588E9F00B55929 /* MovieList.swift */,
+				780369D32C5A01BE00E871E9 /* FilteredMovieList.swift */,
 				780369D12C59E02B00E871E9 /* ContentView.swift */,
 				78F4F3A32C59117600FBDEC7 /* Friend.swift */,
 				78F4F3A52C5913C700FBDEC7 /* FriendList.swift */,
@@ -285,6 +288,7 @@
 				78F4F3A62C5913C700FBDEC7 /* FriendList.swift in Sources */,
 				780369D22C59E02B00E871E9 /* ContentView.swift in Sources */,
 				78F4F3A42C59117600FBDEC7 /* Friend.swift in Sources */,
+				780369D42C5A01BE00E871E9 /* FilteredMovieList.swift in Sources */,
 				780B74732C588E9F00B55929 /* FriendsFavoriteMoviesApp.swift in Sources */,
 				780B749F2C58935C00B55929 /* SampleData.swift in Sources */,
 			);
