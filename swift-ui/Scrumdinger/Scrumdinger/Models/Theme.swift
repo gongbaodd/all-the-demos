@@ -5,7 +5,6 @@
 //  Created by gongbaodd on 2024/8/3.
 //
 
-import Foundation
 import SwiftUI
 
 enum Theme: String {

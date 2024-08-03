@@ -5,8 +5,8 @@
 //  Created by gongbaodd on 2024/8/3.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct ScrumdingerApp: App {
@@ -25,7 +25,7 @@ struct ScrumdingerApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MeetingView()
+            ScrumsView(scrums: DailyScrum.sampleData)
         }
         .modelContainer(sharedModelContainer)
     }
