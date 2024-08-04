@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		780F42A92C5F41220053AA88 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780F42A82C5F41220053AA88 /* DetailView.swift */; };
+		780F42AB2C5F53F50053AA88 /* DetailEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780F42AA2C5F53F50053AA88 /* DetailEditView.swift */; };
 		7845F9962C5E5EED0074A939 /* ScrumsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7845F9952C5E5EED0074A939 /* ScrumsView.swift */; };
 		788401122C5E017C006B4C79 /* ScrumdingerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788401112C5E017C006B4C79 /* ScrumdingerApp.swift */; };
 		788401142C5E017C006B4C79 /* MeetingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788401132C5E017C006B4C79 /* MeetingView.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		780F42A82C5F41220053AA88 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		780F42AA2C5F53F50053AA88 /* DetailEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailEditView.swift; sourceTree = "<group>"; };
 		7845F9952C5E5EED0074A939 /* ScrumsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrumsView.swift; sourceTree = "<group>"; };
 		7884010E2C5E017C006B4C79 /* Scrumdinger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scrumdinger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		788401112C5E017C006B4C79 /* ScrumdingerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrumdingerApp.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				789BACAE2C5E23D80053E9A9 /* Models */,
 				788401112C5E017C006B4C79 /* ScrumdingerApp.swift */,
+				780F42AA2C5F53F50053AA88 /* DetailEditView.swift */,
 				789BACB32C5E27B80053E9A9 /* CardView.swift */,
 				7845F9952C5E5EED0074A939 /* ScrumsView.swift */,
 				780F42A82C5F41220053AA88 /* DetailView.swift */,
@@ -293,6 +296,7 @@
 				7845F9962C5E5EED0074A939 /* ScrumsView.swift in Sources */,
 				788401162C5E017C006B4C79 /* Item.swift in Sources */,
 				789BACB42C5E27B80053E9A9 /* CardView.swift in Sources */,
+				780F42AB2C5F53F50053AA88 /* DetailEditView.swift in Sources */,
 				788401122C5E017C006B4C79 /* ScrumdingerApp.swift in Sources */,
 				789BACB62C5E2BE70053E9A9 /* TrailingIconLabelStyle.swift in Sources */,
 			);
