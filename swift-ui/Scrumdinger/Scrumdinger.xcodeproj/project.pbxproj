@@ -34,6 +34,8 @@
 		78EC4BE12C61C4890099A80F /* ScrumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE02C61C4890099A80F /* ScrumStore.swift */; };
 		78EC4BE32C61F5080099A80F /* ErrorWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE22C61F5080099A80F /* ErrorWrapper.swift */; };
 		78EC4BE52C61F5B90099A80F /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE42C61F5B90099A80F /* ErrorView.swift */; };
+		78EC4BE72C620E3C0099A80F /* MeetingTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE62C620E3C0099A80F /* MeetingTimerView.swift */; };
+		78EC4BE92C62111B0099A80F /* SpeakerArc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE82C62111B0099A80F /* SpeakerArc.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,8 @@
 		78EC4BE02C61C4890099A80F /* ScrumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrumStore.swift; sourceTree = "<group>"; };
 		78EC4BE22C61F5080099A80F /* ErrorWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorWrapper.swift; sourceTree = "<group>"; };
 		78EC4BE42C61F5B90099A80F /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		78EC4BE62C620E3C0099A80F /* MeetingTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingTimerView.swift; sourceTree = "<group>"; };
+		78EC4BE82C62111B0099A80F /* SpeakerArc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerArc.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,8 +150,10 @@
 				780F42AE2C5F63630053AA88 /* ThemePicker.swift */,
 				789BACB52C5E2BE70053E9A9 /* TrailingIconLabelStyle.swift */,
 				788401132C5E017C006B4C79 /* MeetingView.swift */,
-				788977F82C60EFB100EB99AA /* MeetingFooterView.swift */,
+				78EC4BE82C62111B0099A80F /* SpeakerArc.swift */,
 				788977F22C60D58500EB99AA /* MeetingHeaderView.swift */,
+				78EC4BE62C620E3C0099A80F /* MeetingTimerView.swift */,
+				788977F82C60EFB100EB99AA /* MeetingFooterView.swift */,
 				788977F42C60E58E00EB99AA /* ScrumProgressViewStyle.swift */,
 				788401152C5E017C006B4C79 /* Item.swift */,
 				788401172C5E017D006B4C79 /* Assets.xcassets */,
@@ -337,8 +343,10 @@
 				78EC4BDD2C61B73A0099A80F /* NewScrumSheet.swift in Sources */,
 				789BACB02C5E240D0053E9A9 /* Theme.swift in Sources */,
 				7845F9962C5E5EED0074A939 /* ScrumsView.swift in Sources */,
+				78EC4BE92C62111B0099A80F /* SpeakerArc.swift in Sources */,
 				788977F32C60D58500EB99AA /* MeetingHeaderView.swift in Sources */,
 				788401162C5E017C006B4C79 /* Item.swift in Sources */,
+				78EC4BE72C620E3C0099A80F /* MeetingTimerView.swift in Sources */,
 				788977F72C60E71B00EB99AA /* ScrumTimer.swift in Sources */,
 				78EC4BE32C61F5080099A80F /* ErrorWrapper.swift in Sources */,
 				789BACB42C5E27B80053E9A9 /* CardView.swift in Sources */,
