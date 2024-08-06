@@ -10,25 +10,26 @@ import SwiftUI
 
 @main
 struct ScrumdingerApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
-    @State private var scrums = DailyScrum.sampleData
+    @StateObject private var store = ScrumStore()
 
     var body: some Scene {
         WindowGroup {
-            ScrumsView(scrums: $scrums)
+            ScrumsView(scrums: $store.scrums) {
+                Task {
+                    do {
+                        try await store.save(scrums: store.scrums)
+                    } catch {
+                        fatalError(error.localizedDescription)
+                    }
+                }
+            }
+            .task {
+                do {
+                    try await store.load()
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
+            }
         }
-        .modelContainer(sharedModelContainer)
     }
 }
