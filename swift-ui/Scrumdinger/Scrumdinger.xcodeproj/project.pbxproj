@@ -37,6 +37,7 @@
 		78EC4BE72C620E3C0099A80F /* MeetingTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE62C620E3C0099A80F /* MeetingTimerView.swift */; };
 		78EC4BE92C62111B0099A80F /* SpeakerArc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BE82C62111B0099A80F /* SpeakerArc.swift */; };
 		78EC4BEB2C6220DA0099A80F /* SpeechRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BEA2C6220DA0099A80F /* SpeechRecognizer.swift */; };
+		78EC4BED2C630DB50099A80F /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC4BEC2C630DB50099A80F /* HistoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		78EC4BE62C620E3C0099A80F /* MeetingTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingTimerView.swift; sourceTree = "<group>"; };
 		78EC4BE82C62111B0099A80F /* SpeakerArc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeakerArc.swift; sourceTree = "<group>"; };
 		78EC4BEA2C6220DA0099A80F /* SpeechRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognizer.swift; sourceTree = "<group>"; };
+		78EC4BEC2C630DB50099A80F /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,8 +154,9 @@
 				780F42AC2C5F62580053AA88 /* ThemeView.swift */,
 				780F42AE2C5F63630053AA88 /* ThemePicker.swift */,
 				789BACB52C5E2BE70053E9A9 /* TrailingIconLabelStyle.swift */,
-				788401132C5E017C006B4C79 /* MeetingView.swift */,
 				78EC4BE82C62111B0099A80F /* SpeakerArc.swift */,
+				788401132C5E017C006B4C79 /* MeetingView.swift */,
+				78EC4BEC2C630DB50099A80F /* HistoryView.swift */,
 				788977F22C60D58500EB99AA /* MeetingHeaderView.swift */,
 				78EC4BE62C620E3C0099A80F /* MeetingTimerView.swift */,
 				788977F82C60EFB100EB99AA /* MeetingFooterView.swift */,
@@ -351,6 +354,7 @@
 				788977F32C60D58500EB99AA /* MeetingHeaderView.swift in Sources */,
 				788401162C5E017C006B4C79 /* Item.swift in Sources */,
 				78EC4BE72C620E3C0099A80F /* MeetingTimerView.swift in Sources */,
+				78EC4BED2C630DB50099A80F /* HistoryView.swift in Sources */,
 				788977F72C60E71B00EB99AA /* ScrumTimer.swift in Sources */,
 				78EC4BE32C61F5080099A80F /* ErrorWrapper.swift in Sources */,
 				789BACB42C5E27B80053E9A9 /* CardView.swift in Sources */,
