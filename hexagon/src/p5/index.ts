@@ -1,3 +1,4 @@
+import GameMap from "./GameMap";
 import Scene from "./Scene";
 import type { Sketch } from "@p5-wrapper/react";
 
@@ -13,7 +14,10 @@ let hexagons: { x: number; y: number; color: string }[] = []; // Array to store 
 
 const sketch: Sketch = p5 => {
   const scene = new Scene(p5);
+  const map = new GameMap(p5);
 
+  scene.add(map);
+  
   scene.init(drawHexagons);
   scene.render(() => {
     // Redraw hexagons with updated colors
@@ -49,7 +53,7 @@ const sketch: Sketch = p5 => {
         y += centerY;
 
         // Check if the small hexagon is within the large hexagon boundary
-        if (isPointInHexagon(centerX, centerY, largeHexRadius, x, y)) {
+        if (map.isInMap(centerX, centerY, largeHexRadius, x, y)) {
           // Store hexagon position and its state (default color)
           hexagons.push({ x, y, color: "white" });
           drawHexagon(x, y, smallHexRadius, "white"); // Draw with default color
@@ -78,25 +82,6 @@ const sketch: Sketch = p5 => {
     p5.endShape(p5.CLOSE);
     p5.pop();
   }
-
-  // Check if a point (x, y) lies within a hexagon with a given center and radius
-  function isPointInHexagon(
-    centerX: number,
-    centerY: number,
-    radius: number,
-    x: number,
-    y: number
-  ) {
-    let dx = p5.abs(x - centerX);
-    let dy = p5.abs(y - centerY);
-    // Check if the point (x, y) is within the horizontal and vertical bounds of a hexagon
-    if (dx > (radius * 3) / 2 || dy > (radius * Math.sqrt(3)) / 2) {
-      return false;
-    }
-    // Further check the precise hexagon boundary
-    return dx * Math.sqrt(3) + dy <= radius * Math.sqrt(3);
-  }
-
   // Detect mouse click and change color of clicked hexagon
   p5.mousePressed = () => {
     let closestHexIndex = -1;

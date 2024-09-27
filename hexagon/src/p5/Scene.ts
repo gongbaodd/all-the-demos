@@ -1,10 +1,12 @@
 import type Tp5 from "p5";
+import type { Entity } from "./Entity";
 
 const WIDTH = 1024;
 const HEIGHT = 800;
 
 export default class Scene {
   #p5: Tp5;
+  children: Entity[] = [];
   constructor(p5: Tp5) {
     this.#p5 = p5;
   }
@@ -27,5 +29,9 @@ export default class Scene {
     this.#p5.draw = () => {
         draw(this.#p5);
     }
+  }
+
+  add(child: Entity) {
+    this.children.push(child);
   }
 }
