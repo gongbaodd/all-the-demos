@@ -1,9 +1,12 @@
 import { Entity, type Tp5 } from "./Entity";
+import GameMap from "./GameMap";
 import Scene from "./Scene";
 
 export interface AbstractHexagon {
   x: number;
   y: number;
+  col: number;
+  row: number;
   color: string;
 }
 
@@ -12,6 +15,7 @@ export default class Hexagon extends Entity {
   static height = Math.sqrt(3) * this.radius; // Height of a pointy-topped small hexagon
   static width = 2 * this.radius;
   hex: AbstractHexagon;
+  neighbors: Map<keyof typeof GameMap.directions, Hexagon> = new Map();
   constructor(p5: Tp5, data: AbstractHexagon) {
     super(p5);
 
@@ -28,7 +32,6 @@ export default class Hexagon extends Entity {
       this.hex.color === "white"
     ) {
       this.hex.color = "red";
-
       return true;
     }
 
