@@ -1,4 +1,5 @@
 import { Entity, type Tp5 } from "./Entity";
+import Scene from "./Scene";
 
 export interface AbstractHexagon {
   x: number;
@@ -15,7 +16,25 @@ export default class Hexagon extends Entity {
     super(p5);
 
     this.hex = { ...data };
+
+    // TODO: remove event when entity removed
+    Scene.mousePressEvents.push(this.mousePressed);
   }
+
+  mousePressed = () => {
+    const { mouseX, mouseY } = this.p5;
+    if (
+      this.p5.dist(mouseX, mouseY, this.hex.x, this.hex.y) < Hexagon.radius &&
+      this.hex.color === "white"
+    ) {
+      this.hex.color = "red";
+
+      return true;
+    }
+
+    return false;
+  };
+
   render(): void {
     const p5 = this.p5;
     const { x, y, color } = this.hex;
