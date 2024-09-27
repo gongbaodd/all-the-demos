@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import { Stage } from '../components/react/Stage';
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
+		<Stage client:only="react" />
 	</main>
 </Layout>
 
