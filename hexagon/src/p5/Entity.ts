@@ -1,4 +1,4 @@
-import type Tp5 from "p5";
+import Tp5 from "p5";
 
 export class Entity {
   p5: Tp5;
@@ -9,5 +9,11 @@ export class Entity {
   add(child: Entity) {
     this.children.push(child);
   }
-  render() {}
+  render() {
+    this.children.forEach((child) => {
+      child.render();
+    });
+  }
 }
+
+export type { Tp5 };

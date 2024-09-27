@@ -11,27 +11,27 @@ export default class Scene {
     this.#p5 = p5;
   }
 
-  init(setup: (p: Tp5) => void) {
-    this.#p5.setup = () => {
-        this.#p5.createCanvas(WIDTH, HEIGHT);
-        this.#p5.textAlign(this.#p5.CENTER, this.#p5.CENTER);
-        this.#p5.textSize(12);
-        this.#p5.noLoop();
-
-        this.#p5.stroke(0);
-        this.#p5.noFill();
-
-        setup(this.#p5);
-    }
-  }
-
-  render(draw: (p: Tp5) => void) {
-    this.#p5.draw = () => {
-        draw(this.#p5);
-    }
-  }
-
   add(child: Entity) {
     this.children.push(child);
+  }
+
+  init() {
+    this.#p5.setup = () => {
+      this.#p5.createCanvas(WIDTH, HEIGHT);
+      this.#p5.textAlign(this.#p5.CENTER, this.#p5.CENTER);
+      this.#p5.textSize(12);
+      this.#p5.noLoop();
+
+      this.#p5.stroke(0);
+      this.#p5.noFill();
+    };
+  }
+
+  render() {
+    this.#p5.draw = () => {
+      this.children.forEach((child) => {
+        child.render();
+      });
+    };
   }
 }
