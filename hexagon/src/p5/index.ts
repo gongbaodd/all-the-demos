@@ -1,4 +1,5 @@
-import type Tp5 from "p5";
+import Scene from "./Scene";
+import type { Sketch } from "@p5-wrapper/react";
 
 const WIDTH = 1024;
 const HEIGHT = 800;
@@ -10,27 +11,19 @@ const hexWidth = 2 * smallHexRadius; // Width of a pointy-topped small hexagon
 
 let hexagons: { x: number; y: number; color: string }[] = []; // Array to store all small hexagons
 
-export default function sketch(p5: Tp5) {
-  p5.setup = () => {
-    p5.createCanvas(WIDTH, HEIGHT);
-    p5.textAlign(p5.CENTER, p5.CENTER);
-    p5.textSize(12);
-    p5.noLoop();
+const sketch: Sketch = p5 => {
+  const scene = new Scene(p5);
 
-    drawHexagons();
-  };
-
-  p5.draw = () => {
+  scene.init(drawHexagons);
+  scene.render(() => {
     // Redraw hexagons with updated colors
     for (let hex of hexagons) {
       drawHexagon(hex.x, hex.y, smallHexRadius, hex.color);
     }
-  };
+  });
 
   function drawHexagons() {
-    p5.background(255);
-    p5.stroke(0);
-    p5.noFill();
+
 
     const centerX = WIDTH / 2;
     const centerY = HEIGHT / 2;
@@ -147,3 +140,5 @@ export default function sketch(p5: Tp5) {
     }
   };
 }
+
+export default sketch;
