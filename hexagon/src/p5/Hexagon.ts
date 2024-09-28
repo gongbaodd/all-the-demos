@@ -12,7 +12,7 @@ export interface AbstractHexagon {
 }
 
 export default class Hexagon extends Entity {
-  static radius = 30; // Radius of the small hexagons
+  static radius = 15; // Radius of the small hexagons
   static height = Math.sqrt(3) * this.radius; // Height of a pointy-topped small hexagon
   static width = 2 * this.radius;
   hex: AbstractHexagon;

@@ -1,10 +1,26 @@
 let listeners: Function[] = [];
 
+const cards = [
+  "jump",
+  "jump 2 blocks",
+  "jump 3 blocks",
+  "move",
+  "move x 2",
+  "move x 3",
+  "move x 4",
+  "move jump move",
+  "move, jump x 2",
+  "jump move",
+  "move jump",
+  "jump x 2, move"
+]
+
 let players = [
   {
     name: "player 1",
     playing: true,
     color: "red",
+    card1: cards[Math.random()]
   },
   {
     name: "player 2",
