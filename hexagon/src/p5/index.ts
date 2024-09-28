@@ -7,8 +7,11 @@ const sketch: Sketch = (p5) => {
   const map = new GameMap(p5, Scene.width / 2, Scene.height / 2);
 
   scene.add(map);
-
   scene.init();
+
+  map.fill();
+  map.findNeighbors();
+
   scene.render();
 };
 

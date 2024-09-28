@@ -28,9 +28,6 @@ export default class GameMap extends Entity {
 
     this.x = x;
     this.y = y;
-
-    this.fill();
-    this.findNeighbors(); // After filling, find and store neighbors for each hexagon
   }
 
   fill() {
