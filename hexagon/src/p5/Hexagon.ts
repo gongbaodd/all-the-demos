@@ -33,6 +33,7 @@ export default class Hexagon extends Entity {
       this.hex.color === "white"
     ) {
       this.hex.color = playerStore.getColor();
+      playerStore.updatePos(this.hex)
       return true;
     }
 

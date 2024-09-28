@@ -1,3 +1,4 @@
+import type { AbstractHexagon } from "../p5/Hexagon";
 import cardStore from "./cardStore";
 
 let listeners: Function[] = [];
@@ -6,27 +7,37 @@ const colors = {
   red: {
     dark: "#b71c1c",
     medium: "#d32f2f",
-    light: " #e57373"
+    light: " #e57373",
   },
   blue: {
     dark: "#0d47a1",
     medium: "#1976d2",
-    light: "#64b5f6"
-  }
-}
+    light: "#64b5f6",
+  },
+};
 
-let players = [
+type TPlayer = {
+  name: string;
+  playing: boolean;
+  color: string;
+  cards: ReturnType<typeof cardStore.getCard>[];
+  position: AbstractHexagon | null;
+};
+
+let players: TPlayer[] = [
   {
     name: "player 1",
     playing: true,
     color: colors.red.medium,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
+    position: null,
   },
   {
     name: "player 2",
     playing: false,
     color: colors.blue.medium,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
+    position: null,
   },
 ];
 
@@ -38,6 +49,14 @@ const playerStore = {
     playingOne.playing = false;
     const nextOne = players[(players.indexOf(playingOne) + 1) % players.length];
     nextOne.playing = true;
+
+    emitChange();
+  },
+  updatePos(hexagon: AbstractHexagon) {
+    const [playingOne] = players.filter(({ playing }) => playing);
+    playingOne.position = hexagon;
+
+    players = structuredClone(players);
 
     emitChange();
   },
