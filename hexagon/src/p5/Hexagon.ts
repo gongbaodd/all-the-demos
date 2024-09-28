@@ -1,3 +1,4 @@
+import hexStore from "../Models/hexStore";
 import playerStore from "../Models/playerStore";
 import { Entity, type Tp5 } from "./Entity";
 import GameMap from "./GameMap";
@@ -9,6 +10,7 @@ export interface AbstractHexagon {
   col: number;
   row: number;
   color: string;
+  isOccupied: boolean;
 }
 
 export default class Hexagon extends Entity {
@@ -24,10 +26,19 @@ export default class Hexagon extends Entity {
 
     // TODO: remove event when entity removed
     Scene.mousePressEvents.push(this.mousePressed);
+
+    hexStore.add(this.hex);
   }
 
   mousePressed = () => {
     const { mouseX, mouseY } = this.p5;
+    const players = playerStore.getSnapshot();
+    const [currPlayer] = players.filter(p => p.playing);
+
+    if (currPlayer.position && !currPlayer.chosenCard) {
+      return false;
+    }
+
     if (
       this.p5.dist(mouseX, mouseY, this.hex.x, this.hex.y) < Hexagon.radius &&
       this.hex.color === "white"

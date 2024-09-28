@@ -57,7 +57,7 @@ export default class GameMap extends Entity {
         // Check if the small hexagon is within the large hexagon boundary
         if (this.isInMap(centerX, centerY, largeHexRadius, x, y)) {
           // Store hexagon position and its state (default color)
-          const hex = new Hexagon(this.p5, { x, y, color: "white", col, row });
+          const hex = new Hexagon(this.p5, { x, y, color: "white", col, row, isOccupied: false });
           this.hexes.push(hex);
           this.add(hex);
         }

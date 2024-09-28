@@ -16,12 +16,15 @@ const colors = {
   },
 };
 
+type TCard = ReturnType<typeof cardStore.getCard>;
+
 type TPlayer = {
   name: string;
   playing: boolean;
   color: string;
-  cards: ReturnType<typeof cardStore.getCard>[];
+  cards: TCard[];
   position: AbstractHexagon | null;
+  chosenCard: TCard | null;
 };
 
 let players: TPlayer[] = [
@@ -31,6 +34,7 @@ let players: TPlayer[] = [
     color: colors.red.medium,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
     position: null,
+    chosenCard: null,
   },
   {
     name: "player 2",
@@ -38,6 +42,7 @@ let players: TPlayer[] = [
     color: colors.blue.medium,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
     position: null,
+    chosenCard: null
   },
 ];
 
@@ -55,6 +60,15 @@ const playerStore = {
   updatePos(hexagon: AbstractHexagon) {
     const [playingOne] = players.filter(({ playing }) => playing);
     playingOne.position = hexagon;
+
+    players = structuredClone(players);
+
+    emitChange();
+  },
+
+  chooseCard(card: TCard) {
+    const [playingOne] = players.filter(({ playing }) => playing);
+    playingOne.chosenCard = card;
 
     players = structuredClone(players);
 
