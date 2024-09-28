@@ -1,6 +1,7 @@
 import type Tp5 from "p5";
 import { Entity } from "./Entity";
 import Hexagon from "./Hexagon";
+import hexStore from "../Models/hexStore";
 
 export default class GameMap extends Entity {
   children: Entity[] = [];
@@ -57,7 +58,7 @@ export default class GameMap extends Entity {
         // Check if the small hexagon is within the large hexagon boundary
         if (this.isInMap(centerX, centerY, largeHexRadius, x, y)) {
           // Store hexagon position and its state (default color)
-          const hex = new Hexagon(this.p5, { x, y, color: "white", col, row, isOccupied: false });
+          const hex = new Hexagon(this.p5, { x, y, col, row});
           this.hexes.push(hex);
           this.add(hex);
         }
@@ -90,8 +91,6 @@ export default class GameMap extends Entity {
     const directions = GameMap.directions;
 
     this.hexes.forEach((hexagon) => {
-      hexagon.neighbors = new Map(); // Initialize the neighbors map
-
       const { hex } = hexagon;
 
       for (const [direction, offset] of Object.entries(directions)) {
@@ -110,7 +109,7 @@ export default class GameMap extends Entity {
 
         if (neighbor) {
           const _direction = direction as keyof typeof GameMap.directions;
-          hexagon.neighbors.set(_direction, neighbor); // Store the neighbor with its direction
+          hexStore.noEffectSetNeighbors(hex.x, hex.y, _direction, neighbor.hex);
         }
       }
     });

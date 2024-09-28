@@ -21,7 +21,7 @@ type TCard = ReturnType<typeof cardStore.getCard>;
 type TPlayer = {
   name: string;
   playing: boolean;
-  color: string;
+  color: typeof colors.red;
   cards: TCard[];
   position: AbstractHexagon | null;
   chosenCard: TCard | null;
@@ -31,7 +31,7 @@ let players: TPlayer[] = [
   {
     name: "player 1",
     playing: true,
-    color: colors.red.medium,
+    color: colors.red,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
     position: null,
     chosenCard: null,
@@ -39,7 +39,7 @@ let players: TPlayer[] = [
   {
     name: "player 2",
     playing: false,
-    color: colors.blue.medium,
+    color: colors.blue,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
     position: null,
     chosenCard: null
@@ -77,6 +77,11 @@ const playerStore = {
   getColor() {
     const [player] = players.filter(({ playing }) => playing);
     return player.color;
+  },
+
+  getName() {
+    const [player] = players.filter(({ playing }) => playing);
+    return player.name;
   },
   subscribe(listener: Function) {
     listeners = [...listeners, listener];

@@ -7,8 +7,8 @@ export default function Player({ name, playing, color }: { name: string, playing
 
     type TCard = typeof currentPlayer.cards[0];
 
-    const onCardPicked = useCallback((card: TCard) => { 
-        return () => playerStore.chooseCard(card)
+    const onCardPicked = useCallback((card: TCard) => () => {
+        playerStore.chooseCard(card)
     }, [])
 
     return (
@@ -25,7 +25,7 @@ export default function Player({ name, playing, color }: { name: string, playing
                         })
                     }
                 </ul>
-                {currentPlayer.chosenCard && <p>Chosen Card: <br/>{currentPlayer.chosenCard.name}</p>}
+                {currentPlayer.chosenCard && <p>Chosen Card: <br />{currentPlayer.chosenCard.name}</p>}
             </div>}
             {!currentPlayer.position && <p>Please choose your starting position.</p>}
         </section>

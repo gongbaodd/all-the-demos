@@ -9,8 +9,6 @@ export interface AbstractHexagon {
   y: number;
   col: number;
   row: number;
-  color: string;
-  isOccupied: boolean;
 }
 
 export default class Hexagon extends Entity {
@@ -18,7 +16,6 @@ export default class Hexagon extends Entity {
   static height = Math.sqrt(3) * this.radius; // Height of a pointy-topped small hexagon
   static width = 2 * this.radius;
   hex: AbstractHexagon;
-  neighbors: Map<keyof typeof GameMap.directions, Hexagon> = new Map();
   constructor(p5: Tp5, data: AbstractHexagon) {
     super(p5);
 
@@ -26,25 +23,31 @@ export default class Hexagon extends Entity {
 
     // TODO: remove event when entity removed
     Scene.mousePressEvents.push(this.mousePressed);
+    // TODO: rmove listener
+    const _removeListener = hexStore.subscribe(() => {
+      p5.redraw();
+    });
 
-    hexStore.add(this.hex);
+    hexStore.noEffectAdd(this.hex);
   }
 
   mousePressed = () => {
     const { mouseX, mouseY } = this.p5;
     const players = playerStore.getSnapshot();
-    const [currPlayer] = players.filter(p => p.playing);
+    const [currPlayer] = players.filter((p) => p.playing);
 
     if (currPlayer.position && !currPlayer.chosenCard) {
       return false;
     }
 
+    const { x, y } = this.hex;
+
     if (
-      this.p5.dist(mouseX, mouseY, this.hex.x, this.hex.y) < Hexagon.radius &&
-      this.hex.color === "white"
+      this.p5.dist(mouseX, mouseY, x, y) < Hexagon.radius &&
+      hexStore.getHex(x, y)?.isOccupied === false
     ) {
-      this.hex.color = playerStore.getColor();
-      playerStore.updatePos(this.hex)
+      hexStore.occupyHex(x, y);
+      playerStore.updatePos(this.hex);
       return true;
     }
 
@@ -53,7 +56,8 @@ export default class Hexagon extends Entity {
 
   render(): void {
     const p5 = this.p5;
-    const { x, y, color } = this.hex;
+    const { x, y } = this.hex;
+    const color = hexStore.getHex(x, y)?.color || "white";
 
     p5.push();
     p5.translate(x, y);
