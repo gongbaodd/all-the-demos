@@ -2,17 +2,30 @@ import cardStore from "./cardStore";
 
 let listeners: Function[] = [];
 
+const colors = {
+  red: {
+    dark: "#b71c1c",
+    medium: "#d32f2f",
+    light: " #e57373"
+  },
+  blue: {
+    dark: "#0d47a1",
+    medium: "#1976d2",
+    light: "#64b5f6"
+  }
+}
+
 let players = [
   {
     name: "player 1",
     playing: true,
-    color: "red",
+    color: colors.red.medium,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
   },
   {
     name: "player 2",
     playing: false,
-    color: "blue",
+    color: colors.blue.medium,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
   },
 ];
