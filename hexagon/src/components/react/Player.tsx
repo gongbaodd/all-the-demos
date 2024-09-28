@@ -1,10 +1,16 @@
-import { useSyncExternalStore } from "react"
+import { useCallback, useState, useSyncExternalStore, type MouseEventHandler } from "react"
 import playerStore from "../../Models/playerStore"
 
 export default function Player({ name, playing, color }: { name: string, playing: boolean, color: string }) {
     const players = useSyncExternalStore(playerStore.subscribe, playerStore.getSnapshot)
-
     const [currentPlayer] = players.filter(player => player.name === name)
+
+    type TCard = typeof currentPlayer.cards[0];
+
+    const [chosenCard, updateChosenCard] = useState<TCard | null>(null)
+    const onCardPicked = useCallback((card: TCard) => { 
+        return () => updateChosenCard(card) 
+    }, [])
 
     return (
         <section>
@@ -13,9 +19,14 @@ export default function Player({ name, playing, color }: { name: string, playing
                 Cards:
                 <ul>
                     {
-                        currentPlayer.cards.map((card, index) => <li key={index}>{card?.name}</li>)
+                        currentPlayer.cards.map((card, index) => {
+                            return <li key={index}>
+                                <button onClick={onCardPicked(card)} disabled={!playing}>{card?.name}</button>
+                            </li>;
+                        })
                     }
                 </ul>
+                {chosenCard && <p>Chosen Card: <br/>{chosenCard.name}</p>}
             </div>}
             {!currentPlayer.position && <p>Please choose your starting position.</p>}
         </section>
