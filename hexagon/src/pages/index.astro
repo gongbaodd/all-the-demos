@@ -1,16 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
-import { Stage } from '../components/react/Stage';
+import App from '../components/react/App';
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Welcome to Relm.">
 	<main>
-		<Stage client:only="react" />
+		<App client:only="react" />
 	</main>
 </Layout>
 
-<style>
+<style is:global>
 	main {
 		margin: auto;
 		padding: 1rem;
@@ -19,5 +18,9 @@ import { Stage } from '../components/react/Stage';
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
+	}
+
+	.player {
+		position: absolute;
 	}
 </style>

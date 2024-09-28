@@ -1,3 +1,4 @@
+import playerStore from "../Models/playerStore";
 import { Entity, type Tp5 } from "./Entity";
 import GameMap from "./GameMap";
 import Scene from "./Scene";
@@ -31,7 +32,7 @@ export default class Hexagon extends Entity {
       this.p5.dist(mouseX, mouseY, this.hex.x, this.hex.y) < Hexagon.radius &&
       this.hex.color === "white"
     ) {
-      this.hex.color = "red";
+      this.hex.color = playerStore.getColor();
       return true;
     }
 
