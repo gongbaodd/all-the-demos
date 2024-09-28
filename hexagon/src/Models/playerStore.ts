@@ -1,37 +1,25 @@
-let listeners: Function[] = [];
+import cardStore from "./cardStore";
 
-const cards = [
-  "jump",
-  "jump 2 blocks",
-  "jump 3 blocks",
-  "move",
-  "move x 2",
-  "move x 3",
-  "move x 4",
-  "move jump move",
-  "move, jump x 2",
-  "jump move",
-  "move jump",
-  "jump x 2, move"
-]
+let listeners: Function[] = [];
 
 let players = [
   {
     name: "player 1",
     playing: true,
     color: "red",
-    card1: cards[Math.random()]
+    cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
   },
   {
     name: "player 2",
     playing: false,
     color: "blue",
+    cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
   },
 ];
 
 const playerStore = {
   togglePlayer() {
-    players = [...players];
+    players = structuredClone(players);
 
     const [playingOne] = players.filter(({ playing }) => playing);
     playingOne.playing = false;

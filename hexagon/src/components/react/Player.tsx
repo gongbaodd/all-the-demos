@@ -1,15 +1,23 @@
+import { useEffect, useSyncExternalStore } from "react"
+import cardStore from "../../Models/cardStore"
+import playerStore from "../../Models/playerStore"
+
 export default function Player({ name, playing, color }: { name: string, playing: boolean, color: string }) {
+    const cards = useSyncExternalStore(cardStore.subscribe, cardStore.getSnapshot)
+    const players = useSyncExternalStore(playerStore.subscribe, playerStore.getSnapshot)
+    const [currentPlayer] = players.filter(player => player.name === name)
+
     return (
         <section>
-            <h1 style={{color}}>{name}: {playing ? "playing": "waiting"}</h1>
-            <p>
+            <h1 style={{ color }}>{name}: {playing ? "playing" : "waiting"}</h1>
+            <div>
                 Cards:
                 <ul>
-                    <li>walk 3 block</li>
-                    <li>walk jump walk</li>
-                    <li>jump 3 block</li>
+                    {
+                        currentPlayer.cards.map(card => <li>{card?.name}</li>)
+                    }
                 </ul>
-            </p>
+            </div>
         </section>
     )
 }
