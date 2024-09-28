@@ -10,7 +10,7 @@ export default function App() {
         <div className="player">
             {
                 players.map((player) => (
-                    <Player key={player.name} name={player.name} playing={player.playing} color={player.color} />
+                    <Player key={player.name} name={player.name} playing={player.playing} color={player.color.medium} />
                 ))
             }
         </div>

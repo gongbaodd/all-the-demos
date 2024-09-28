@@ -50,7 +50,24 @@ const hexStore = {
 
   peek(p: TPeek) {
     if (p === TPeek.move) {
-      
+      const hex = hexes.find((h) => h.isCurrent);
+      let changed = false;
+
+      if (hex) {
+        for (const { x, y } of hex.neighbors.values()) {
+          const neighbor = hexes.find((h) => h.x === x && h.y === y);
+          if (neighbor && !neighbor.isOccupied) {
+            const color = playerStore.getColor();
+            neighbor.color = color.light;
+            changed = true;
+          }
+        }
+      }
+
+      if (changed) {
+        hexes = structuredClone(hexes);
+        emitChange();
+      }
     }
   },
 
@@ -66,15 +83,20 @@ const hexStore = {
       hex.isOccupied = true;
 
       const color = playerStore.getColor();
-      hex.color = color.medium;
+      hex.color = color.dark;
       hex.owner = playerName;
 
       const current = hexes.find((h) => h.isCurrent);
-      if (current && current.owner === playerName ) {
+      if (current && current.owner === playerName) {
         current.isCurrent = false;
-        current.color = color.dark;
+        current.color = color.medium;
       }
       hex.isCurrent = true;
+
+      // clear peeks
+      hexes.forEach((h) => {
+        if (!h.isOccupied) h.color = "white";
+      })
 
       hexes = structuredClone(hexes);
       emitChange();
