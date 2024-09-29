@@ -23,7 +23,7 @@ export default function Player({ name, playing, color }: { name: string, playing
                     {
                         currentPlayer.cards.map((card, index) => {
                             return <li key={index}>
-                                <button onClick={onCardPicked(card)} disabled={!playing}>{card?.name}</button>
+                                <button onClick={onCardPicked(card)} disabled={!playing || !!currentPlayer.chosenCard}>{card?.name}</button>
                             </li>;
                         })
                     }
