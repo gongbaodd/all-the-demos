@@ -9,6 +9,7 @@ type THex = AbstractHexagon & {
   color: string;
   isOccupied: boolean;
   isCurrent: boolean;
+  isPeeked: boolean;
   owner: string | null;
   neighbors: Map<TDirection, AbstractHexagon>;
 };
@@ -25,6 +26,7 @@ const hexStore = {
         color: "white",
         isOccupied: false,
         isCurrent: false,
+        isPeeked: false,
         neighbors: new Map(),
         owner: null,
       },
@@ -54,6 +56,7 @@ const hexStore = {
           if (neighbor && !neighbor.isOccupied) {
             const color = playerStore.getColor();
             neighbor.color = color.light;
+            neighbor.isPeeked = true;
             changed = true;
           }
         }
@@ -91,6 +94,7 @@ const hexStore = {
       // clear peeks
       hexes.forEach((h) => {
         if (!h.isOccupied) h.color = "white";
+        if (h.isPeeked) h.isPeeked = false;
       })
 
       hexes = structuredClone(hexes);

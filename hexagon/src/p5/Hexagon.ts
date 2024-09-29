@@ -40,16 +40,19 @@ export default class Hexagon extends Entity {
     }
 
     const { x, y } = this.hex;
+    const pickedHex = hexStore.getHex(x, y);
 
     if (
       this.p5.dist(mouseX, mouseY, x, y) < Hexagon.radius &&
-      hexStore.getHex(x, y)?.isOccupied === false
+      pickedHex?.isOccupied === false
     ) {
-      hexStore.occupyHex(x, y);
-      playerStore.updatePos(this.hex);
-      playerStore.takeStep();
+      if (!currPlayer.chosenCard || pickedHex.isPeeked) {
+        hexStore.occupyHex(x, y);
+        playerStore.updatePos(this.hex);
+        playerStore.takeStep();
 
-      return true;
+        return true;
+      }
     }
 
     return false;
