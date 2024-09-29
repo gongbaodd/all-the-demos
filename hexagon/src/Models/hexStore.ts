@@ -73,8 +73,6 @@ const hexStore = {
     let changed = false;
     const hex = hexes.find((h) => h.isCurrent);
     const peeked: THex[] = [];
-
-    console.log("peek", p);
     
     if (hex) {
       switch (p) {

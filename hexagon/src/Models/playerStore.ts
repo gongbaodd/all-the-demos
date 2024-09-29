@@ -69,18 +69,16 @@ const playerStore = {
   takeStep() {
     const [playingOne] = players.filter(({ playing }) => playing);
     const card = playingOne.chosenCard;
-    if (!card || card.steps.length === 0) {
+    if (!card) {
       // choose position
       playerStore.togglePlayer();
       return;
     }
 
     const { steps } = card;
-    const step = steps.shift()!;
-
-    playingOne.steps.push(step);
 
     if (steps.length === 0) {
+      // step done
       card.steps = [...playingOne.steps];
       playingOne.steps = [];
       playingOne.chosenCard = null;
@@ -92,9 +90,13 @@ const playerStore = {
       cardStore.putBack(card);
 
       playerStore.togglePlayer();
-    } else {
-      hexStore.peek(step);
+      return;
     }
+
+    const step = steps.shift()!;
+
+    playingOne.steps.push(step);
+    hexStore.peek(step);
   },
 
   updatePos(hexagon: AbstractHexagon) {

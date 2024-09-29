@@ -11,7 +11,7 @@ export default function Player({ name, playing, color }: { name: string, playing
 
     const onCardPicked = useCallback((card: TCard) => () => {
         playerStore.chooseCard(card)
-        hexStore.peek(TStep.move)
+        playerStore.takeStep()
     }, [])
 
     return (
