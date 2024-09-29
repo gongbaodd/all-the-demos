@@ -1,7 +1,5 @@
 import { useCallback, useState, useSyncExternalStore, type MouseEventHandler } from "react"
 import playerStore from "../../Models/playerStore"
-import hexStore from "../../Models/hexStore";
-import { TStep } from "../../Models/cardStore";
 
 export default function Player({ name, playing, color }: { name: string, playing: boolean, color: string }) {
     const players = useSyncExternalStore(playerStore.subscribe, playerStore.getSnapshot)
