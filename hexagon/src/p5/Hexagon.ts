@@ -1,7 +1,6 @@
 import hexStore from "../Models/hexStore";
 import playerStore from "../Models/playerStore";
 import { Entity, type Tp5 } from "./Entity";
-import GameMap from "./GameMap";
 import Scene from "./Scene";
 
 export interface AbstractHexagon {
@@ -48,6 +47,8 @@ export default class Hexagon extends Entity {
     ) {
       hexStore.occupyHex(x, y);
       playerStore.updatePos(this.hex);
+      playerStore.takeStep();
+
       return true;
     }
 

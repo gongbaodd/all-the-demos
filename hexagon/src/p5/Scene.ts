@@ -33,7 +33,6 @@ export default class Scene {
     this.#p5.mousePressed = () => {
       for (const evtFunc of Scene.mousePressEvents) {
         if (evtFunc()) {
-          playerStore.togglePlayer();
           break;
         }
       }

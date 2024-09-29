@@ -1,45 +1,61 @@
 let listeners: Function[] = [];
 
+export enum TStep {
+  move,
+  jump,
+  jump2,
+}
+
 const cardData = [
   {
     name: "move 1 step",
     num: 9,
+    steps: [TStep.move]
   },
   {
     name: "move 2 steps",
     num: 9,
+    steps: [TStep.move, TStep.move]
   },
   {
     name: "move 3 steps",
     num: 9,
+    steps: [TStep.move, TStep.move, TStep.move]
   },
   {
     name: "move 4 steps",
     num: 9,
+    steps: [TStep.move, TStep.move, TStep.move, TStep.move]
   },
   {
-    name: "move 1 step and jump move",
+    name: "move 1 step and jump and move",
     num: 2,
+    steps: [TStep.move, TStep.jump, TStep.move]
   },
   {
     name: "move 1 step and jump 2 blocks",
     num: 1,
+    steps: [TStep.move, TStep.jump2]
   },
   {
     name: "jump 1 block and move 1 step",
     num: 4,
+    steps: [TStep.jump, TStep.move]
   },
   {
     name: "move 1 step and jump 1 block",
     num: 4,
+    steps: [TStep.move, TStep.jump]
   },
   {
     name: "jump 2 blocks and move 1 step",
     num: 1,
+    steps: [TStep.jump2, TStep.move]
   },
   {
     name: "jump 2 blocks",
     num: 2,
+    steps: [TStep.jump2]
   },
 ];
 

@@ -1,18 +1,19 @@
 import type { AbstractHexagon } from "../p5/Hexagon";
 import cardStore from "./cardStore";
+import hexStore from "./hexStore";
 
 let listeners: Function[] = [];
 
 const colors = {
   red: {
     dark: "#b71c1c",
-    medium: "#d32f2f",
-    light: " #e57373",
+    medium: "#e57373",
+    light: " #ffcdd2",
   },
   blue: {
     dark: "#0d47a1",
-    medium: "#1976d2",
-    light: "#64b5f6",
+    medium: "#64b5f6",
+    light: "#bbdefb",
   },
 };
 
@@ -25,6 +26,7 @@ type TPlayer = {
   cards: TCard[];
   position: AbstractHexagon | null;
   chosenCard: TCard | null;
+  steps: Exclude<TCard, null>["steps"];
 };
 
 let players: TPlayer[] = [
@@ -35,6 +37,7 @@ let players: TPlayer[] = [
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
     position: null,
     chosenCard: null,
+    steps: [],
   },
   {
     name: "player 2",
@@ -42,7 +45,8 @@ let players: TPlayer[] = [
     color: colors.blue,
     cards: Array.from([1, 2, 3]).map((_) => cardStore.getCard()),
     position: null,
-    chosenCard: null
+    chosenCard: null,
+    steps: [],
   },
 ];
 
@@ -55,8 +59,44 @@ const playerStore = {
     const nextOne = players[(players.indexOf(playingOne) + 1) % players.length];
     nextOne.playing = true;
 
+    if (nextOne.position) {
+      hexStore.changeCurrent(nextOne.position.x, nextOne.position.y);
+    }
+
     emitChange();
   },
+
+  takeStep() {
+    const [playingOne] = players.filter(({ playing }) => playing);
+    const card = playingOne.chosenCard;
+    if (!card || card.steps.length === 0) {
+      // choose position
+      playerStore.togglePlayer();
+      return;
+    }
+
+    const { steps } = card;
+    const step = steps.shift()!;
+
+    playingOne.steps.push(step);
+
+    if (steps.length === 0) {
+      card.steps = [...playingOne.steps];
+      playingOne.steps = [];
+      playingOne.chosenCard = null;
+
+      const index = playingOne.cards.indexOf(card);
+      playingOne.cards.splice(index, 1);
+
+      playingOne.cards.push(cardStore.getCard());
+      cardStore.putBack(card);
+
+      playerStore.togglePlayer();
+    } else {
+      hexStore.peek(step);
+    }
+  },
+
   updatePos(hexagon: AbstractHexagon) {
     const [playingOne] = players.filter(({ playing }) => playing);
     playingOne.position = hexagon;

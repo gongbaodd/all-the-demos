@@ -1,6 +1,6 @@
 import type GameMap from "../p5/GameMap";
-import type Hexagon from "../p5/Hexagon";
 import type { AbstractHexagon } from "../p5/Hexagon";
+import { TStep } from "./cardStore";
 import playerStore from "./playerStore";
 
 type TDirection = keyof typeof GameMap.directions;
@@ -15,11 +15,6 @@ type THex = AbstractHexagon & {
 
 let hexes: THex[] = [];
 let listeners: Function[] = [];
-
-export enum TPeek {
-  move,
-  jump,
-}
 
 const hexStore = {
   noEffectAdd(hex: AbstractHexagon) {
@@ -48,8 +43,8 @@ const hexStore = {
     }
   },
 
-  peek(p: TPeek) {
-    if (p === TPeek.move) {
+  peek(p: TStep) {
+    if (p === TStep.move) {
       const hex = hexes.find((h) => h.isCurrent);
       let changed = false;
 
@@ -97,6 +92,18 @@ const hexStore = {
       hexes.forEach((h) => {
         if (!h.isOccupied) h.color = "white";
       })
+
+      hexes = structuredClone(hexes);
+      emitChange();
+    }
+  },
+
+  changeCurrent(x: number, y: number) {
+    const current = hexes.find((h) => h.isCurrent);
+    const hex = hexes.find((h) => h.x === x && h.y === y);
+    if (current && hex) {
+      current.isCurrent = false;
+      hex.isCurrent = true;
 
       hexes = structuredClone(hexes);
       emitChange();
