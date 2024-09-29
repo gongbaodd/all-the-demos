@@ -1,9 +1,9 @@
 let listeners: Function[] = [];
 
 export enum TStep {
-  move,
-  jump,
-  jump2,
+  move = "move",
+  jump = "jump",
+  jump2 = "jump2",
 }
 
 const cardData = [
