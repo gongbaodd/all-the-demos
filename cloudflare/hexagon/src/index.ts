@@ -3,10 +3,22 @@ addEventListener("fetch", event => {
   });
   
   async function handleRequest(request) {
+	// Handle preflight OPTIONS request for CORS
+	if (request.method === "OPTIONS") {
+	  return new Response(null, {
+		status: 204,
+		headers: {
+		  "Access-Control-Allow-Origin": "*",
+		  "Access-Control-Allow-Methods": "POST, OPTIONS",
+		  "Access-Control-Allow-Headers": "Content-Type",
+		},
+	  });
+	}
+  
 	if (request.method !== "POST") {
 	  return new Response("Method not allowed", { 
 		status: 405, 
-		headers: { "Access-Control-Allow-Origin": "*" } // Allow CORS for non-POST methods
+		headers: { "Access-Control-Allow-Origin": "*" } 
 	  });
 	}
   
@@ -16,7 +28,7 @@ addEventListener("fetch", event => {
 	if (!clientIP) {
 	  return new Response("Unable to determine IP address", { 
 		status: 400, 
-		headers: { "Access-Control-Allow-Origin": "*" } // Allow CORS
+		headers: { "Access-Control-Allow-Origin": "*" } 
 	  });
 	}
   
@@ -27,7 +39,7 @@ addEventListener("fetch", event => {
 	} catch (error) {
 	  return new Response("Invalid JSON format", { 
 		status: 400, 
-		headers: { "Access-Control-Allow-Origin": "*" } // Allow CORS
+		headers: { "Access-Control-Allow-Origin": "*" } 
 	  });
 	}
   
@@ -42,13 +54,14 @@ addEventListener("fetch", event => {
 	logsArray.push(logData);
 	await USER_LOGS.put(key, JSON.stringify(logsArray));
   
-	// Response with CORS headers
-	const response = new Response("Log stored successfully", { status: 200 });
-	const responseHeaders = new Headers(response.headers);
-	responseHeaders.set("Access-Control-Allow-Origin", "*"); // Allow all origins
-	responseHeaders.set("Access-Control-Allow-Methods", "POST, OPTIONS"); // Specify allowed methods
-	responseHeaders.set("Access-Control-Allow-Headers", "Content-Type"); // Allow specific headers
-  
-	return new Response(response.body, { status: response.status, headers: responseHeaders });
+	// Respond to the POST request with CORS headers
+	return new Response("Log stored successfully", {
+	  status: 200,
+	  headers: {
+		"Access-Control-Allow-Origin": "*",
+		"Access-Control-Allow-Methods": "POST, OPTIONS",
+		"Access-Control-Allow-Headers": "Content-Type",
+	  },
+	});
   }
   
