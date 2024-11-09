@@ -1,0 +1,8 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "hexagon"
+main = "src/index.ts"
+compatibility_date = "2024-11-06"
+
+[[kv_namespaces]]
+binding = "hexagon-log"    # Binding reference in code
+id = "ef16dc658b924c14a83f714789ec9120" # Cloudflare-generated namespace ID
