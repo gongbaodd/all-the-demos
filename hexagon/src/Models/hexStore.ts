@@ -1,5 +1,6 @@
 import GameMap from "../p5/GameMap";
 import type { AbstractHexagon } from "../p5/Hexagon";
+import { logInteraction } from "../utils/log";
 import { TStep } from "./cardStore";
 import playerStore from "./playerStore";
 
@@ -191,4 +192,7 @@ function emitChange() {
   for (const listener of listeners) {
     listener();
   }
+
+  const snapshot = structuredClone(hexes);
+  logInteraction(snapshot);
 }

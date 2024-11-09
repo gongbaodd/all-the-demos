@@ -1,3 +1,5 @@
+import { logInteraction } from "../utils/log";
+
 let listeners: Function[] = [];
 
 export enum TStep {
@@ -108,6 +110,9 @@ function emitChange() {
   for (let listener of listeners) {
     listener();
   }
+
+  const snapshot = structuredClone(cards);
+  logInteraction(snapshot)
 }
 
 export default cardStore;

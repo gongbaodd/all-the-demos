@@ -1,4 +1,5 @@
 import type { AbstractHexagon } from "../p5/Hexagon";
+import { logInteraction } from "../utils/log";
 import cardStore from "./cardStore";
 import hexStore from "./hexStore";
 
@@ -140,6 +141,9 @@ function emitChange() {
   for (let listener of listeners) {
     listener();
   }
+
+  const snapshot = structuredClone(players);
+  logInteraction(snapshot);
 }
 
 export default playerStore;
