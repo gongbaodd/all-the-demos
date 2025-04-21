@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "vite"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,7 @@
     "vite": "^6.0.11"
   },
   "dependencies": {
+    "@vitejs/plugin-basic-ssl": "^1.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-unity-webgl": "^9.7.0"
