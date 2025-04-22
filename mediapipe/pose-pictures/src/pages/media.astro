@@ -1,0 +1,267 @@
+---
+
+---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils_3d/control_utils_3d.js"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"
+      crossorigin="anonymous"></script>
+    <style>
+      .container {
+        position: relative;
+      }
+
+      .container > canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <video class="input_video"></video>
+      <canvas class="output_canvas" width="1280px" height="720px"></canvas>
+      <div class="landmark-grid-container"></div>
+      <div class="info">
+        Status: <span id="status">Connecting...</span><br />
+        Right Hand Pos: <span id="handPos">N/A</span><br />
+        Click Detected: <span id="clickStatus">No</span>
+      </div>
+    </div>
+
+    <script type="module">
+      const statusElement = document.getElementById("status");
+      const handPosElement = document.getElementById("handPos");
+      const clickStatusElement = document.getElementById("clickStatus");
+
+      // --- Configuration ---
+      const UNITY_WEBSOCKET_URL = "ws://localhost:8080"; // Make sure this matches your Unity server
+      const RIGHT_WRIST_INDEX = 16; // MediaPipe Pose landmark index for right wrist
+      const CLICK_VELOCITY_THRESHOLD = 0.015; // Tune this: Normalized units per millisecond (positive Y is down screen)
+      const CLICK_COOLDOWN_MS = 500; // Prevent rapid-fire clicks
+      const SEND_INTERVAL_MS = 50; // How often to send data (milliseconds)
+      // ---
+
+      let websocket = null;
+      let lastWristPos = null;
+      let lastTimestamp = null;
+      let clickDetected = false;
+      let lastClickTime = 0;
+      let lastSentData = null;
+
+      function connectWebSocket() {
+        statusElement.textContent = "Connecting to Unity...";
+        websocket = new WebSocket(UNITY_WEBSOCKET_URL);
+
+        websocket.onopen = () => {
+          console.log("WebSocket connected to Unity");
+          statusElement.textContent = "Connected";
+        };
+
+        websocket.onclose = (event) => {
+          console.log("WebSocket disconnected:", event.reason);
+          statusElement.textContent = `Disconnected. Retrying...`;
+          websocket = null;
+          // Try to reconnect after a delay
+          setTimeout(connectWebSocket, 5000);
+        };
+
+        websocket.onerror = (error) => {
+          console.error("WebSocket error:", error);
+          statusElement.textContent = "Connection Error";
+          // Assume closed, trigger reconnect logic
+          if (websocket && websocket.readyState !== WebSocket.OPEN) {
+            websocket.close(); // Ensure close event fires if not already closed
+          }
+        };
+
+        // Optional: Handle messages from Unity if needed
+        websocket.onmessage = (event) => {
+          console.log("Message from Unity:", event.data);
+        };
+      }
+
+      const videoElement = document.getElementsByClassName("input_video")[0];
+      const canvasElement = document.getElementsByClassName("output_canvas")[0];
+      const canvasCtx = canvasElement.getContext("2d");
+      const landmarkContainer = document.getElementsByClassName(
+        "landmark-grid-container",
+      )[0];
+      const grid = new LandmarkGrid(landmarkContainer);
+
+      function onResults(results) {
+        if (!results.poseLandmarks) {
+          grid.updateLandmarks([]);
+          lastWristPos = null; // Reset if no pose detected
+          lastTimestamp = null;
+          return;
+        }
+
+        canvasCtx.save();
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.drawImage(
+          results.segmentationMask,
+          0,
+          0,
+          canvasElement.width,
+          canvasElement.height,
+        );
+
+        // Only overwrite existing pixels.
+        canvasCtx.globalCompositeOperation = "source-in";
+        canvasCtx.fillStyle = "#0000FF";
+        canvasCtx.fillRect(0, 0, canvasElement.width, canvasElement.height);
+
+        // Only overwrite missing pixels.
+        canvasCtx.globalCompositeOperation = "destination-atop";
+        //   canvasCtx.drawImage(
+        //       results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+        canvasCtx.globalCompositeOperation = "source-over";
+        drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+          color: "#00FF00",
+          lineWidth: 4,
+        });
+        drawLandmarks(canvasCtx, results.poseLandmarks, {
+          color: "#FF0000",
+          lineWidth: 2,
+        });
+        canvasCtx.restore();
+
+        grid.updateLandmarks(results.poseWorldLandmarks);
+
+        // --- Get Right Wrist Data ---
+        let currentWristPos = null;
+        let handStatusText = "N/A";
+        clickDetected = false; // Reset click detection each frame
+        const rightWrist = results.poseLandmarks[RIGHT_WRIST_INDEX];
+
+        if (rightWrist && rightWrist.visibility > 0.5) {
+          // Check if landmark is reasonably visible
+          currentWristPos = { x: rightWrist.x, y: rightWrist.y };
+          handStatusText = `X: ${rightWrist.x.toFixed(2)}, Y: ${rightWrist.y.toFixed(2)}`;
+
+          // --- Velocity Calculation & Click Detection ---
+          const currentTimestamp = performance.now();
+          if (lastWristPos && lastTimestamp) {
+            const deltaTime = currentTimestamp - lastTimestamp;
+            if (deltaTime > 0) {
+              // Avoid division by zero
+              // Note: In normalized coords, Y increases downwards on the video frame
+              const deltaY = currentWristPos.y - lastWristPos.y;
+              const velocityY = deltaY / deltaTime; // Normalized units / ms
+
+              // Check for fast downward movement and cooldown
+              if (
+                velocityY > CLICK_VELOCITY_THRESHOLD &&
+                currentTimestamp - lastClickTime > CLICK_COOLDOWN_MS
+              ) {
+                clickDetected = true;
+                lastClickTime = currentTimestamp;
+                console.log("CLICK DETECTED! Velocity:", velocityY.toFixed(4));
+              }
+            }
+          }
+          // Store current state for next frame calculation
+          lastWristPos = currentWristPos;
+          lastTimestamp = currentTimestamp;
+        } else {
+          handStatusText = "Right wrist not visible";
+          lastWristPos = null; // Reset if hand is lost
+          lastTimestamp = null;
+        }
+
+        // Update UI
+        handPosElement.textContent = handStatusText;
+        clickStatusElement.textContent = clickDetected ? "YES" : "No";
+        if (clickDetected) {
+          clickStatusElement.style.color = "red";
+          clickStatusElement.style.fontWeight = "bold";
+        } else {
+          clickStatusElement.style.color = "black";
+          clickStatusElement.style.fontWeight = "normal";
+        }
+
+        // Store data to be sent (only if wrist is visible)
+        lastSentData = currentWristPos
+          ? {
+              x: currentWristPos.x,
+              y: currentWristPos.y,
+              click: clickDetected,
+            }
+          : null;
+      }
+
+      const pose = new Pose({
+        locateFile: (file) => {
+          return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+        },
+      });
+      pose.setOptions({
+        modelComplexity: 1,
+        smoothLandmarks: true,
+        enableSegmentation: true,
+        smoothSegmentation: true,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
+      pose.onResults(onResults);
+
+      const camera = new Camera(videoElement, {
+        onFrame: async () => {
+          await pose.send({ image: videoElement });
+        },
+        width: 1280,
+        height: 720,
+      });
+      camera.start();
+
+      // --- WebSocket Sending Interval ---
+      setInterval(() => {
+        if (
+          websocket &&
+          websocket.readyState === WebSocket.OPEN &&
+          lastSentData
+        ) {
+          try {
+            websocket.send(JSON.stringify(lastSentData));
+            // Reset click flag immediately after sending to avoid sending 'true' multiple times
+            if (lastSentData.click) {
+              lastSentData.click = false;
+              // Also ensure the visual indicator resets if we don't get a new frame immediately
+              clickStatusElement.textContent = "No";
+              clickStatusElement.style.color = "black";
+              clickStatusElement.style.fontWeight = "normal";
+            }
+          } catch (error) {
+            console.error("Error sending data:", error);
+          }
+        }
+      }, SEND_INTERVAL_MS);
+
+      // --- Initial Setup ---
+      connectWebSocket(); // Start WebSocket connection attempt
+
+      console.log(
+        "MediaPipe Pose initialized. Waiting for camera and connection...",
+      );
+    </script>
+  </body>
+</html>
