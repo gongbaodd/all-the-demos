@@ -11,6 +11,12 @@ importers:
       '@langchain/core':
         specifier: ^0.3.57
         version: 0.3.57(openai@4.104.0(zod@3.25.56))
+      '@langchain/openai':
+        specifier: ^0.5.12
+        version: 0.5.12(@langchain/core@0.3.57(openai@4.104.0(zod@3.25.56)))
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
       langchain:
         specifier: ^0.3.27
         version: 0.3.27(@langchain/core@0.3.57(openai@4.104.0(zod@3.25.56)))(openai@4.104.0(zod@3.25.56))
@@ -106,6 +112,10 @@ packages:
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
+
+  dotenv@16.5.0:
+    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
+    engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -468,6 +478,8 @@ snapshots:
   decamelize@1.2.0: {}
 
   delayed-stream@1.0.0: {}
+
+  dotenv@16.5.0: {}
 
   dunder-proto@1.0.1:
     dependencies:
