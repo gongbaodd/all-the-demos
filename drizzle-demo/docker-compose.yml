@@ -1,10 +1,9 @@
-version: '3.8'
 
 services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       # Mount the current directory into the container's /app, but exclude node_modules and dist for better performance/consistency
       - .:/app
@@ -13,8 +12,8 @@ services:
       # Mount a named volume for persistent SQLite data
       - sqlite_data:/app/data
     environment:
-      NODE_ENV: development # Or production
-    command: npm run dev # Use 'npm start' for production build
+      NODE_ENV: production # Or production
+    command: npm start # Use 'npm start' for production build
 
 volumes:
   sqlite_data:

@@ -1,5 +1,12 @@
 # Use an official Node.js runtime as a parent image
-FROM node:20-alpine
+FROM node:20-slim
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    sqlite3 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
@@ -9,6 +16,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+RUN npm rebuild better-sqlite3
 
 # Copy the rest of the application code
 COPY . .
