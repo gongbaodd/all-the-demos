@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Actix Web & Diesel Example</title>
+</head>
+<body>
+    <h1>Posts</h1>
+    {% if posts %}
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <strong>{{ post.title }}</strong> - {{ post.body }} (Published: {{ post.published }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posts found.</p>
+    {% endif %}
+    <p><a href="/add">Add a new post</a></p>
+</body>
+</html>
