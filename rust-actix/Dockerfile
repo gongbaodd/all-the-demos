@@ -1,7 +1,12 @@
 # Use a slim Rust image for building
-FROM rust:1.79-slim-bookworm as builder
+FROM rust:1.87-slim-bookworm as builder
 
 WORKDIR /app
+
+# Install sqlite3 development libraries required for Diesel
+RUN apt-get update && \
+    apt-get install -y libsqlite3-dev pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy Cargo.toml and Cargo.lock to leverage Docker cache
 COPY Cargo.toml Cargo.lock ./
@@ -21,7 +26,10 @@ RUN cargo build --release
 FROM debian:bookworm-slim
 
 # Install sqlite3 for runtime (if you need the CLI for debugging inside the container)
-# RUN apt-get update && apt-get install -y sqlite3 && rm -rf /var/lib/apt/lists/*
+# You might not need `sqlite3` CLI in production, but `libsqlite3-0` is likely needed for runtime.
+RUN apt-get update && \
+    apt-get install -y libsqlite3-0 && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -41,7 +49,19 @@ ENV DATABASE_URL=./app.db
 # Run Diesel migrations
 # NOTE: In a production environment, you might want to run migrations as part of your CI/CD pipeline
 # or as a separate init container, not every time the app starts.
-RUN ./actix-diesel-example diesel database setup && ./actix-diesel-example diesel migration run
+# You need to ensure the `diesel_cli` is available for these commands if not bundled with your app.
+# Since your main app binary is `actix-diesel-example`, it doesn't contain `diesel_cli`.
+# A better approach for running migrations is to have a dedicated migration container or run it manually.
+# For this example's simplicity, you could either:
+# 1. Install diesel_cli in the final image (larger image)
+# 2. Run migrations using `cargo run --bin diesel_cli -- migration run` in the builder stage after compilation,
+#    but that won't persist the DB in the final image.
+# 3. The most robust way is to use a separate `docker-compose` service for migrations.
+#
+# For now, let's remove the `diesel database setup` and `diesel migration run` from the Dockerfile's CMD
+# as the main application binary `actix-diesel-example` does not contain the `diesel_cli` commands.
+# You would typically run `docker-compose exec app diesel migration run` after the app is up, or
+# have a separate migration service.
 
 # Command to run the application
 CMD ["./actix-diesel-example"]
