@@ -1,5 +1,6 @@
 # Stage 1: Build the Go application
-FROM golang:1.22-alpine AS builder
+FROM golang:1.22-bookworm AS builder 
+# Using Debian Bookworm as an example
 
 WORKDIR /app
 
@@ -7,20 +8,34 @@ WORKDIR /app
 COPY go.mod ./
 COPY go.sum ./
 
-# Download all dependencies
-RUN go mod download
-
 # Copy the rest of the application source code
 COPY . .
 
+# Download all dependencies
+RUN go mod download
+
+# Install build dependencies for CGO
+# 'build-essential' includes gcc, g++ and make. 'libsqlite3-dev' provides SQLite development headers.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/* # Clean up apt cache
+
 # Build the application
-# CGO_ENABLED=0 is important for static linking, which makes the binary standalone
-# -o app specifies the output binary name
-# ./... builds all modules in the current directory
-RUN CGO_ENABLED=0 go build -ldflags "-s -w" -o app ./...
+# CGO_ENABLED=1 is required for SQLite support
+RUN CGO_ENABLED=1 go build -ldflags "-s -w" -o app .
 
 # Stage 2: Create a minimal production image
-FROM alpine:latest
+FROM debian:bookworm-slim 
+# A slimmer Debian image for runtime
+
+# Install necessary runtime dependencies for CGO-enabled binaries
+# 'libsqlite3-0' provides the SQLite runtime library.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libsqlite3-0 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* # Clean up apt cache
+
 
 # Set working directory inside the container
 WORKDIR /root/
