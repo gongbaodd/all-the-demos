@@ -17,17 +17,43 @@ async fn index(tera: web::Data<Tera>, pool: web::Data<DbPool>) -> impl Responder
 
     let mut conn = pool.get().expect("Couldn't get db connection from pool");
 
-    let results = web::block(move || posts.limit(5).load::<Post>(&mut conn))
-        .await
-        .map_err(|e| HttpResponse::InternalServerError().body(format!("Error fetching posts: {:?}", e)))
-        .unwrap(); // Simplified error handling for brevity
+    // The web::block returns a Result<T, E> where T is the result of the synchronous block,
+    // and E is an actix_web::Error (e.g., if the blocking thread pool is full).
+    // The synchronous block itself returns Result<Vec<Post>, diesel::result::Error>.
+    let block_result = web::block(move || {
+        posts.limit(5).load::<Post>(&mut conn)
+    }).await;
 
+    // Handle the outer Result from web::block (e.g., thread pool errors)
+    let query_result: Result<Vec<Post>, diesel::result::Error> = match block_result {
+        Ok(inner_result) => inner_result, // `inner_result` is `Result<Vec<Post>, diesel::result::Error>`
+        Err(e) => {
+            eprintln!("Error in web::block for fetching posts: {:?}", e);
+            return HttpResponse::InternalServerError().body(format!("Database operation failed (internal error): {:?}", e));
+        }
+    };
+
+    // Handle the inner Result from the Diesel query (database errors, e.g., table not found)
+    let results: Vec<Post> = match query_result {
+        Ok(posts_vec) => posts_vec, // `posts_vec` is `Vec<Post>`
+        Err(e) => {
+            eprintln!("Error fetching posts from database: {:?}", e);
+            return HttpResponse::InternalServerError().body(format!("Error fetching posts from database: {:?}", e));
+        }
+    };
+
+    // At this point, 'results' is definitely `Vec<Post>`, which can be serialized
+    // by Tera assuming `Post` has `#[derive(Serialize)]`.
     let mut context = Context::new();
     context.insert("posts", &results);
-    
-    tera.render("index.html", &context)
-        .map_err(|e| HttpResponse::InternalServerError().body(format!("Template error: {:?}", e)))
-        .unwrap() // Simplified error handling for brevity
+
+    match tera.render("index.html", &context) {
+        Ok(html) => HttpResponse::Ok().body(html),
+        Err(e) => {
+            eprintln!("Template rendering error: {:?}", e);
+            HttpResponse::InternalServerError().body(format!("Template error: {:?}", e))
+        }
+    }
 }
 
 async fn add_post(pool: web::Data<DbPool>) -> impl Responder {
@@ -40,7 +66,7 @@ async fn add_post(pool: web::Data<DbPool>) -> impl Responder {
         body: "This is the content of my first post.".to_string(),
     };
 
-    web::block(move || diesel::insert_into(posts::table).values(&new_post).execute(&mut conn))
+    let _ = web::block(move || diesel::insert_into(posts::table).values(&new_post).execute(&mut conn))
         .await
         .map_err(|e| HttpResponse::InternalServerError().body(format!("Error inserting post: {:?}", e)))
         .unwrap(); // Simplified error handling for brevity
