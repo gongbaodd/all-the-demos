@@ -1,0 +1,20 @@
+services:
+  # Define your Go application service
+  go-app:
+    build: . # Docker will look for a Dockerfile in the current directory to build the image
+    container_name: fiber-gorm-sqlite-app # A custom name for your container
+    ports:
+      - "3000:3000" # Map host port 3000 to container port 3000
+    volumes:
+      # Mount the named volume 'sqlite_data' to the /root/ directory inside the container.
+      # This ensures that the 'gorm.db' file (created by the Go app) persists
+      # even if the container is removed or recreated.
+      - sqlite_data:/root/
+    restart: unless-stopped # Automatically restart the container unless it's explicitly stopped
+
+# Define the named volume for data persistence
+volumes:
+  sqlite_data:
+    # No driver specified, uses the default 'local' driver, storing data on the Docker host.
+    # You can inspect this volume using `docker volume inspect sqlite_data`
+    # and find its physical location on your system.
